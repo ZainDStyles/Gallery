@@ -8,7 +8,6 @@
   <style>
     body {
       font-family: 'Poppins', Arial, sans-serif;
-      /* Removed original background */
       margin: 0;
       padding: 40px 20px;
       display: flex;
@@ -17,17 +16,16 @@
       min-height: 100vh;
       color: #fff;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-      position: relative; /* needed for layering */
+      position: relative;
     }
 
-    /* Add blurred background image */
     body::before {
       content: "";
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: url('images/background.jpg') no-repeat center center fixed;
       background-size: cover;
-      filter: blur(3px);  /* Adjust blur here */
+      filter: blur(3px);
       z-index: -1;
       transform: scale(1.05);
     }
@@ -57,6 +55,17 @@
     .gallery img:hover {
       transform: scale(1.05) rotate(1deg);
       box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+    }
+
+    /* Responsive fix for mobile */
+    @media (max-width: 600px) {
+      .gallery img {
+        width: 45vw;
+        max-width: 280px;
+      }
+      .gallery {
+        gap: 15px;
+      }
     }
 
     /* Popup overlay */
@@ -104,22 +113,22 @@
 <body>
   <h1>Gallery</h1>
 
-<div class="gallery">
-  <img src="images/pic1.jpg" alt="Image 1" loading="lazy" />
-  <img src="images/pic2.jpg" alt="Image 2" loading="lazy" />
-  <img src="images/pic3.jpg" alt="Image 3" loading="lazy" />
-  <img src="images/pic4.jpg" alt="Image 4" loading="lazy" />
-  <img src="images/pic5.jpg" alt="Image 5" loading="lazy" />
-  <img src="images/pic6.jpg" alt="Image 6" loading="lazy" />
-  <img src="images/pic7.jpg" alt="Image 7" loading="lazy" />
-  <img src="images/pic8.jpg" alt="Image 8" loading="lazy" />
-  <img src="images/pic9.jpg" alt="Image 9" loading="lazy" />
-  <img src="images/pic10.jpg" alt="Image 10" loading="lazy" />
-  <img src="images/pic11.jpg" alt="Image 11" loading="lazy" />
-  <img src="images/pic12.jpg" alt="Image 12" loading="lazy" />
-  <img src="images/pic13.jpg" alt="Image 13" loading="lazy" />
-  <img src="images/pic14.jpg" alt="Image 14" loading="lazy" />
-</div>
+  <div class="gallery">
+    <img src="images/pic1.jpg" alt="Image 1" loading="lazy" />
+    <img src="images/pic2.jpg" alt="Image 2" loading="lazy" />
+    <img src="images/pic3.jpg" alt="Image 3" loading="lazy" />
+    <img src="images/pic4.jpg" alt="Image 4" loading="lazy" />
+    <img src="images/pic5.jpg" alt="Image 5" loading="lazy" />
+    <img src="images/pic6.jpg" alt="Image 6" loading="lazy" />
+    <img src="images/pic7.jpg" alt="Image 7" loading="lazy" />
+    <img src="images/pic8.jpg" alt="Image 8" loading="lazy" />
+    <img src="images/pic9.jpg" alt="Image 9" loading="lazy" />
+    <img src="images/pic10.jpg" alt="Image 10" loading="lazy" />
+    <img src="images/pic11.jpg" alt="Image 11" loading="lazy" />
+    <img src="images/pic12.jpg" alt="Image 12" loading="lazy" />
+    <img src="images/pic13.jpg" alt="Image 13" loading="lazy" />
+    <img src="images/pic14.jpg" alt="Image 14" loading="lazy" />
+  </div>
 
   <div class="popup" id="popup">
     <span class="close-btn" id="closeBtn">&times;</span>
@@ -156,3 +165,4 @@
   </script>
 </body>
 </html>
+

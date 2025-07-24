@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ZainDStyles Gallery</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+
   <style>
+    html { visibility: hidden; } /* 🔥 ADDED TO PREVENT GLITCH */
+
     body {
       font-family: 'Poppins', Arial, sans-serif;
       margin: 0;
@@ -36,6 +39,7 @@
       font-size: 3rem;
       letter-spacing: 2px;
     }
+
     .gallery {
       display: flex;
       flex-wrap: wrap;
@@ -44,6 +48,7 @@
       max-width: 900px;
       width: 100%;
     }
+
     .gallery img {
       width: 280px;
       height: auto;
@@ -52,12 +57,12 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 6px 15px rgba(0,0,0,0.3);
     }
+
     .gallery img:hover {
       transform: scale(1.05) rotate(1deg);
       box-shadow: 0 12px 25px rgba(0,0,0,0.6);
     }
 
-    /* Responsive fix for mobile */
     @media (max-width: 600px) {
       .gallery img {
         width: 45vw;
@@ -68,7 +73,6 @@
       }
     }
 
-    /* Popup overlay */
     .popup {
       position: fixed;
       top: 0; left: 0;
@@ -82,16 +86,19 @@
       transition: opacity 0.3s ease;
       z-index: 1000;
     }
+
     .popup.active {
       visibility: visible;
       opacity: 1;
     }
+
     .popup img {
       max-width: 90vw;
       max-height: 90vh;
       border-radius: 14px;
       box-shadow: 0 8px 30px rgba(255,255,255,0.3);
     }
+
     .popup .close-btn {
       position: absolute;
       top: 25px;
@@ -109,7 +116,15 @@
       line-height: 40px;
     }
   </style>
+
+  <!-- ✅ Show page only after styles load -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.documentElement.style.visibility = "visible";
+    });
+  </script>
 </head>
+
 <body>
   <h1>Gallery</h1>
 
@@ -165,4 +180,3 @@
   </script>
 </body>
 </html>
-

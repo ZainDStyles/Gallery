@@ -20,7 +20,7 @@
       font-family: 'Poppins', Arial, sans-serif;
       color: #fff;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-      min-height: 100vh; /* added */
+      min-height: 100vh;
     }
 
     body::before {
@@ -55,17 +55,18 @@
       justify-content: center;
       padding: 0 10px;
       max-width: 900px;
-      margin: 40px auto 0 auto;  /* Added margin-top: 40px; */
+      margin: 40px auto 0 auto;
     }
 
     .gallery img {
-      width: 100%;
-      max-width: 160px;
+      width: 160px;
+      height: auto;
       border-radius: 12px;
       cursor: pointer;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      loading: lazy; /* this line is not valid CSS, see below */
+      display: block;
+      object-fit: cover;
     }
 
     .gallery img:hover {
@@ -78,7 +79,8 @@
         gap: 25px;
       }
       .gallery img {
-        max-width: 280px;
+        width: 280px;
+        height: auto;
       }
     }
 
@@ -142,20 +144,20 @@
 <body>
 
   <div class="gallery">
-    <img src="images/pic1.jpg" alt="Image 1" loading="lazy" />
-    <img src="images/pic2.jpg" alt="Image 2" loading="lazy" />
-    <img src="images/pic3.jpg" alt="Image 3" loading="lazy" />
-    <img src="images/pic4.jpg" alt="Image 4" loading="lazy" />
-    <img src="images/pic5.jpg" alt="Image 5" loading="lazy" />
-    <img src="images/pic6.jpg" alt="Image 6" loading="lazy" />
-    <img src="images/pic7.jpg" alt="Image 7" loading="lazy" />
-    <img src="images/pic8.jpg" alt="Image 8" loading="lazy" />
-    <img src="images/pic9.jpg" alt="Image 9" loading="lazy" />
-    <img src="images/pic10.jpg" alt="Image 10" loading="lazy" />
-    <img src="images/pic11.jpg" alt="Image 11" loading="lazy" />
-    <img src="images/pic12.jpg" alt="Image 12" loading="lazy" />
-    <img src="images/pic13.jpg" alt="Image 13" loading="lazy" />
-    <img src="images/pic14.jpg" alt="Image 14" loading="lazy" />
+    <img src="images/pic1.jpg" alt="Image 1" loading="lazy" width="160" />
+    <img src="images/pic2.jpg" alt="Image 2" loading="lazy" width="160" />
+    <img src="images/pic3.jpg" alt="Image 3" loading="lazy" width="160" />
+    <img src="images/pic4.jpg" alt="Image 4" loading="lazy" width="160" />
+    <img src="images/pic5.jpg" alt="Image 5" loading="lazy" width="160" />
+    <img src="images/pic6.jpg" alt="Image 6" loading="lazy" width="160" />
+    <img src="images/pic7.jpg" alt="Image 7" loading="lazy" width="160" />
+    <img src="images/pic8.jpg" alt="Image 8" loading="lazy" width="160" />
+    <img src="images/pic9.jpg" alt="Image 9" loading="lazy" width="160" />
+    <img src="images/pic10.jpg" alt="Image 10" loading="lazy" width="160" />
+    <img src="images/pic11.jpg" alt="Image 11" loading="lazy" width="160" />
+    <img src="images/pic12.jpg" alt="Image 12" loading="lazy" width="160" />
+    <img src="images/pic13.jpg" alt="Image 13" loading="lazy" width="160" />
+    <img src="images/pic14.jpg" alt="Image 14" loading="lazy" width="160" />
   </div>
 
   <div class="popup" id="popup">
@@ -191,5 +193,6 @@
       }
     });
   </script>
+
 </body>
 </html>

@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ZainDStyles Gallery</title>
 
-  <!-- Font (deferred for faster load) -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 
   <style>
@@ -21,6 +20,9 @@
       color: #fff;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
       min-height: 100vh;
+      background-color: #000;
+
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     }
 
     body::before {
@@ -43,19 +45,40 @@
 
     h1 {
       text-align: center;
-      margin: 40px 0 30px;
+      margin: 40px 0 20px;
       font-size: 2.5rem;
       font-weight: 600;
     }
 
-    .gallery {
+    .toggle-btn {
       display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .toggle-btn a {
+      padding: 10px 20px;
+      background: #fff;
+      color: #000;
+      font-weight: 600;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .toggle-btn a:hover {
+      background: #ccc;
+    }
+
+    .gallery {
+      display: none;
       flex-wrap: wrap;
       gap: 15px;
       justify-content: center;
       padding: 0 10px;
       max-width: 900px;
-      margin: 40px auto 0 auto;
+      margin: 0 auto 40px;
     }
 
     .gallery img {
@@ -80,7 +103,6 @@
       }
       .gallery img {
         width: 280px;
-        height: auto;
       }
     }
 
@@ -126,46 +148,68 @@
       line-height: 40px;
       user-select: none;
     }
-
-    /* Hide body initially to prevent flicker */
-    body {
-      visibility: hidden;
-    }
   </style>
-
-  <script>
-    window.addEventListener('load', () => {
-      document.body.style.visibility = 'visible';
-    });
-  </script>
-
 </head>
 
 <body>
+  <div id="main-content" style="opacity:0; visibility:hidden; transition: opacity 0.25s ease;">
+    <h1>ZainDStyles Gallery</h1>
 
-  <div class="gallery">
-    <img src="images/pic1.jpg" alt="Image 1" loading="lazy" width="160" />
-    <img src="images/pic2.jpg" alt="Image 2" loading="lazy" width="160" />
-    <img src="images/pic3.jpg" alt="Image 3" loading="lazy" width="160" />
-    <img src="images/pic4.jpg" alt="Image 4" loading="lazy" width="160" />
-    <img src="images/pic5.jpg" alt="Image 5" loading="lazy" width="160" />
-    <img src="images/pic6.jpg" alt="Image 6" loading="lazy" width="160" />
-    <img src="images/pic7.jpg" alt="Image 7" loading="lazy" width="160" />
-    <img src="images/pic8.jpg" alt="Image 8" loading="lazy" width="160" />
-    <img src="images/pic9.jpg" alt="Image 9" loading="lazy" width="160" />
-    <img src="images/pic10.jpg" alt="Image 10" loading="lazy" width="160" />
-    <img src="images/pic11.jpg" alt="Image 11" loading="lazy" width="160" />
-    <img src="images/pic12.jpg" alt="Image 12" loading="lazy" width="160" />
-    <img src="images/pic13.jpg" alt="Image 13" loading="lazy" width="160" />
-    <img src="images/pic14.jpg" alt="Image 14" loading="lazy" width="160" />
-  </div>
+    <div class="toggle-btn">
+      <a href="#" id="gallery-toggle">Show Gallery</a>
+    </div>
 
-  <div class="popup" id="popup">
-    <span class="close-btn" id="closeBtn">&times;</span>
-    <img src="" alt="Popup Image" id="popupImg" />
+    <div class="gallery" id="gallery" style="display:none; flex-wrap: wrap; gap: 15px; justify-content: center; padding: 0 10px; max-width: 900px; margin: 0 auto 40px;">
+      <img src="images/pic1.jpg" alt="Image 1" loading="lazy" />
+      <img src="images/pic2.jpg" alt="Image 2" loading="lazy" />
+      <img src="images/pic3.jpg" alt="Image 3" loading="lazy" />
+      <img src="images/pic4.jpg" alt="Image 4" loading="lazy" />
+      <img src="images/pic5.jpg" alt="Image 5" loading="lazy" />
+      <img src="images/pic6.jpg" alt="Image 6" loading="lazy" />
+      <img src="images/pic7.jpg" alt="Image 7" loading="lazy" />
+      <img src="images/pic8.jpg" alt="Image 8" loading="lazy" />
+      <img src="images/pic9.jpg" alt="Image 9" loading="lazy" />
+      <img src="images/pic10.jpg" alt="Image 10" loading="lazy" />
+      <img src="images/pic11.jpg" alt="Image 11" loading="lazy" />
+      <img src="images/pic12.jpg" alt="Image 12" loading="lazy" />
+      <img src="images/pic13.jpg" alt="Image 13" loading="lazy" />
+      <img src="images/pic14.jpg" alt="Image 14" loading="lazy" />
+    </div>
+
+    <div class="popup" id="popup">
+      <span class="close-btn" id="closeBtn">&times;</span>
+      <img src="" alt="Popup Image" id="popupImg" />
+    </div>
   </div>
 
   <script>
+    // Show main content only after full load to prevent flicker with small delay to fix mobile scroll glitch
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const main = document.getElementById('main-content');
+        main.style.visibility = 'visible';
+        main.style.opacity = '1';
+      }, 100);
+    });
+
+    // Gallery toggle
+    const gallery = document.getElementById("gallery");
+    const galleryBtn = document.getElementById("gallery-toggle");
+    if (gallery && galleryBtn) {
+      galleryBtn.textContent = "Show Gallery";
+      gallery.style.display = "none";
+      galleryBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        const isHidden = (gallery.style.display === "none");
+        gallery.style.display = isHidden ? "flex" : "none";
+        galleryBtn.textContent = isHidden ? "Hide Gallery" : "Show Gallery";
+        if (isHidden) {
+          gallery.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
+
+    // Popup
     const galleryImages = document.querySelectorAll('.gallery img');
     const popup = document.getElementById('popup');
     const popupImg = document.getElementById('popupImg');
@@ -173,26 +217,26 @@
 
     galleryImages.forEach(img => {
       img.addEventListener('click', () => {
-        popup.classList.add('active');
+        popup.style.visibility = 'visible';
+        popup.style.opacity = '1';
         popupImg.src = img.src;
         popupImg.alt = img.alt;
       });
     });
 
-    closeBtn.addEventListener('click', () => {
-      popup.classList.remove('active');
-      popupImg.src = '';
-      popupImg.alt = '';
-    });
-
-    popup.addEventListener('click', (e) => {
-      if (e.target === popup) {
-        popup.classList.remove('active');
+    function closePopup() {
+      popup.style.opacity = '0';
+      setTimeout(() => {
+        popup.style.visibility = 'hidden';
         popupImg.src = '';
         popupImg.alt = '';
-      }
+      }, 300);
+    }
+
+    closeBtn.addEventListener('click', closePopup);
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) closePopup();
     });
   </script>
-
 </body>
 </html>

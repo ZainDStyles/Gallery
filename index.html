@@ -41,6 +41,15 @@
         filter: blur(10px);
         transform: scale(1.2);
       }
+      /* Hide title and toggle button on mobile */
+      h1,
+      .toggle-btn {
+        display: none;
+      }
+      /* Show gallery immediately on mobile */
+      .gallery {
+        display: flex !important;
+      }
     }
 
     h1 {

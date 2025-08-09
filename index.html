@@ -41,15 +41,6 @@
         filter: blur(10px);
         transform: scale(1.2);
       }
-      /* Hide title and toggle button on mobile */
-      h1,
-      .toggle-btn {
-        display: none;
-      }
-      /* Show gallery immediately on mobile */
-      .gallery {
-        display: flex !important;
-      }
     }
 
     h1 {
@@ -59,29 +50,8 @@
       font-weight: 600;
     }
 
-    .toggle-btn {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .toggle-btn a {
-      padding: 10px 20px;
-      background: #fff;
-      color: #000;
-      font-weight: 600;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-
-    .toggle-btn a:hover {
-      background: #ccc;
-    }
-
     .gallery {
-      display: none;
+      display: flex;
       flex-wrap: wrap;
       gap: 15px;
       justify-content: center;
@@ -164,11 +134,7 @@
   <div id="main-content" style="opacity:0; visibility:hidden; transition: opacity 0.25s ease;">
     <h1>ZainDStyles Gallery</h1>
 
-    <div class="toggle-btn">
-      <a href="#" id="gallery-toggle">Show Gallery</a>
-    </div>
-
-    <div class="gallery" id="gallery" style="display:none; flex-wrap: wrap; gap: 15px; justify-content: center; padding: 0 10px; max-width: 900px; margin: 0 auto 40px;">
+    <div class="gallery" id="gallery">
       <img src="images/pic1.jpg" alt="Image 1" loading="lazy" />
       <img src="images/pic2.jpg" alt="Image 2" loading="lazy" />
       <img src="images/pic3.jpg" alt="Image 3" loading="lazy" />
@@ -200,23 +166,6 @@
         main.style.opacity = '1';
       }, 100);
     });
-
-    // Gallery toggle
-    const gallery = document.getElementById("gallery");
-    const galleryBtn = document.getElementById("gallery-toggle");
-    if (gallery && galleryBtn) {
-      galleryBtn.textContent = "Show Gallery";
-      gallery.style.display = "none";
-      galleryBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        const isHidden = (gallery.style.display === "none");
-        gallery.style.display = isHidden ? "flex" : "none";
-        galleryBtn.textContent = isHidden ? "Hide Gallery" : "Show Gallery";
-        if (isHidden) {
-          gallery.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      });
-    }
 
     // Popup
     const galleryImages = document.querySelectorAll('.gallery img');

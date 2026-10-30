@@ -1,0 +1,11 @@
+# <output-name> <url> — the "Fetch salon media" GitHub Action saves web-sized copies here
+hero-1-wide https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_c52eb541-0ef0-45e8-ad16-42ee6fe6c5bb.mp4
+hero-1-tall https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_cf367a94-959a-4758-9d43-91a1e23e3158.mp4
+hero-2-wide https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_83c411e1-7097-4972-89db-30bec98ff22b.mp4
+hero-2-tall https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_48e47724-b455-4256-a378-e54759ec021e.mp4
+svc-balayage https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_111838_83933a61-36c0-4d55-9f61-a0ff46d5cb37.png
+svc-colour https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_122141_f77eb353-9125-40d1-934c-001419246358.png
+svc-blowdry https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_122139_42bddaf1-378f-47bd-9d45-235882ef6a61.png
+svc-extensions https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_122145_9f870016-d5e9-4120-8599-5736ba708aac.png
+svc-bridal https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_122140_713d3fde-f1eb-4db6-8b25-b476ffc93b59.png
+salon-interior https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_111841_9443ab77-9afb-4305-b28b-e85d767cf656.png

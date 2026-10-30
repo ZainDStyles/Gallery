@@ -14,6 +14,4 @@ before-extensions https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx
 before-colour https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190902_358523d2-58d3-468f-9345-e5dcfea57da6.png
 team-sophie https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190900_286cdfb7-7b36-477b-b775-4a352306e7ed.png
 team-amara https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190901_b880e4ce-18c6-4069-878e-e7bfd14c761e.png
-team-lily https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190900_4ee8c2e5-aaf7-433b-9a78-fff23175b899.png
-team-lily-a https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_191546_86be7dcb-4220-4275-9539-51b81e172be7.png
-team-lily-b https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_191546_cb683857-cbd3-4039-9974-c7a4f78d68ac.png
+team-lily https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_191546_86be7dcb-4220-4275-9539-51b81e172be7.png

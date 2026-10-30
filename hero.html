@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Atelier — Hair & Barbering</title>
-  <meta name="description" content="Skin fades, scissor cuts, beard work and restyles. Book your appointment online." />
+  <title>Atelier — Hair Salon</title>
+  <meta name="description" content="Colour, balayage, cuts, blow-dries and extensions. Book your appointment online." />
   <meta name="theme-color" content="#0f0d0b" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,10 +20,10 @@
       --text-dim: rgba(244, 239, 231, 0.74);
       --line: rgba(244, 239, 231, 0.16);
       --line-dark: rgba(15, 13, 11, 0.14);
-      --gold: #c8a46a;
-      --gold-light: #ead39f;
-      --gold-deep: #85622c; /* gold that stays readable on cream */
-      --gold-gradient: linear-gradient(100deg, #b48a4a 0%, #e6cd96 48%, #c29a5b 100%);
+      --accent: #d2a28f;
+      --accent-light: #f1d4c6;
+      --accent-deep: #94584a; /* accent that stays readable on cream */
+      --accent-gradient: linear-gradient(100deg, #c08a78 0%, #f3d9cb 48%, #c99584 100%);
       --serif: 'Instrument Serif', 'Times New Roman', serif;
       --sans: 'Jost', 'Helvetica Neue', Arial, sans-serif;
       --header-h: 76px;
@@ -54,7 +54,7 @@
       cursor: pointer;
     }
     :focus-visible {
-      outline: 2px solid var(--gold-light);
+      outline: 2px solid var(--accent-light);
       outline-offset: 3px;
     }
 
@@ -84,14 +84,14 @@
       transition: transform 0.2s ease, background-color 0.25s ease, color 0.25s ease,
                   border-color 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
     }
-    .btn--gold {
-      background: var(--gold-gradient);
+    .btn--accent {
+      background: var(--accent-gradient);
       color: #1a140d;
-      box-shadow: 0 12px 30px -12px rgba(200, 164, 106, 0.65);
+      box-shadow: 0 12px 30px -12px rgba(210, 162, 143, 0.65);
     }
-    .btn--gold:hover {
+    .btn--accent:hover {
       transform: translateY(-1px);
-      box-shadow: 0 16px 36px -12px rgba(200, 164, 106, 0.8);
+      box-shadow: 0 16px 36px -12px rgba(210, 162, 143, 0.8);
     }
     .btn--ghost {
       border-color: rgba(244, 239, 231, 0.45);
@@ -133,7 +133,7 @@
       font-weight: 500;
       letter-spacing: 0.38em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--accent);
     }
 
     /* ---------- Header ---------- */
@@ -156,7 +156,7 @@
       backdrop-filter: blur(10px);
     }
     .site-header.is-scrolled .logo__sub {
-      color: var(--gold-deep);
+      color: var(--accent-deep);
     }
 
     .menu-toggle {
@@ -219,7 +219,7 @@
       object-fit: cover;
       object-position: var(--pos, center);
       opacity: 0;
-      filter: grayscale(0.6) sepia(0.15) brightness(0.85) contrast(1.05);
+      filter: grayscale(0.3) sepia(0.12) brightness(0.8) contrast(1.05);
       transition: opacity 1.8s ease;
     }
     /* The incoming slide fades in on top while the outgoing one stays put underneath */
@@ -264,7 +264,7 @@
       justify-content: center;
       gap: 14px;
       margin-bottom: 22px;
-      color: var(--gold-light);
+      color: var(--accent-light);
     }
     .hero__eyebrow::before,
     .hero__eyebrow::after {
@@ -286,7 +286,7 @@
     }
     .hero__title em {
       padding-right: 0.06em;
-      background: var(--gold-gradient);
+      background: var(--accent-gradient);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -313,7 +313,7 @@
     .hero__services li + li::before {
       content: "•";
       margin: 0 14px;
-      color: var(--gold);
+      color: var(--accent);
       letter-spacing: 0;
     }
 
@@ -340,7 +340,7 @@
     }
     .hero__info a {
       color: var(--cream);
-      text-decoration-color: var(--gold);
+      text-decoration-color: var(--accent);
       text-underline-offset: 4px;
     }
     .status-dot {
@@ -354,8 +354,8 @@
       vertical-align: 1px;
     }
     .is-closed .status-dot {
-      background: var(--gold);
-      box-shadow: 0 0 0 4px rgba(200, 164, 106, 0.18);
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(210, 162, 143, 0.18);
     }
 
     .hero__band {
@@ -369,7 +369,7 @@
     }
     .hero__band a {
       margin-left: 0.8em;
-      color: var(--gold);
+      color: var(--accent);
       text-decoration: none;
     }
 
@@ -436,7 +436,7 @@
     .marquee__group i {
       font-style: normal;
       font-size: 1.1rem;
-      color: var(--gold);
+      color: var(--accent);
     }
     @keyframes marquee {
       to { transform: translateX(-50%); }
@@ -490,10 +490,10 @@
     }
     .menu__links a:hover,
     .menu__links button:hover {
-      color: var(--gold-light);
+      color: var(--accent-light);
     }
     .menu__links em {
-      color: var(--gold-light);
+      color: var(--accent-light);
     }
     .menu__hours {
       display: grid;
@@ -514,7 +514,7 @@
     .menu__hours .eyebrow {
       grid-column: 1 / -1;
       margin-bottom: 6px;
-      color: var(--gold);
+      color: var(--accent);
     }
 
     .icon-btn {
@@ -600,7 +600,7 @@
     }
     .booking__head .eyebrow {
       font-size: 0.66rem;
-      color: var(--gold-deep);
+      color: var(--accent-deep);
     }
     .booking__title {
       margin: 4px 0 0;
@@ -622,7 +622,7 @@
       display: block;
       width: 33%;
       height: 100%;
-      background: var(--gold-gradient);
+      background: var(--accent-gradient);
       transition: width 0.4s ease;
     }
 
@@ -703,11 +703,11 @@
       border-color: rgba(15, 13, 11, 0.3);
     }
     .option:has(input:checked) {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 1px var(--gold), 0 12px 26px -16px rgba(133, 98, 44, 0.55);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), 0 12px 26px -16px rgba(148, 88, 74, 0.55);
     }
     .option:has(input:focus-visible) {
-      outline: 2px solid var(--gold-deep);
+      outline: 2px solid var(--accent-deep);
       outline-offset: 2px;
     }
     .option__name {
@@ -725,6 +725,7 @@
     .option__price {
       font-size: 1.05rem;
       font-weight: 500;
+      white-space: nowrap;
     }
 
     .days {
@@ -807,11 +808,11 @@
       color: var(--cream);
     }
     .day input:checked + span .day__mon {
-      color: var(--gold-light);
+      color: var(--accent-light);
     }
     .day input:focus-visible + span,
     .time input:focus-visible + span {
-      outline: 2px solid var(--gold-deep);
+      outline: 2px solid var(--accent-deep);
       outline-offset: 2px;
     }
     .day input:disabled + span {
@@ -862,9 +863,9 @@
     }
     .field input:focus,
     .field textarea:focus {
-      border-color: var(--gold-deep);
+      border-color: var(--accent-deep);
       outline: none;
-      box-shadow: 0 0 0 3px rgba(200, 164, 106, 0.3);
+      box-shadow: 0 0 0 3px rgba(210, 162, 143, 0.3);
     }
     .field input[aria-invalid="true"] {
       border-color: #a33a2c;
@@ -888,7 +889,7 @@
       height: 64px;
       margin: 6px auto 18px;
       border-radius: 50%;
-      background: var(--gold-gradient);
+      background: var(--accent-gradient);
       color: #1a140d;
     }
     .done__icon svg {
@@ -928,7 +929,7 @@
       line-height: 1.8;
     }
     .done__links a {
-      color: var(--gold-deep);
+      color: var(--accent-deep);
       text-underline-offset: 3px;
     }
 
@@ -952,7 +953,7 @@
 
     <a class="logo" href="#" aria-label="Atelier — home">
       <span class="logo__name">Atelier</span>
-      <span class="logo__sub">Hair · Barbering</span>
+      <span class="logo__sub">Hair Salon</span>
     </a>
 
     <button class="btn header-book" data-book>Book</button>
@@ -961,26 +962,26 @@
   <main>
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero__media" aria-hidden="true">
-        <img class="hero__slide is-active" src="images/hero/hero-1.jpg" alt="" style="--pos: 58% 40%" fetchpriority="high" />
-        <img class="hero__slide" src="images/hero/hero-2.jpg" alt="" style="--pos: 62% 35%" decoding="async" />
-        <img class="hero__slide" src="images/hero/hero-3.jpg" alt="" style="--pos: 62% 30%" decoding="async" />
-        <img class="hero__slide" src="images/hero/hero-4.jpg" alt="" style="--pos: 50% 30%" decoding="async" />
+        <img class="hero__slide is-active" src="images/hero/hero-1.jpg" alt="" style="--pos: 55% 30%" fetchpriority="high" />
+        <img class="hero__slide" src="images/hero/hero-2.jpg" alt="" style="--pos: 55% 35%" decoding="async" />
+        <img class="hero__slide" src="images/hero/hero-3.jpg" alt="" style="--pos: 60% 35%" decoding="async" />
+        <img class="hero__slide" src="images/hero/hero-4.jpg" alt="" style="--pos: 45% 35%" decoding="async" />
       </div>
 
       <div class="hero__content">
-        <p class="eyebrow hero__eyebrow">Barbers & hair studio</p>
-        <h1 class="hero__title" id="hero-title">Every cut, <em>considered.</em></h1>
+        <p class="eyebrow hero__eyebrow">Hair &amp; colour studio</p>
+        <h1 class="hero__title" id="hero-title">Hair that feels like <em>you.</em></h1>
 
         <ul class="hero__services" aria-label="Services">
-          <li>Skin fades</li>
-          <li>Scissor cuts</li>
-          <li>Beard work</li>
-          <li>Kids cuts</li>
-          <li>Restyles</li>
+          <li>Colour</li>
+          <li>Balayage</li>
+          <li>Cut & blow-dry</li>
+          <li>Extensions</li>
+          <li>Bridal</li>
         </ul>
 
         <div class="hero__actions">
-          <button class="btn btn--gold" data-book>Book an appointment</button>
+          <button class="btn btn--accent" data-book>Book an appointment</button>
           <a class="btn btn--ghost" href="index.html">View our work</a>
         </div>
 
@@ -999,20 +1000,22 @@
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
         <div class="marquee__group">
-          <span>Skin fades</span><i>✦</i>
-          <span>Scissor cuts</span><i>✦</i>
-          <span>Beard sculpting</span><i>✦</i>
-          <span>Hot towel shaves</span><i>✦</i>
-          <span>Kids cuts</span><i>✦</i>
-          <span>Bobs & restyles</span><i>✦</i>
+          <span>Balayage</span><i>✦</i>
+          <span>Custom colour</span><i>✦</i>
+          <span>Blow-dries</span><i>✦</i>
+          <span>Extensions</span><i>✦</i>
+          <span>Bridal hair</span><i>✦</i>
+          <span>Keratin smoothing</span><i>✦</i>
+          <span>Bobs & lobs</span><i>✦</i>
         </div>
         <div class="marquee__group">
-          <span>Skin fades</span><i>✦</i>
-          <span>Scissor cuts</span><i>✦</i>
-          <span>Beard sculpting</span><i>✦</i>
-          <span>Hot towel shaves</span><i>✦</i>
-          <span>Kids cuts</span><i>✦</i>
-          <span>Bobs & restyles</span><i>✦</i>
+          <span>Balayage</span><i>✦</i>
+          <span>Custom colour</span><i>✦</i>
+          <span>Blow-dries</span><i>✦</i>
+          <span>Extensions</span><i>✦</i>
+          <span>Bridal hair</span><i>✦</i>
+          <span>Keratin smoothing</span><i>✦</i>
+          <span>Bobs & lobs</span><i>✦</i>
         </div>
       </div>
     </div>
@@ -1024,7 +1027,7 @@
       <div class="menu__top">
         <a class="logo" href="#">
           <span class="logo__name">Atelier</span>
-          <span class="logo__sub">Hair · Barbering</span>
+          <span class="logo__sub">Hair Salon</span>
         </a>
         <button class="icon-btn" data-close-menu aria-label="Close menu">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18" /></svg>
@@ -1085,7 +1088,7 @@
           </div>
           <div class="field">
             <label for="field-notes">Notes <small>(optional)</small></label>
-            <textarea id="field-notes" name="notes" placeholder="e.g. Low skin fade, keep length on top"></textarea>
+            <textarea id="field-notes" name="notes" placeholder="e.g. Soft caramel balayage, keeping my length"></textarea>
           </div>
         </section>
 
@@ -1116,26 +1119,26 @@
     const SALON = {
       whatsapp: '447700900123', // international format, no + or spaces
       bookingUrl: '',           // got a Fresha/Booksy/Setmore link? Paste it here and every Book button will use it instead
-      currency: '£',
       slotMinutes: 30,
       leadMinutes: 60,          // earliest bookable slot today = now + this
       daysAhead: 14,
       hours: [                  // Sunday first. null = closed
         null,
-        ['09:00', '18:00'],
-        ['09:00', '18:00'],
-        ['09:00', '18:00'],
+        null,
+        ['09:00', '17:30'],
+        ['09:00', '17:30'],
         ['09:00', '20:00'],
         ['09:00', '18:00'],
-        ['08:30', '17:00'],
+        ['08:30', '16:00'],
       ],
       services: [
-        { name: 'Skin fade', mins: 45, price: 22, note: 'Bald or skin fade, styled finish' },
-        { name: 'Scissor cut', mins: 45, price: 20, note: 'Classic or textured, all scissors' },
-        { name: 'Cut & beard', mins: 60, price: 30, note: 'Any cut plus a beard shape-up' },
-        { name: 'Beard trim', mins: 20, price: 12, note: 'Line-up, shape and hot towel' },
-        { name: 'Kids cut', mins: 30, price: 15, note: 'Under 12s' },
-        { name: 'Restyle & blow-dry', mins: 60, price: 35, note: 'Bobs, lobs and longer hair' },
+        { name: 'Cut & blow-dry', mins: 60, price: '£45', note: 'Wash, cut and a bouncy finish' },
+        { name: 'Blow-dry', mins: 45, price: '£28', note: 'Sleek, curled or big volume' },
+        { name: 'Root colour', mins: 90, price: '£60', note: 'Roots refreshed, includes blow-dry' },
+        { name: 'Full head highlights', mins: 150, price: '£95', note: 'Foils, toner and blow-dry' },
+        { name: 'Balayage', mins: 180, price: 'from £120', note: 'Hand-painted, soft grown-out colour' },
+        { name: 'Keratin smoothing', mins: 150, price: '£130', note: 'Frizz-free for up to 3 months' },
+        { name: 'Extensions consultation', mins: 30, price: 'Free', note: 'Colour match and a quote' },
       ],
     };
 
@@ -1157,7 +1160,6 @@
       const [y, m, d] = key.split('-').map(Number);
       return new Date(y, m - 1, d);
     };
-    const price = (service) => `${SALON.currency}${service.price}`;
 
     // ---------- Header ----------
     const header = document.getElementById('header');
@@ -1239,7 +1241,7 @@
           <span class="option__name">${s.name}</span>
           <span class="option__meta">${s.mins} min · ${s.note}</span>
         </span>
-        <span class="option__price">${price(s)}</span>
+        <span class="option__price">${s.price}</span>
       </label>`).join('');
 
     function slotsFor(date, length) {
@@ -1318,7 +1320,7 @@
       const when = state.day
         ? `${fmtDate(fromKey(state.day))}${state.time !== null ? ' at ' + fmtTime(state.time) : ' · pick a time'}`
         : `${s.mins} min`;
-      return `<strong>${s.name} · ${price(s)}</strong>${state.step === 1 ? s.mins + ' min' : when}`;
+      return `<strong>${s.name} · ${s.price}</strong>${state.step === 1 ? s.mins + ' min' : when}`;
     }
 
     function update() {
@@ -1365,7 +1367,7 @@
       const when = `${fmtDate(fromKey(state.day))} at ${fmtTime(state.time)}`;
       const lines = [
         "Hi! I'd like to book an appointment:",
-        `• Service: ${s.name} (${s.mins} min, ${price(s)})`,
+        `• Service: ${s.name} (${s.mins} min, ${s.price})`,
         `• When: ${when}`,
         `• Name: ${name.value.trim()}`,
         `• Phone: ${phone.value.trim()}`,
@@ -1375,7 +1377,7 @@
       const url = `https://wa.me/${SALON.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`;
       document.getElementById('whatsapp-link').href = url;
       document.getElementById('ticket').innerHTML = `
-        <dt>Service</dt><dd>${s.name} · ${price(s)}</dd>
+        <dt>Service</dt><dd>${s.name} · ${s.price}</dd>
         <dt>When</dt><dd>${when}</dd>
         <dt>Name</dt><dd></dd>`;
       // Name is user input, so set it as text rather than HTML

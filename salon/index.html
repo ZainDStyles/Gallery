@@ -485,6 +485,229 @@
       to { transform: translateX(-50%); }
     }
 
+    /* ---------- Story ---------- */
+    .story {
+      overflow: hidden; /* keeps the parallax photos from causing sideways scroll */
+      padding: 88px 24px 104px;
+      background: var(--cream);
+      color: var(--ink);
+    }
+    .story__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .story__top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 18px;
+      margin-bottom: 40px;
+    }
+    .story__top .eyebrow {
+      font-size: 0.7rem;
+    }
+    .story__tag {
+      color: var(--accent-deep);
+    }
+    .story__rule {
+      flex: 0 0 64px;
+      height: 1px;
+      background: rgba(15, 13, 11, 0.3);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s;
+    }
+    .story__top.in-view .story__rule {
+      transform: none;
+    }
+
+    .story__statement {
+      max-width: 16ch;
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(2.6rem, 6.4vw, 5.6rem);
+      line-height: 1.02;
+      letter-spacing: -0.01em;
+    }
+    /* Each word starts faint and lights up as the section scrolls into view */
+    .word {
+      opacity: 0.14;
+      transition: opacity 0.35s ease;
+    }
+    .word.is-lit {
+      opacity: 1;
+    }
+
+    .story__grid {
+      display: grid;
+      grid-template-areas: "intro" "media" "pillars" "cta";
+      gap: 48px;
+      margin-top: 40px;
+    }
+    .story__intro {
+      grid-area: intro;
+      max-width: 520px;
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(15, 13, 11, 0.68);
+    }
+
+    .story__media {
+      grid-area: media;
+      position: relative;
+      padding-bottom: 22%;
+    }
+    .story__img {
+      margin: 0;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      border-radius: 999px 999px 0 0; /* arch, like a salon mirror */
+      background: #e7ded1;
+      clip-path: inset(100% 0 0 0);
+      transition: clip-path 1.4s cubic-bezier(0.7, 0, 0.2, 1);
+    }
+    .story__img img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.25);
+      transition: transform 1.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .story__img.in-view {
+      clip-path: inset(0 0 0 0);
+    }
+    .story__img.in-view img {
+      transform: none;
+    }
+    .story__img--main {
+      width: 76%;
+      margin-left: auto;
+    }
+    .story__img--small {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 44%;
+      border: 8px solid var(--cream);
+      transition-delay: 0.25s;
+    }
+    .story__img--small img {
+      transition-delay: 0.25s;
+    }
+
+    .spin-badge {
+      position: absolute;
+      top: 4%;
+      left: 2%;
+      display: grid;
+      place-items: center;
+      width: 104px;
+      height: 104px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--cream);
+      box-shadow: 0 14px 30px -14px rgba(15, 13, 11, 0.6);
+      transition: transform 0.3s ease;
+    }
+    .spin-badge:hover {
+      transform: scale(1.06);
+    }
+    .spin-badge svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      animation: spin 18s linear infinite;
+    }
+    .spin-badge text {
+      fill: currentColor;
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 500;
+    }
+    .spin-badge__star {
+      font-size: 1.2rem;
+      color: var(--accent);
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .pillars {
+      grid-area: pillars;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--line-dark);
+    }
+    .pillar {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 12px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line-dark);
+    }
+    .pillar__num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.5rem;
+      line-height: 1.1;
+      color: var(--accent-deep);
+    }
+    .pillar h3 {
+      margin: 0 0 6px;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.6rem;
+      line-height: 1.1;
+    }
+    .pillar p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: rgba(15, 13, 11, 0.65);
+    }
+
+    .story__cta {
+      grid-area: cta;
+      justify-self: start;
+    }
+
+    /* Slides up into place the first time it scrolls into view */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+      transition-delay: calc(var(--i, 0) * 140ms);
+    }
+    .fade-up.in-view {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (min-width: 900px) {
+      .story {
+        padding: 140px 40px 160px;
+      }
+      .story__grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        grid-template-rows: auto auto 1fr;
+        grid-template-areas: "intro media" "pillars media" "cta media";
+        gap: 40px 88px;
+        margin-top: 72px;
+      }
+      .spin-badge {
+        width: 128px;
+        height: 128px;
+      }
+    }
+
     /* ---------- Menu ---------- */
     .menu {
       width: 100%;
@@ -962,9 +1185,19 @@
         animation: none;
       }
       .marquee__track,
+      .spin-badge svg,
       .sheet[open],
       .menu[open] {
         animation: none;
+      }
+      .fade-up,
+      .story__rule,
+      .story__img,
+      .story__img img {
+        opacity: 1;
+        transform: none;
+        clip-path: none;
+        transition: none;
       }
     }
   </style>
@@ -1053,6 +1286,73 @@
         </div>
       </div>
     </div>
+
+    <section class="story" id="story" aria-labelledby="story-title">
+      <div class="story__inner">
+        <div class="story__top" data-reveal>
+          <p class="eyebrow">Our story</p>
+          <span class="story__rule" aria-hidden="true"></span>
+          <p class="eyebrow story__tag">Hair · Colour · Care</p>
+        </div>
+
+        <h2 class="story__statement" id="story-title">
+          Beautiful hair, made with <em>patience, precision and a whole lot of care.</em>
+        </h2>
+
+        <div class="story__grid">
+          <p class="story__intro fade-up" data-reveal>
+            Atelier is an independent hair salon in Your Town. From soft balayage and lived-in colour to sleek
+            blow-dries and bridal styling, every appointment starts with a proper consultation and ends with
+            hair you can recreate at home. All hair types are welcome.
+          </p>
+
+          <div class="story__media">
+            <figure class="story__img story__img--main" data-reveal data-parallax="0.05">
+              <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_111838_83933a61-36c0-4d55-9f61-a0ff46d5cb37.png"
+                alt="Glossy caramel balayage waves, seen from behind" loading="lazy" />
+            </figure>
+            <figure class="story__img story__img--small" data-reveal data-parallax="-0.07">
+              <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_111841_9443ab77-9afb-4305-b28b-e85d767cf656.png"
+                alt="Inside the salon: arched mirrors and blush velvet chairs" loading="lazy" />
+            </figure>
+
+            <button class="spin-badge" data-book aria-label="Book a consultation">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <defs><path id="badge-circle" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" /></defs>
+                <text><textPath href="#badge-circle" textLength="276" lengthAdjust="spacing">BOOK A CONSULTATION ✦ BOOK A CONSULTATION ✦</textPath></text>
+              </svg>
+              <span class="spin-badge__star" aria-hidden="true">✦</span>
+            </button>
+          </div>
+
+          <ol class="pillars">
+            <li class="pillar fade-up" data-reveal style="--i: 0">
+              <span class="pillar__num">01</span>
+              <div>
+                <h3>Consultation first</h3>
+                <p>We talk through your hair, your routine and your budget before a single strand is cut.</p>
+              </div>
+            </li>
+            <li class="pillar fade-up" data-reveal style="--i: 1">
+              <span class="pillar__num">02</span>
+              <div>
+                <h3>Colour made to grow out</h3>
+                <p>Soft, blended placement means fewer trips back and no harsh regrowth lines.</p>
+              </div>
+            </li>
+            <li class="pillar fade-up" data-reveal style="--i: 2">
+              <span class="pillar__num">03</span>
+              <div>
+                <h3>Every hair type</h3>
+                <p>Straight, wavy, curly or coily — we work with all of it, and show you how to style it at home.</p>
+              </div>
+            </li>
+          </ol>
+
+          <button class="btn btn--dark story__cta fade-up" data-reveal data-book>Book a consultation</button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Full-screen menu -->
@@ -1304,6 +1604,87 @@
       });
       tallScreen.addEventListener('change', startClips);
       startClips();
+    }
+
+    // ---------- Scroll animations ----------
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const statement = document.getElementById('story-title');
+    const parallaxEls = [...document.querySelectorAll('[data-parallax]')];
+
+    // Wrap every word in a span (keeping the <em>) so they can light up one by one
+    function splitWords(el) {
+      const words = [];
+      [...el.childNodes].forEach((node) => {
+        if (node.nodeType !== Node.TEXT_NODE) {
+          words.push(...splitWords(node));
+          return;
+        }
+        const frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (!part.trim()) {
+            frag.append(' ');
+            return;
+          }
+          const span = document.createElement('span');
+          span.className = 'word';
+          span.textContent = part;
+          words.push(span);
+          frag.append(span);
+        });
+        node.replaceWith(frag);
+      });
+      return words;
+    }
+
+    if (reduceMotion) {
+      revealEls.forEach((el) => el.classList.add('in-view'));
+    } else {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -12% 0px' });
+      revealEls.forEach((el) => observer.observe(el));
+
+      const words = splitWords(statement);
+      let lit = -1;
+      let ticking = false;
+
+      function updateScrollEffects() {
+        ticking = false;
+        const vh = window.innerHeight;
+
+        // Words light up from when the statement's top is 85% down the screen until its bottom reaches 45%
+        const rect = statement.getBoundingClientRect();
+        const start = vh * 0.85;
+        const range = start - vh * 0.45 + rect.height;
+        const progress = Math.min(Math.max((start - rect.top) / range, 0), 1);
+        const count = Math.round(progress * words.length);
+        if (count !== lit) {
+          words.forEach((w, i) => w.classList.toggle('is-lit', i < count));
+          lit = count;
+        }
+
+        // Photos drift at different speeds relative to the middle of the screen
+        parallaxEls.forEach((el) => {
+          const box = el.getBoundingClientRect();
+          if (box.bottom < -200 || box.top > vh + 200) return;
+          const offset = (box.top + box.height / 2 - vh / 2) * Number(el.dataset.parallax);
+          el.style.transform = `translateY(${offset.toFixed(1)}px)`;
+        });
+      }
+
+      const requestUpdate = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(updateScrollEffects);
+      };
+      window.addEventListener('scroll', requestUpdate, { passive: true });
+      window.addEventListener('resize', requestUpdate);
+      updateScrollEffects();
     }
 
     // ---------- Opening hours ----------

@@ -24,6 +24,7 @@
   <style>
     :root {
       --ink: #0f0d0b;
+      --espresso: #241c17; /* dark section background: warmer and softer than --ink */
       --cream: #f4efe7;
       --paper: #fbf8f3;
       --text-dim: rgba(244, 239, 231, 0.74);
@@ -55,7 +56,7 @@
     }
     body {
       font-family: var(--sans);
-      background: var(--ink);
+      background: var(--espresso);
       color: var(--cream);
       -webkit-font-smoothing: antialiased;
     }
@@ -502,7 +503,7 @@
     /* ---------- Services ---------- */
     .services {
       position: relative;
-      background: var(--ink);
+      background: var(--espresso);
       color: var(--cream);
     }
     .services__pin {
@@ -590,7 +591,7 @@
       margin: 0;
       overflow: hidden;
       border-radius: 999px 999px 18px 18px; /* arched, like a salon mirror */
-      background: #2a231d;
+      background: #33291f;
     }
     .svc-card__img img {
       display: block;
@@ -926,7 +927,7 @@
     /* ---------- Team ---------- */
     .team {
       padding: 96px 0;
-      background: var(--ink);
+      background: var(--espresso);
       color: var(--cream);
     }
     .team__head {
@@ -957,7 +958,7 @@
       overflow: hidden;
       aspect-ratio: 3 / 4;
       border-radius: 999px 999px 18px 18px;
-      background: #2a231d;
+      background: #33291f;
     }
     .stylist__img img {
       display: block;
@@ -1085,7 +1086,7 @@
     /* ---------- Visit ---------- */
     .visit {
       padding: 96px 24px 0;
-      background: var(--ink);
+      background: radial-gradient(ellipse 60% 45% at 18% 22%, rgba(210, 162, 143, 0.08), transparent 70%), var(--espresso);
       color: var(--cream);
     }
     .visit__inner {
@@ -1100,7 +1101,7 @@
       aspect-ratio: 4 / 5;
       max-height: 640px;
       border-radius: 999px 999px 24px 24px;
-      background: #2a231d;
+      background: #33291f;
     }
     .visit__img img {
       display: block;
@@ -1219,7 +1220,7 @@
     .footer {
       overflow: hidden;
       padding: 0 24px calc(28px + env(safe-area-inset-bottom));
-      background: var(--ink);
+      background: var(--espresso);
       color: var(--cream);
     }
     .footer__top {
@@ -1367,7 +1368,7 @@
       margin: 0;
       padding: 0;
       border: 0;
-      background: var(--ink);
+      background: var(--espresso);
       color: var(--cream);
     }
     .menu[open] {

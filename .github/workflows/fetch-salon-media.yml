@@ -12,11 +12,14 @@ on:
 permissions:
   contents: write
 
-concurrency: fetch-salon-media
+concurrency:
+  group: fetch-salon-media
+  cancel-in-progress: true
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - name: Install ffmpeg
@@ -30,4 +33,5 @@ jobs:
           git add salon/assets
           if git diff --cached --quiet; then echo "Nothing new"; exit 0; fi
           git commit -m "Add web-sized salon media"
+          git pull --rebase origin main
           git push

@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Atelier — Hair & Barbering</title>
+  <meta name="description" content="Skin fades, scissor cuts, beard work and restyles. Book your appointment online." />
+  <meta name="theme-color" content="#0f0d0b" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="images/hero/hero-1.jpg" />
+
+  <style>
+    :root {
+      --ink: #0f0d0b;
+      --cream: #f4efe7;
+      --paper: #fbf8f3;
+      --text-dim: rgba(244, 239, 231, 0.74);
+      --line: rgba(244, 239, 231, 0.16);
+      --line-dark: rgba(15, 13, 11, 0.14);
+      --gold: #c8a46a;
+      --gold-light: #ead39f;
+      --gold-deep: #85622c; /* gold that stays readable on cream */
+      --gold-gradient: linear-gradient(100deg, #b48a4a 0%, #e6cd96 48%, #c29a5b 100%);
+      --serif: 'Instrument Serif', 'Times New Roman', serif;
+      --sans: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+      --header-h: 76px;
+      --marquee-h: 76px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+    }
+    html:has(dialog[open]) {
+      overflow: hidden;
+    }
+    body {
+      font-family: var(--sans);
+      background: var(--ink);
+      color: var(--cream);
+      -webkit-font-smoothing: antialiased;
+    }
+    a {
+      color: inherit;
+    }
+    button {
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+    :focus-visible {
+      outline: 2px solid var(--gold-light);
+      outline-offset: 3px;
+    }
+
+    /* ---------- Shared ---------- */
+    .eyebrow {
+      margin: 0;
+      font-size: 0.74rem;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      padding: 0 34px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 0.2s ease, background-color 0.25s ease, color 0.25s ease,
+                  border-color 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+    }
+    .btn--gold {
+      background: var(--gold-gradient);
+      color: #1a140d;
+      box-shadow: 0 12px 30px -12px rgba(200, 164, 106, 0.65);
+    }
+    .btn--gold:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 36px -12px rgba(200, 164, 106, 0.8);
+    }
+    .btn--ghost {
+      border-color: rgba(244, 239, 231, 0.45);
+      background: rgba(15, 13, 11, 0.18);
+      color: var(--cream);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+    .btn--ghost:hover {
+      border-color: var(--cream);
+      background: rgba(244, 239, 231, 0.08);
+    }
+    .btn--dark {
+      background: var(--ink);
+      color: var(--cream);
+    }
+    .btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .logo {
+      text-align: center;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .logo__name {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.9rem;
+    }
+    .logo__sub {
+      display: block;
+      margin-top: 4px;
+      padding-left: 0.38em; /* re-centres the tracked caps */
+      font-size: 0.56rem;
+      font-weight: 500;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      height: calc(var(--header-h) + env(safe-area-inset-top));
+      padding: env(safe-area-inset-top) 20px 0;
+      transition: background-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .site-header.is-scrolled {
+      background: rgba(244, 239, 231, 0.94);
+      color: var(--ink);
+      box-shadow: 0 1px 0 var(--line-dark);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+    .site-header.is-scrolled .logo__sub {
+      color: var(--gold-deep);
+    }
+
+    .menu-toggle {
+      justify-self: start;
+      display: grid;
+      place-content: center;
+      gap: 7px;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+    .menu-toggle span {
+      display: block;
+      width: 30px;
+      height: 1.5px;
+      background: currentColor;
+    }
+
+    .header-book {
+      justify-self: end;
+      min-height: 46px;
+      padding: 0 24px;
+      border-color: rgba(244, 239, 231, 0.5);
+      background: transparent;
+      font-size: 0.74rem;
+    }
+    .header-book:hover {
+      border-color: var(--cream);
+    }
+    .is-scrolled .header-book {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      min-height: calc(100vh - var(--marquee-h));
+      min-height: calc(100svh - var(--marquee-h));
+    }
+
+    .hero__media {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--ink);
+    }
+    .hero__slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: var(--pos, center);
+      opacity: 0;
+      filter: grayscale(0.6) sepia(0.15) brightness(0.85) contrast(1.05);
+      transition: opacity 1.8s ease;
+    }
+    /* The incoming slide fades in on top while the outgoing one stays put underneath */
+    .hero__slide.is-active {
+      z-index: 1;
+      opacity: 1;
+    }
+    .hero__slide.is-leaving {
+      opacity: 1;
+    }
+    .hero__slide.is-active,
+    .hero__slide.is-leaving {
+      animation: drift 9s ease-out both;
+    }
+    @keyframes drift {
+      from { transform: scale(1.12); }
+      to { transform: scale(1.02); }
+    }
+    .hero__media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background:
+        linear-gradient(180deg, rgba(15, 13, 11, 0.7) 0%, rgba(15, 13, 11, 0) 24%),
+        linear-gradient(0deg, rgba(15, 13, 11, 0.96) 0%, rgba(15, 13, 11, 0.62) 42%, rgba(15, 13, 11, 0.08) 75%),
+        radial-gradient(ellipse at center, transparent 40%, rgba(15, 13, 11, 0.45) 100%);
+    }
+
+    .hero__content {
+      align-self: end;
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: calc(var(--header-h) + 64px) 24px 36px;
+      text-align: center;
+    }
+
+    .hero__eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 22px;
+      color: var(--gold-light);
+    }
+    .hero__eyebrow::before,
+    .hero__eyebrow::after {
+      content: "";
+      width: 32px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.6;
+    }
+
+    .hero__title {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(3.3rem, 13vw, 7.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.015em;
+      text-wrap: balance;
+    }
+    .hero__title em {
+      padding-right: 0.06em;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero__services {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 12px;
+      max-width: 620px;
+      margin: 28px auto 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.74rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .hero__services li {
+      display: flex;
+      align-items: center;
+    }
+    .hero__services li + li::before {
+      content: "•";
+      margin: 0 14px;
+      color: var(--gold);
+      letter-spacing: 0;
+    }
+
+    .hero__actions {
+      display: grid;
+      gap: 14px;
+      max-width: 420px;
+      margin: 36px auto 0;
+    }
+
+    .hero__info {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 6px 0;
+      margin: 26px 0 0;
+      font-size: 0.92rem;
+      color: var(--text-dim);
+    }
+    .hero__info > * + *::before {
+      content: "·";
+      margin: 0 10px;
+    }
+    .hero__info a {
+      color: var(--cream);
+      text-decoration-color: var(--gold);
+      text-underline-offset: 4px;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: #86c493;
+      box-shadow: 0 0 0 4px rgba(134, 196, 147, 0.18);
+      vertical-align: 1px;
+    }
+    .is-closed .status-dot {
+      background: var(--gold);
+      box-shadow: 0 0 0 4px rgba(200, 164, 106, 0.18);
+    }
+
+    .hero__band {
+      padding: 20px 24px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .hero__band a {
+      margin-left: 0.8em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    @media (max-width: 719px) {
+      .hero__services {
+        max-width: 340px;
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+      }
+      .hero__services li + li::before {
+        margin: 0 10px;
+      }
+      .hero__info #open-status {
+        flex-basis: 100%;
+      }
+      .hero__info #open-status::before {
+        content: none;
+      }
+    }
+    @media (min-width: 720px) {
+      .hero__actions {
+        grid-template-columns: auto auto;
+        justify-content: center;
+        max-width: none;
+      }
+    }
+    @media (min-width: 960px) {
+      .site-header {
+        padding-inline: 40px;
+      }
+      .hero__content {
+        align-self: center;
+        padding-bottom: 48px;
+      }
+    }
+
+    /* ---------- Marquee ---------- */
+    .marquee {
+      display: flex;
+      align-items: center;
+      height: var(--marquee-h);
+      overflow: hidden;
+      background: var(--cream);
+      color: var(--ink);
+      border-bottom: 1px solid var(--line-dark);
+    }
+    .marquee__track {
+      display: flex;
+      flex-shrink: 0;
+      animation: marquee 45s linear infinite;
+    }
+    .marquee__group {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .marquee__group span {
+      padding: 0 30px;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 2.2rem;
+      white-space: nowrap;
+    }
+    .marquee__group i {
+      font-style: normal;
+      font-size: 1.1rem;
+      color: var(--gold);
+    }
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    /* ---------- Menu ---------- */
+    .menu {
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: var(--ink);
+      color: var(--cream);
+    }
+    .menu[open] {
+      animation: fade-in 0.3s ease;
+    }
+    .menu__inner {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: calc(16px + env(safe-area-inset-top)) 24px calc(32px + env(safe-area-inset-bottom));
+    }
+    .menu__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .menu__links {
+      margin: 48px 0 40px;
+      padding: 0;
+      list-style: none;
+    }
+    .menu__links a,
+    .menu__links button {
+      display: inline-block;
+      padding: 4px 0;
+      border: 0;
+      background: none;
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 10vw, 3.8rem);
+      line-height: 1.12;
+      text-align: left;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .menu__links a:hover,
+    .menu__links button:hover {
+      color: var(--gold-light);
+    }
+    .menu__links em {
+      color: var(--gold-light);
+    }
+    .menu__hours {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px 28px;
+      margin: auto 0 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      font-size: 0.92rem;
+      color: var(--text-dim);
+    }
+    .menu__hours dt {
+      color: var(--cream);
+    }
+    .menu__hours dd {
+      margin: 0;
+    }
+    .menu__hours .eyebrow {
+      grid-column: 1 / -1;
+      margin-bottom: 6px;
+      color: var(--gold);
+    }
+
+    .icon-btn {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      background: transparent;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+    .icon-btn:hover {
+      opacity: 1;
+    }
+    .icon-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ---------- Booking sheet ---------- */
+    .booking {
+      width: 100%;
+      max-width: 560px;
+      max-height: 92vh;
+      max-height: 92svh;
+      margin: auto auto 0;
+      padding: 0;
+      border: 0;
+      border-radius: 26px 26px 0 0;
+      overflow: hidden;
+      background: var(--cream);
+      color: var(--ink);
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.35);
+    }
+    .booking[open] {
+      display: flex;
+      animation: sheet-up 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .booking::backdrop,
+    .menu::backdrop {
+      background: rgba(10, 8, 6, 0.6);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+    @media (min-width: 720px) {
+      .booking {
+        margin: auto;
+        max-height: min(800px, 88vh);
+        border-radius: 26px;
+      }
+      .booking[open] {
+        animation-name: pop-in;
+      }
+    }
+    @keyframes sheet-up {
+      from { transform: translateY(100%); }
+    }
+    @keyframes pop-in {
+      from { opacity: 0; transform: translateY(16px) scale(0.98); }
+    }
+    @keyframes fade-in {
+      from { opacity: 0; }
+    }
+
+    .booking__form {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+    }
+
+    .booking__head {
+      display: grid;
+      grid-template-columns: 44px 1fr 44px;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 16px 14px;
+      text-align: center;
+    }
+    .booking__head .eyebrow {
+      font-size: 0.66rem;
+      color: var(--gold-deep);
+    }
+    .booking__title {
+      margin: 4px 0 0;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.95rem;
+      line-height: 1.05;
+    }
+    .booking__title:focus {
+      outline: none;
+    }
+
+    .progress {
+      height: 2px;
+      margin: 0 24px;
+      background: var(--line-dark);
+    }
+    .progress span {
+      display: block;
+      width: 33%;
+      height: 100%;
+      background: var(--gold-gradient);
+      transition: width 0.4s ease;
+    }
+
+    .booking__body {
+      flex: 1;
+      min-height: 0;
+      padding: 22px 20px 26px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .booking__foot {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--line-dark);
+    }
+    .booking__summary {
+      flex: 1;
+      min-width: 0;
+      margin: 0;
+      font-size: 0.84rem;
+      line-height: 1.4;
+      color: rgba(15, 13, 11, 0.62);
+    }
+    .booking__summary strong {
+      display: block;
+      overflow: hidden;
+      font-weight: 500;
+      color: var(--ink);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .booking__foot .btn {
+      min-height: 52px;
+      padding: 0 26px;
+      font-size: 0.74rem;
+    }
+
+    .step-label {
+      margin: 0 0 12px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(15, 13, 11, 0.6);
+    }
+    .step-label:not(:first-child) {
+      margin-top: 26px;
+    }
+
+    /* Radios are visually hidden but stay keyboard-focusable */
+    .choice input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+    .option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      border: 1px solid var(--line-dark);
+      border-radius: 18px;
+      background: var(--paper);
+      cursor: pointer;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .option:hover {
+      border-color: rgba(15, 13, 11, 0.3);
+    }
+    .option:has(input:checked) {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px var(--gold), 0 12px 26px -16px rgba(133, 98, 44, 0.55);
+    }
+    .option:has(input:focus-visible) {
+      outline: 2px solid var(--gold-deep);
+      outline-offset: 2px;
+    }
+    .option__name {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      line-height: 1.1;
+    }
+    .option__meta {
+      display: block;
+      margin-top: 3px;
+      font-size: 0.82rem;
+      color: rgba(15, 13, 11, 0.6);
+    }
+    .option__price {
+      font-size: 1.05rem;
+      font-weight: 500;
+    }
+
+    .days {
+      display: flex;
+      gap: 8px;
+      margin: 0 -20px;
+      padding: 2px 20px 6px;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      scroll-padding-inline: 20px;
+      scrollbar-width: none;
+    }
+    .days::-webkit-scrollbar {
+      display: none;
+    }
+    .day {
+      position: relative;
+      flex: 0 0 66px;
+      scroll-snap-align: start;
+      cursor: pointer;
+    }
+    .day > span {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 11px 0 10px;
+      border: 1px solid var(--line-dark);
+      border-radius: 16px;
+      background: var(--paper);
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .day__dow {
+      font-size: 0.64rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .day__num {
+      font-family: var(--serif);
+      font-size: 1.75rem;
+      line-height: 1;
+    }
+    .day__mon {
+      font-size: 0.7rem;
+      color: rgba(15, 13, 11, 0.55);
+    }
+
+    .time-list {
+      margin-top: 26px;
+    }
+    .times {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+      gap: 8px;
+    }
+    .time {
+      position: relative;
+      cursor: pointer;
+    }
+    .time > span {
+      display: block;
+      padding: 12px 0;
+      border: 1px solid var(--line-dark);
+      border-radius: 999px;
+      background: var(--paper);
+      text-align: center;
+      font-size: 0.92rem;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .day:hover > span,
+    .time:hover > span {
+      border-color: rgba(15, 13, 11, 0.35);
+    }
+    .day input:checked + span,
+    .time input:checked + span {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--cream);
+    }
+    .day input:checked + span .day__mon {
+      color: var(--gold-light);
+    }
+    .day input:focus-visible + span,
+    .time input:focus-visible + span {
+      outline: 2px solid var(--gold-deep);
+      outline-offset: 2px;
+    }
+    .day input:disabled + span {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .empty {
+      margin: 0;
+      padding: 18px;
+      border: 1px dashed var(--line-dark);
+      border-radius: 16px;
+      text-align: center;
+      color: rgba(15, 13, 11, 0.6);
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .field label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+    .field label small {
+      font-size: inherit;
+      letter-spacing: 0.1em;
+      text-transform: none;
+      color: rgba(15, 13, 11, 0.5);
+    }
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid rgba(15, 13, 11, 0.2);
+      border-radius: 14px;
+      background: var(--paper);
+      color: var(--ink);
+      font: inherit;
+      font-size: 1rem; /* 16px+ stops iOS zooming in */
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .field textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--gold-deep);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(200, 164, 106, 0.3);
+    }
+    .field input[aria-invalid="true"] {
+      border-color: #a33a2c;
+    }
+    .field__error {
+      margin: 0;
+      font-size: 0.84rem;
+      color: #a33a2c;
+    }
+    .field__error:empty {
+      display: none;
+    }
+
+    .done {
+      text-align: center;
+    }
+    .done__icon {
+      display: grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
+      margin: 6px auto 18px;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      color: #1a140d;
+    }
+    .done__icon svg {
+      width: 26px;
+      height: 26px;
+    }
+    .done p {
+      max-width: 380px;
+      margin: 0 auto;
+      line-height: 1.55;
+      color: rgba(15, 13, 11, 0.7);
+    }
+    .ticket {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px 18px;
+      margin: 24px 0;
+      padding: 18px 20px;
+      border: 1px dashed rgba(15, 13, 11, 0.28);
+      border-radius: 18px;
+      background: var(--paper);
+      text-align: left;
+    }
+    .ticket dt {
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      line-height: 1.9;
+      text-transform: uppercase;
+      color: rgba(15, 13, 11, 0.55);
+    }
+    .ticket dd {
+      margin: 0;
+    }
+    .done__links {
+      font-size: 0.92rem;
+      line-height: 1.8;
+    }
+    .done__links a {
+      color: var(--gold-deep);
+      text-underline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero__slide.is-active,
+      .hero__slide.is-leaving,
+      .marquee__track,
+      .booking[open],
+      .menu[open] {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header" id="header">
+    <button class="menu-toggle" id="menu-open" aria-label="Open menu" aria-controls="menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a class="logo" href="#" aria-label="Atelier — home">
+      <span class="logo__name">Atelier</span>
+      <span class="logo__sub">Hair · Barbering</span>
+    </a>
+
+    <button class="btn header-book" data-book>Book</button>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__media" aria-hidden="true">
+        <img class="hero__slide is-active" src="images/hero/hero-1.jpg" alt="" style="--pos: 58% 40%" fetchpriority="high" />
+        <img class="hero__slide" src="images/hero/hero-2.jpg" alt="" style="--pos: 62% 35%" decoding="async" />
+        <img class="hero__slide" src="images/hero/hero-3.jpg" alt="" style="--pos: 62% 30%" decoding="async" />
+        <img class="hero__slide" src="images/hero/hero-4.jpg" alt="" style="--pos: 50% 30%" decoding="async" />
+      </div>
+
+      <div class="hero__content">
+        <p class="eyebrow hero__eyebrow">Barbers & hair studio</p>
+        <h1 class="hero__title" id="hero-title">Every cut, <em>considered.</em></h1>
+
+        <ul class="hero__services" aria-label="Services">
+          <li>Skin fades</li>
+          <li>Scissor cuts</li>
+          <li>Beard work</li>
+          <li>Kids cuts</li>
+          <li>Restyles</li>
+        </ul>
+
+        <div class="hero__actions">
+          <button class="btn btn--gold" data-book>Book an appointment</button>
+          <a class="btn btn--ghost" href="index.html">View our work</a>
+        </div>
+
+        <p class="hero__info">
+          <a href="tel:07700900123">07700 900123</a>
+          <span>Your Town</span>
+          <span id="open-status"><span class="status-dot"></span><span id="open-status-text">Opening hours</span></span>
+        </p>
+      </div>
+
+      <div class="hero__band">
+        Follow us<a href="https://instagram.com/yoursalon" target="_blank" rel="noopener">@yoursalon</a>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <div class="marquee__group">
+          <span>Skin fades</span><i>✦</i>
+          <span>Scissor cuts</span><i>✦</i>
+          <span>Beard sculpting</span><i>✦</i>
+          <span>Hot towel shaves</span><i>✦</i>
+          <span>Kids cuts</span><i>✦</i>
+          <span>Bobs & restyles</span><i>✦</i>
+        </div>
+        <div class="marquee__group">
+          <span>Skin fades</span><i>✦</i>
+          <span>Scissor cuts</span><i>✦</i>
+          <span>Beard sculpting</span><i>✦</i>
+          <span>Hot towel shaves</span><i>✦</i>
+          <span>Kids cuts</span><i>✦</i>
+          <span>Bobs & restyles</span><i>✦</i>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Full-screen menu -->
+  <dialog class="menu" id="menu" aria-label="Menu">
+    <div class="menu__inner">
+      <div class="menu__top">
+        <a class="logo" href="#">
+          <span class="logo__name">Atelier</span>
+          <span class="logo__sub">Hair · Barbering</span>
+        </a>
+        <button class="icon-btn" data-close-menu aria-label="Close menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+
+      <ul class="menu__links">
+        <li><button data-book>Book <em>now</em></button></li>
+        <li><a href="index.html">Our work</a></li>
+        <li><a href="tel:07700900123">Call us</a></li>
+        <li><a href="https://instagram.com/yoursalon" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
+
+      <dl class="menu__hours" id="menu-hours">
+        <p class="eyebrow">Opening hours</p>
+      </dl>
+    </div>
+  </dialog>
+
+  <!-- Booking sheet -->
+  <dialog class="booking" id="booking" aria-labelledby="booking-title">
+    <form class="booking__form" id="booking-form" novalidate>
+      <div class="booking__head">
+        <button type="button" class="icon-btn" id="booking-back" aria-label="Back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 5l-7 7 7 7" /></svg>
+        </button>
+        <div>
+          <p class="eyebrow" id="booking-step">Step 1 of 3</p>
+          <h2 class="booking__title" id="booking-title" tabindex="-1">Choose a service</h2>
+        </div>
+        <button type="button" class="icon-btn" data-close-booking aria-label="Close booking">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+      <div class="progress"><span id="booking-progress"></span></div>
+
+      <div class="booking__body" id="booking-body">
+        <section data-step="1">
+          <div class="options" id="service-list" role="radiogroup" aria-label="Service"></div>
+        </section>
+
+        <section data-step="2" hidden>
+          <p class="step-label" id="day-label">Day</p>
+          <div class="days" id="day-list" role="radiogroup" aria-labelledby="day-label"></div>
+          <div class="time-list" id="time-list"></div>
+        </section>
+
+        <section data-step="3" hidden>
+          <div class="field">
+            <label for="field-name">Your name</label>
+            <input id="field-name" name="name" autocomplete="name" aria-describedby="name-error" />
+            <p class="field__error" id="name-error" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <label for="field-phone">Mobile number</label>
+            <input id="field-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="phone-error" />
+            <p class="field__error" id="phone-error" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <label for="field-notes">Notes <small>(optional)</small></label>
+            <textarea id="field-notes" name="notes" placeholder="e.g. Low skin fade, keep length on top"></textarea>
+          </div>
+        </section>
+
+        <section data-step="4" hidden>
+          <div class="done">
+            <div class="done__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+            </div>
+            <p>We've opened WhatsApp with your request — just hit <strong>send</strong>. We'll reply to confirm your slot.</p>
+            <dl class="ticket" id="ticket"></dl>
+            <div class="done__links">
+              <a id="whatsapp-link" href="#" target="_blank" rel="noopener">WhatsApp didn't open? Tap here</a><br />
+              Prefer to talk? <a href="tel:07700900123">Call 07700 900123</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="booking__foot">
+        <p class="booking__summary" id="booking-summary" aria-live="polite"></p>
+        <button type="button" class="btn btn--dark" id="booking-next">Continue</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    // ===== Your salon details — edit these =====
+    const SALON = {
+      whatsapp: '447700900123', // international format, no + or spaces
+      bookingUrl: '',           // got a Fresha/Booksy/Setmore link? Paste it here and every Book button will use it instead
+      currency: '£',
+      slotMinutes: 30,
+      leadMinutes: 60,          // earliest bookable slot today = now + this
+      daysAhead: 14,
+      hours: [                  // Sunday first. null = closed
+        null,
+        ['09:00', '18:00'],
+        ['09:00', '18:00'],
+        ['09:00', '18:00'],
+        ['09:00', '20:00'],
+        ['09:00', '18:00'],
+        ['08:30', '17:00'],
+      ],
+      services: [
+        { name: 'Skin fade', mins: 45, price: 22, note: 'Bald or skin fade, styled finish' },
+        { name: 'Scissor cut', mins: 45, price: 20, note: 'Classic or textured, all scissors' },
+        { name: 'Cut & beard', mins: 60, price: 30, note: 'Any cut plus a beard shape-up' },
+        { name: 'Beard trim', mins: 20, price: 12, note: 'Line-up, shape and hot towel' },
+        { name: 'Kids cut', mins: 30, price: 15, note: 'Under 12s' },
+        { name: 'Restyle & blow-dry', mins: 60, price: 35, note: 'Bobs, lobs and longer hair' },
+      ],
+    };
+
+    const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    const toMins = (t) => {
+      const [h, m] = t.split(':').map(Number);
+      return h * 60 + m;
+    };
+    const fmtTime = (mins) => {
+      const h = Math.floor(mins / 60);
+      const m = mins % 60;
+      const suffix = h >= 12 ? 'pm' : 'am';
+      return `${h % 12 || 12}${m ? ':' + String(m).padStart(2, '0') : ''}${suffix}`;
+    };
+    const fmtDate = (date) => date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+    const toKey = (date) => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    const fromKey = (key) => {
+      const [y, m, d] = key.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    };
+    const price = (service) => `${SALON.currency}${service.price}`;
+
+    // ---------- Header ----------
+    const header = document.getElementById('header');
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ---------- Hero slideshow ----------
+    const slides = [...document.querySelectorAll('.hero__slide')];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (slides.length > 1 && !reduceMotion) {
+      let current = 0;
+      setInterval(() => {
+        slides.forEach((s) => s.classList.remove('is-leaving'));
+        slides[current].classList.replace('is-active', 'is-leaving');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('is-active');
+      }, 6000);
+    }
+
+    // ---------- Opening hours ----------
+    function openingStatus(now = new Date()) {
+      const mins = now.getHours() * 60 + now.getMinutes();
+      const today = SALON.hours[now.getDay()];
+      if (today && mins < toMins(today[1])) {
+        return mins < toMins(today[0])
+          ? { open: false, text: `Opens today at ${fmtTime(toMins(today[0]))}` }
+          : { open: true, text: `Open now until ${fmtTime(toMins(today[1]))}` };
+      }
+      for (let i = 1; i <= 7; i++) {
+        const dayIndex = (now.getDay() + i) % 7;
+        const day = SALON.hours[dayIndex];
+        if (day) {
+          const when = i === 1 ? 'tomorrow' : DAY_NAMES[dayIndex].slice(0, 3);
+          return { open: false, text: `Opens ${when} at ${fmtTime(toMins(day[0]))}` };
+        }
+      }
+      return { open: false, text: 'Closed' };
+    }
+
+    const status = openingStatus();
+    document.getElementById('open-status-text').textContent = status.text;
+    document.getElementById('open-status').classList.toggle('is-closed', !status.open);
+
+    const hoursList = document.getElementById('menu-hours');
+    [1, 2, 3, 4, 5, 6, 0].forEach((i) => {
+      const hours = SALON.hours[i];
+      hoursList.insertAdjacentHTML('beforeend', `
+        <dt>${DAY_NAMES[i].slice(0, 3)}</dt>
+        <dd>${hours ? `${fmtTime(toMins(hours[0]))} – ${fmtTime(toMins(hours[1]))}` : 'Closed'}</dd>`);
+    });
+
+    // ---------- Menu ----------
+    const menu = document.getElementById('menu');
+    document.getElementById('menu-open').addEventListener('click', () => menu.showModal());
+    menu.querySelector('[data-close-menu]').addEventListener('click', () => menu.close());
+
+    // ---------- Booking ----------
+    const booking = document.getElementById('booking');
+    const form = document.getElementById('booking-form');
+    const body = document.getElementById('booking-body');
+    const steps = [...form.querySelectorAll('[data-step]')];
+    const titleEl = document.getElementById('booking-title');
+    const stepEl = document.getElementById('booking-step');
+    const progressEl = document.getElementById('booking-progress');
+    const summaryEl = document.getElementById('booking-summary');
+    const backBtn = document.getElementById('booking-back');
+    const nextBtn = document.getElementById('booking-next');
+    const dayList = document.getElementById('day-list');
+    const timeList = document.getElementById('time-list');
+
+    const TITLES = ['Choose a service', 'Pick a day & time', 'Your details', 'Request ready'];
+    const state = { step: 1, service: null, day: null, time: null };
+
+    document.getElementById('service-list').innerHTML = SALON.services.map((s, i) => `
+      <label class="option choice">
+        <input type="radio" name="service" value="${i}" />
+        <span>
+          <span class="option__name">${s.name}</span>
+          <span class="option__meta">${s.mins} min · ${s.note}</span>
+        </span>
+        <span class="option__price">${price(s)}</span>
+      </label>`).join('');
+
+    function slotsFor(date, length) {
+      const hours = SALON.hours[date.getDay()];
+      if (!hours) return [];
+      const [open, close] = hours.map(toMins);
+      const now = new Date();
+      const earliest = toKey(date) === toKey(now)
+        ? now.getHours() * 60 + now.getMinutes() + SALON.leadMinutes
+        : 0;
+      const slots = [];
+      for (let t = open; t + length <= close; t += SALON.slotMinutes) {
+        if (t >= earliest) slots.push(t);
+      }
+      return slots;
+    }
+
+    function renderDays() {
+      const today = new Date();
+      let html = '';
+      let firstOpen = null;
+      for (let i = 0; i < SALON.daysAhead; i++) {
+        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+        const key = toKey(date);
+        const available = slotsFor(date, state.service.mins).length > 0;
+        if (available && !firstOpen) firstOpen = key;
+        const dow = i === 0 ? 'Today' : i === 1 ? 'Tmrw' : DAY_NAMES[date.getDay()].slice(0, 3);
+        html += `
+          <label class="day choice">
+            <input type="radio" name="day" value="${key}" ${available ? '' : 'disabled'} ${key === state.day && available ? 'checked' : ''}
+              aria-label="${available ? fmtDate(date) : fmtDate(date) + ', closed'}" />
+            <span>
+              <span class="day__dow">${dow}</span>
+              <span class="day__num">${date.getDate()}</span>
+              <span class="day__mon">${available ? date.toLocaleDateString('en-GB', { month: 'short' }) : 'Closed'}</span>
+            </span>
+          </label>`;
+      }
+      dayList.innerHTML = html;
+
+      // Keep the chosen day if it's still bookable, otherwise jump to the first free one
+      if (!dayList.querySelector('input:checked')) {
+        state.day = firstOpen;
+        const first = dayList.querySelector(`input[value="${firstOpen}"]`);
+        if (first) first.checked = true;
+      }
+    }
+
+    function renderTimes() {
+      if (!state.day) {
+        timeList.innerHTML = '<p class="empty">No free days in the next two weeks — give us a call.</p>';
+        return;
+      }
+      const slots = slotsFor(fromKey(state.day), state.service.mins);
+      if (!slots.includes(state.time)) state.time = null;
+
+      const groups = [['Morning', 0, 720], ['Afternoon', 720, 1020], ['Evening', 1020, 1440]];
+      timeList.innerHTML = groups.map(([label, from, to]) => {
+        const inGroup = slots.filter((t) => t >= from && t < to);
+        if (!inGroup.length) return '';
+        return `
+          <p class="step-label">${label}</p>
+          <div class="times" role="radiogroup" aria-label="${label}">
+            ${inGroup.map((t) => `
+              <label class="time choice">
+                <input type="radio" name="time" value="${t}" ${t === state.time ? 'checked' : ''} />
+                <span>${fmtTime(t)}</span>
+              </label>`).join('')}
+          </div>`;
+      }).join('');
+    }
+
+    function summary() {
+      const s = state.service;
+      if (!s) return 'Pick a service to get started';
+      const when = state.day
+        ? `${fmtDate(fromKey(state.day))}${state.time !== null ? ' at ' + fmtTime(state.time) : ' · pick a time'}`
+        : `${s.mins} min`;
+      return `<strong>${s.name} · ${price(s)}</strong>${state.step === 1 ? s.mins + ' min' : when}`;
+    }
+
+    function update() {
+      const { step } = state;
+      stepEl.textContent = step < 4 ? `Step ${step} of 3` : 'Almost done';
+      titleEl.textContent = TITLES[step - 1];
+      progressEl.style.width = `${(Math.min(step, 3) / 3) * 100}%`;
+      backBtn.style.visibility = step > 1 && step < 4 ? 'visible' : 'hidden';
+      nextBtn.textContent = ['Continue', 'Continue', 'Send request', 'Done'][step - 1];
+      nextBtn.disabled = (step === 1 && !state.service) || (step === 2 && state.time === null);
+      summaryEl.innerHTML = summary();
+    }
+
+    function goTo(step) {
+      state.step = step;
+      steps.forEach((s) => { s.hidden = Number(s.dataset.step) !== step; });
+      if (step === 2) {
+        renderDays();
+        renderTimes();
+      }
+      body.scrollTop = 0;
+      update();
+      titleEl.focus();
+    }
+
+    function setError(input, message) {
+      input.setAttribute('aria-invalid', message ? 'true' : 'false');
+      document.getElementById(input.getAttribute('aria-describedby')).textContent = message;
+      return !message;
+    }
+
+    function validateDetails() {
+      const { name, phone } = form.elements;
+      const nameOk = setError(name, name.value.trim() ? '' : 'Please add your name');
+      const phoneOk = setError(phone, phone.value.replace(/\D/g, '').length >= 10 ? '' : 'Please add a valid mobile number');
+      if (!nameOk) name.focus();
+      else if (!phoneOk) phone.focus();
+      return nameOk && phoneOk;
+    }
+
+    function sendRequest() {
+      const { name, phone, notes } = form.elements;
+      const s = state.service;
+      const when = `${fmtDate(fromKey(state.day))} at ${fmtTime(state.time)}`;
+      const lines = [
+        "Hi! I'd like to book an appointment:",
+        `• Service: ${s.name} (${s.mins} min, ${price(s)})`,
+        `• When: ${when}`,
+        `• Name: ${name.value.trim()}`,
+        `• Phone: ${phone.value.trim()}`,
+      ];
+      if (notes.value.trim()) lines.push(`• Notes: ${notes.value.trim()}`);
+
+      const url = `https://wa.me/${SALON.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`;
+      document.getElementById('whatsapp-link').href = url;
+      document.getElementById('ticket').innerHTML = `
+        <dt>Service</dt><dd>${s.name} · ${price(s)}</dd>
+        <dt>When</dt><dd>${when}</dd>
+        <dt>Name</dt><dd></dd>`;
+      // Name is user input, so set it as text rather than HTML
+      document.querySelector('#ticket dd:last-child').textContent = name.value.trim();
+      window.open(url, '_blank', 'noopener');
+    }
+
+    function resetBooking() {
+      form.reset();
+      Object.assign(state, { step: 1, service: null, day: null, time: null });
+      form.querySelectorAll('[aria-invalid]').forEach((el) => setError(el, ''));
+      goTo(1);
+    }
+
+    function openBooking() {
+      if (SALON.bookingUrl) {
+        window.location.href = SALON.bookingUrl;
+        return;
+      }
+      if (menu.open) menu.close();
+      booking.showModal();
+      update();
+    }
+
+    form.addEventListener('change', (e) => {
+      const { name, value } = e.target;
+      if (name === 'service') state.service = SALON.services[value];
+      if (name === 'day') {
+        state.day = value;
+        renderTimes();
+      }
+      if (name === 'time') state.time = Number(value);
+      update();
+    });
+    form.addEventListener('submit', (e) => e.preventDefault());
+
+    nextBtn.addEventListener('click', () => {
+      if (state.step === 3) {
+        if (!validateDetails()) return;
+        sendRequest();
+      }
+      if (state.step === 4) {
+        booking.close();
+        return;
+      }
+      goTo(state.step + 1);
+    });
+    backBtn.addEventListener('click', () => goTo(state.step - 1));
+    booking.querySelector('[data-close-booking]').addEventListener('click', () => booking.close());
+    booking.addEventListener('close', () => {
+      if (state.step === 4) resetBooking();
+    });
+
+    // Tapping the dimmed area closes either panel
+    [booking, menu].forEach((dialog) => {
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) dialog.close();
+      });
+    });
+
+    document.querySelectorAll('[data-book]').forEach((btn) => btn.addEventListener('click', openBooking));
+
+    // Link straight to the booking sheet with yoursite.com/hero.html#book (handy for an Instagram bio)
+    if (location.hash === '#book') openBooking();
+
+    update();
+  </script>
+</body>
+</html>

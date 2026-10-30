@@ -9,3 +9,9 @@ svc-blowdry https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyq
 svc-extensions https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_122145_9f870016-d5e9-4120-8599-5736ba708aac.png
 svc-bridal https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_122140_713d3fde-f1eb-4db6-8b25-b476ffc93b59.png
 salon-interior https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_111841_9443ab77-9afb-4305-b28b-e85d767cf656.png
+before-balayage https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190902_81874c4f-e2a5-4c7d-8cb7-abed3ec5af56.png
+before-extensions https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190901_565d1251-9633-4d94-b3a8-23109105733c.png
+before-colour https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190902_358523d2-58d3-468f-9345-e5dcfea57da6.png
+team-sophie https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190900_286cdfb7-7b36-477b-b775-4a352306e7ed.png
+team-amara https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190901_b880e4ce-18c6-4069-878e-e7bfd14c761e.png
+team-lily https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190900_4ee8c2e5-aaf7-433b-9a78-fff23175b899.png

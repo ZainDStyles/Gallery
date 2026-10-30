@@ -485,198 +485,182 @@
       to { transform: translateX(-50%); }
     }
 
-    /* ---------- Story ---------- */
-    .story {
-      overflow: hidden; /* keeps the parallax photos from causing sideways scroll */
-      padding: 88px 24px 104px;
-      background: var(--cream);
-      color: var(--ink);
-    }
-    .story__inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .story__top {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px 18px;
-      margin-bottom: 40px;
-    }
-    .story__top .eyebrow {
-      font-size: 0.7rem;
-    }
-    .story__tag {
-      color: var(--accent-deep);
-    }
-    .story__rule {
-      flex: 0 0 64px;
-      height: 1px;
-      background: rgba(15, 13, 11, 0.3);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s;
-    }
-    .story__top.in-view .story__rule {
-      transform: none;
-    }
-
-    .story__statement {
-      max-width: 16ch;
-      margin: 0;
-      font-family: var(--serif);
-      font-weight: 400;
-      font-size: clamp(2.6rem, 6.4vw, 5.6rem);
-      line-height: 1.02;
-      letter-spacing: -0.01em;
-    }
-    /* Each word starts faint and lights up as the section scrolls into view */
-    .word {
-      opacity: 0.14;
-      transition: opacity 0.35s ease;
-    }
-    .word.is-lit {
-      opacity: 1;
-    }
-
-    .story__grid {
-      display: grid;
-      grid-template-areas: "intro" "media" "pillars" "cta";
-      gap: 48px;
-      margin-top: 40px;
-    }
-    .story__intro {
-      grid-area: intro;
-      max-width: 520px;
-      margin: 0;
-      font-size: 1.05rem;
-      line-height: 1.75;
-      color: rgba(15, 13, 11, 0.68);
-    }
-
-    .story__media {
-      grid-area: media;
+    /* ---------- Services ---------- */
+    .services {
       position: relative;
-      padding-bottom: 22%;
-    }
-    .story__img {
-      margin: 0;
-      overflow: hidden;
-      aspect-ratio: 3 / 4;
-      border-radius: 999px 999px 0 0; /* arch, like a salon mirror */
-      background: #e7ded1;
-      clip-path: inset(100% 0 0 0);
-      transition: clip-path 1.4s cubic-bezier(0.7, 0, 0.2, 1);
-    }
-    .story__img img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(1.25);
-      transition: transform 1.8s cubic-bezier(0.2, 0.7, 0.2, 1);
-    }
-    .story__img.in-view {
-      clip-path: inset(0 0 0 0);
-    }
-    .story__img.in-view img {
-      transform: none;
-    }
-    .story__img--main {
-      width: 76%;
-      margin-left: auto;
-    }
-    .story__img--small {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 44%;
-      border: 8px solid var(--cream);
-      transition-delay: 0.25s;
-    }
-    .story__img--small img {
-      transition-delay: 0.25s;
-    }
-
-    .spin-badge {
-      position: absolute;
-      top: 4%;
-      left: 2%;
-      display: grid;
-      place-items: center;
-      width: 104px;
-      height: 104px;
-      padding: 0;
-      border: 0;
-      border-radius: 50%;
       background: var(--ink);
       color: var(--cream);
-      box-shadow: 0 14px 30px -14px rgba(15, 13, 11, 0.6);
-      transition: transform 0.3s ease;
     }
-    .spin-badge:hover {
-      transform: scale(1.06);
+    .services__pin {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+      padding: 96px 0 56px;
     }
-    .spin-badge svg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      animation: spin 18s linear infinite;
+    /* With motion on, the section sticks to the screen while scrolling slides the cards sideways */
+    .services.is-pinned .services__pin {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      height: 100svh;
+      overflow: hidden;
+      padding: calc(var(--header-h) + 12px) 0 28px;
     }
-    .spin-badge text {
-      fill: currentColor;
-      font-family: var(--sans);
-      font-size: 9px;
-      font-weight: 500;
+
+    .services__head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 24px;
     }
-    .spin-badge__star {
-      font-size: 1.2rem;
+    .services__eyebrow {
+      margin-bottom: 10px;
       color: var(--accent);
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .pillars {
-      grid-area: pillars;
+    .services__title {
       margin: 0;
-      padding: 0;
-      list-style: none;
-      border-top: 1px solid var(--line-dark);
-    }
-    .pillar {
-      display: grid;
-      grid-template-columns: 52px 1fr;
-      gap: 12px;
-      padding: 22px 0;
-      border-bottom: 1px solid var(--line-dark);
-    }
-    .pillar__num {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 1.5rem;
-      line-height: 1.1;
-      color: var(--accent-deep);
-    }
-    .pillar h3 {
-      margin: 0 0 6px;
       font-family: var(--serif);
       font-weight: 400;
-      font-size: 1.6rem;
-      line-height: 1.1;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      line-height: 0.95;
     }
-    .pillar p {
+    .services__title em {
+      padding-right: 0.06em;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .services__count {
       margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: rgba(15, 13, 11, 0.65);
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+    .services__count span {
+      font-size: 2rem;
+      color: var(--cream);
     }
 
-    .story__cta {
-      grid-area: cta;
-      justify-self: start;
+    .services__viewport {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    .services__viewport::-webkit-scrollbar {
+      display: none;
+    }
+    .services.is-pinned .services__viewport {
+      overflow: visible;
+    }
+    .services__track {
+      display: flex;
+      gap: 18px;
+      width: max-content;
+      padding: 0 24px;
+      will-change: transform;
+    }
+
+    .svc-card {
+      flex: 0 0 auto;
+      width: min(72vw, 340px);
+      scroll-snap-align: start;
+      scroll-margin-left: 24px;
+    }
+    .svc-card__img {
+      position: relative;
+      height: clamp(200px, calc(100svh - 430px), 540px);
+      margin: 0;
+      overflow: hidden;
+      border-radius: 999px 999px 18px 18px; /* arched, like a salon mirror */
+      background: #2a231d;
+    }
+    .svc-card__img img {
+      display: block;
+      width: 120%;
+      height: 100%;
+      margin-left: -10%;
+      object-fit: cover;
+      transform: translateX(var(--shift, 0px)) scale(1.02);
+      transition: scale 0.6s ease;
+    }
+    .svc-card:hover .svc-card__img img {
+      scale: 1.06;
+    }
+    .svc-card__body {
+      padding: 18px 4px 0;
+    }
+    .svc-card__num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+    .svc-card__name {
+      margin: 2px 0 8px;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 2.1rem;
+      line-height: 1;
+    }
+    .svc-card__desc {
+      display: -webkit-box;
+      margin: 0;
+      overflow: hidden;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      min-height: 3em; /* two lines, so every card's footer lines up */
+      color: var(--text-dim);
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .svc-card__foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      font-size: 0.74rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .svc-card__book {
+      padding: 8px 0;
+      border: 0;
+      background: none;
+      color: var(--accent-light);
+      font-size: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+    }
+    .svc-card__book span {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+    .svc-card__book:hover span {
+      transform: translateX(4px);
+    }
+
+    .services__progress {
+      height: 1px;
+      margin: 4px 24px 0;
+      background: var(--line);
+    }
+    .services__progress span {
+      display: block;
+      height: 100%;
+      background: var(--accent-gradient);
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    .services:not(.is-pinned) .services__progress,
+    .services:not(.is-pinned) .services__count {
+      display: none;
     }
 
     /* Slides up into place the first time it scrolls into view */
@@ -692,23 +676,22 @@
     }
 
     @media (min-width: 900px) {
-      .story {
-        padding: 140px 40px 160px;
+      .services__head,
+      .services__track {
+        padding-inline: 40px;
       }
-      .story__grid {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-        grid-template-rows: auto auto 1fr;
-        grid-template-areas: "intro media" "pillars media" "cta media";
-        gap: 40px 88px;
-        margin-top: 72px;
+      .services__progress {
+        margin-inline: 40px;
       }
-      .spin-badge {
-        width: 128px;
-        height: 128px;
+      .svc-card {
+        scroll-margin-left: 40px;
+      }
+      .svc-card__img {
+        height: clamp(240px, calc(100svh - 480px), 540px);
       }
     }
 
-    /* ---------- Menu ---------- */
+    /* ---------- Menu ---------- */    /* ---------- Menu ---------- */
     .menu {
       width: 100%;
       max-width: none;
@@ -1185,18 +1168,13 @@
         animation: none;
       }
       .marquee__track,
-      .spin-badge svg,
       .sheet[open],
       .menu[open] {
         animation: none;
       }
-      .fade-up,
-      .story__rule,
-      .story__img,
-      .story__img img {
+      .fade-up {
         opacity: 1;
         transform: none;
-        clip-path: none;
         transition: none;
       }
     }
@@ -1222,8 +1200,8 @@
       <div class="hero__media" aria-hidden="true">
         <!-- Tall files for phones, wide for everything else. The still shows while the video loads. -->
         <picture>
-          <source media="(max-aspect-ratio: 4/5)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_101007_0e955ab5-5704-44ef-a8fb-f471d18209ea_min.webp" />
-          <img class="hero__poster" src="https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_101007_f79040e6-3eb5-4c7b-aae2-29b20b919f57_min.webp" alt="" fetchpriority="high" />
+          <source media="(max-aspect-ratio: 4/5)" srcset="assets/hero-1-tall.jpg" />
+          <img class="hero__poster" src="assets/hero-1-wide.jpg" alt="" fetchpriority="high" />
         </picture>
         <!-- Two players take turns so each clip can crossfade into the next -->
         <video class="hero__video" muted playsinline preload="auto"></video>
@@ -1287,73 +1265,97 @@
       </div>
     </div>
 
-    <section class="story" id="story" aria-labelledby="story-title">
-      <div class="story__inner">
-        <div class="story__top" data-reveal>
-          <p class="eyebrow">Our story</p>
-          <span class="story__rule" aria-hidden="true"></span>
-          <p class="eyebrow story__tag">Hair · Colour · Care</p>
-        </div>
-
-        <h2 class="story__statement" id="story-title">
-          Beautiful hair, made with <em>patience, precision and a whole lot of care.</em>
-        </h2>
-
-        <div class="story__grid">
-          <p class="story__intro fade-up" data-reveal>
-            Atelier is an independent hair salon in Your Town. From soft balayage and lived-in colour to sleek
-            blow-dries and bridal styling, every appointment starts with a proper consultation and ends with
-            hair you can recreate at home. All hair types are welcome.
-          </p>
-
-          <div class="story__media">
-            <figure class="story__img story__img--main" data-reveal data-parallax="0.05">
-              <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_111838_83933a61-36c0-4d55-9f61-a0ff46d5cb37.png"
-                alt="Glossy caramel balayage waves, seen from behind" loading="lazy" />
-            </figure>
-            <figure class="story__img story__img--small" data-reveal data-parallax="-0.07">
-              <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_111841_9443ab77-9afb-4305-b28b-e85d767cf656.png"
-                alt="Inside the salon: arched mirrors and blush velvet chairs" loading="lazy" />
-            </figure>
-
-            <button class="spin-badge" data-book aria-label="Book a consultation">
-              <svg viewBox="0 0 120 120" aria-hidden="true">
-                <defs><path id="badge-circle" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" /></defs>
-                <text><textPath href="#badge-circle" textLength="276" lengthAdjust="spacing">BOOK A CONSULTATION ✦ BOOK A CONSULTATION ✦</textPath></text>
-              </svg>
-              <span class="spin-badge__star" aria-hidden="true">✦</span>
-            </button>
+    <section class="services" id="services" aria-labelledby="services-title">
+      <div class="services__pin">
+        <div class="services__head">
+          <div>
+            <p class="eyebrow services__eyebrow fade-up" data-reveal>What we do</p>
+            <h2 class="services__title fade-up" data-reveal style="--i: 1" id="services-title">Signature <em>services</em></h2>
           </div>
-
-          <ol class="pillars">
-            <li class="pillar fade-up" data-reveal style="--i: 0">
-              <span class="pillar__num">01</span>
-              <div>
-                <h3>Consultation first</h3>
-                <p>We talk through your hair, your routine and your budget before a single strand is cut.</p>
-              </div>
-            </li>
-            <li class="pillar fade-up" data-reveal style="--i: 1">
-              <span class="pillar__num">02</span>
-              <div>
-                <h3>Colour made to grow out</h3>
-                <p>Soft, blended placement means fewer trips back and no harsh regrowth lines.</p>
-              </div>
-            </li>
-            <li class="pillar fade-up" data-reveal style="--i: 2">
-              <span class="pillar__num">03</span>
-              <div>
-                <h3>Every hair type</h3>
-                <p>Straight, wavy, curly or coily — we work with all of it, and show you how to style it at home.</p>
-              </div>
-            </li>
-          </ol>
-
-          <button class="btn btn--dark story__cta fade-up" data-reveal data-book>Book a consultation</button>
+          <p class="services__count" aria-hidden="true"><span id="services-current">01</span> / 06</p>
         </div>
+
+        <div class="services__viewport">
+          <div class="services__track" id="services-track">
+            <article class="svc-card">
+              <figure class="svc-card__img"><img src="assets/svc-balayage.jpg" alt="Soft caramel balayage waves" loading="lazy" /></figure>
+              <div class="svc-card__body">
+                <span class="svc-card__num">01</span>
+                <h3 class="svc-card__name">Balayage</h3>
+                <p class="svc-card__desc">Hand-painted, sun-kissed colour that grows out softly.</p>
+                <div class="svc-card__foot">
+                  <span>from £120</span>
+                  <button class="svc-card__book" data-service="4">Book <span aria-hidden="true">→</span></button>
+                </div>
+              </div>
+            </article>
+            <article class="svc-card">
+              <figure class="svc-card__img"><img src="assets/svc-colour.jpg" alt="Glossy copper-auburn hair" loading="lazy" /></figure>
+              <div class="svc-card__body">
+                <span class="svc-card__num">02</span>
+                <h3 class="svc-card__name">Colour</h3>
+                <p class="svc-card__desc">Rich, glossy all-over colour and root touch-ups.</p>
+                <div class="svc-card__foot">
+                  <span>from £60</span>
+                  <button class="svc-card__book" data-service="2">Book <span aria-hidden="true">→</span></button>
+                </div>
+              </div>
+            </article>
+            <article class="svc-card">
+              <figure class="svc-card__img"><img src="assets/svc-blowdry.jpg" alt="A sleek, glossy bob" loading="lazy" /></figure>
+              <div class="svc-card__body">
+                <span class="svc-card__num">03</span>
+                <h3 class="svc-card__name">Cut & blow-dry</h3>
+                <p class="svc-card__desc">A precision cut, finished with a bouncy, glossy blow-dry.</p>
+                <div class="svc-card__foot">
+                  <span>£45</span>
+                  <button class="svc-card__book" data-service="0">Book <span aria-hidden="true">→</span></button>
+                </div>
+              </div>
+            </article>
+            <article class="svc-card">
+              <figure class="svc-card__img"><img src="assets/svc-extensions.jpg" alt="Very long, glossy brunette waves" loading="lazy" /></figure>
+              <div class="svc-card__body">
+                <span class="svc-card__num">04</span>
+                <h3 class="svc-card__name">Extensions</h3>
+                <p class="svc-card__desc">Length and volume, colour-matched to blend seamlessly.</p>
+                <div class="svc-card__foot">
+                  <span>Free consult</span>
+                  <button class="svc-card__book" data-service="6">Book <span aria-hidden="true">→</span></button>
+                </div>
+              </div>
+            </article>
+            <article class="svc-card">
+              <figure class="svc-card__img"><img src="assets/svc-bridal.jpg" alt="A soft bridal chignon with pearl pins" loading="lazy" /></figure>
+              <div class="svc-card__body">
+                <span class="svc-card__num">05</span>
+                <h3 class="svc-card__name">Bridal</h3>
+                <p class="svc-card__desc">Wedding-day hair, with a trial run so there are no surprises.</p>
+                <div class="svc-card__foot">
+                  <span>Trial £85</span>
+                  <button class="svc-card__book" data-service="7">Book <span aria-hidden="true">→</span></button>
+                </div>
+              </div>
+            </article>
+            <article class="svc-card">
+              <figure class="svc-card__img"><img src="assets/salon-interior.jpg" alt="Inside the salon: arched mirrors and blush velvet chairs" loading="lazy" /></figure>
+              <div class="svc-card__body">
+                <span class="svc-card__num">06</span>
+                <h3 class="svc-card__name">Full menu</h3>
+                <p class="svc-card__desc">Keratin smoothing, highlights, blow-dries and more.</p>
+                <div class="svc-card__foot">
+                  <span>All prices</span>
+                  <button class="svc-card__book" data-prices>See menu <span aria-hidden="true">→</span></button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="services__progress" aria-hidden="true"><span id="services-bar"></span></div>
       </div>
     </section>
-  </main>
+  </main>  </main>
 
   <!-- Full-screen menu -->
   <dialog class="menu" id="menu" aria-label="Menu">
@@ -1496,6 +1498,7 @@
         { name: 'Balayage', mins: 180, price: 'from £120', note: 'Hand-painted, soft grown-out colour' },
         { name: 'Keratin smoothing', mins: 150, price: '£130', note: 'Frizz-free for up to 3 months' },
         { name: 'Extensions consultation', mins: 30, price: 'Free', note: 'Colour match and a quote' },
+        { name: 'Bridal hair trial', mins: 90, price: '£85', note: 'A run-through of your wedding-day style' },
       ],
     };
 
@@ -1525,17 +1528,11 @@
     onScroll();
 
     // ---------- Hero video ----------
-    // Clips play in order, crossfading, then loop. These are hosted by Higgsfield for now —
-    // swap them for your own copies (e.g. 'assets/hero-1-wide.mp4') before going live.
+    // Clips play in order, crossfading, then loop. The files in assets/ are made by the
+    // "Fetch salon media" GitHub Action from the list in assets/media.txt.
     const HERO_CLIPS = {
-      wide: [
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_c52eb541-0ef0-45e8-ad16-42ee6fe6c5bb.mp4', // balayage
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_83c411e1-7097-4972-89db-30bec98ff22b.mp4', // curls
-      ],
-      tall: [
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_cf367a94-959a-4758-9d43-91a1e23e3158.mp4', // balayage
-        'https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_48e47724-b455-4256-a378-e54759ec021e.mp4', // curls
-      ],
+      wide: ['assets/hero-1-wide.mp4', 'assets/hero-2-wide.mp4'],
+      tall: ['assets/hero-1-tall.mp4', 'assets/hero-2-tall.mp4'],
     };
     const CROSSFADE = 1.2; // seconds — matches the .hero__video opacity transition
 
@@ -1608,36 +1605,38 @@
 
     // ---------- Scroll animations ----------
     const revealEls = document.querySelectorAll('[data-reveal]');
-    const statement = document.getElementById('story-title');
-    const parallaxEls = [...document.querySelectorAll('[data-parallax]')];
+    const services = document.getElementById('services');
+    const servicesPin = services.querySelector('.services__pin');
+    const servicesTrack = document.getElementById('services-track');
+    const serviceCards = [...servicesTrack.children];
+    const servicesBar = document.getElementById('services-bar');
+    const servicesCurrent = document.getElementById('services-current');
+    let servicesDistance = 0;
 
-    // Wrap every word in a span (keeping the <em>) so they can light up one by one
-    function splitWords(el) {
-      const words = [];
-      [...el.childNodes].forEach((node) => {
-        if (node.nodeType !== Node.TEXT_NODE) {
-          words.push(...splitWords(node));
-          return;
-        }
-        const frag = document.createDocumentFragment();
-        node.textContent.split(/(\s+)/).forEach((part) => {
-          if (!part) return;
-          if (!part.trim()) {
-            frag.append(' ');
-            return;
-          }
-          const span = document.createElement('span');
-          span.className = 'word';
-          span.textContent = part;
-          words.push(span);
-          frag.append(span);
-        });
-        node.replaceWith(frag);
+    // The section is made tall enough that scrolling through it moves the cards their full width
+    function measureServices() {
+      servicesDistance = Math.max(servicesTrack.scrollWidth - servicesPin.clientWidth, 0);
+      services.style.height = `${servicesPin.offsetHeight + servicesDistance}px`;
+    }
+
+    function updateServices() {
+      const scrolled = -services.getBoundingClientRect().top;
+      const progress = servicesDistance ? Math.min(Math.max(scrolled / servicesDistance, 0), 1) : 0;
+      servicesTrack.style.transform = `translateX(${(-progress * servicesDistance).toFixed(1)}px)`;
+      servicesBar.style.transform = `scaleX(${progress.toFixed(3)})`;
+      servicesCurrent.textContent = String(Math.round(progress * (serviceCards.length - 1)) + 1).padStart(2, '0');
+
+      // Each photo drifts inside its frame for a parallax feel
+      const mid = window.innerWidth / 2;
+      serviceCards.forEach((card) => {
+        const box = card.getBoundingClientRect();
+        const shift = ((box.left + box.width / 2 - mid) / window.innerWidth) * -36;
+        card.style.setProperty('--shift', `${shift.toFixed(1)}px`);
       });
-      return words;
     }
 
     if (reduceMotion) {
+      // No pinning: the cards stay as a normal swipeable row
       revealEls.forEach((el) => el.classList.add('in-view'));
     } else {
       const observer = new IntersectionObserver((entries) => {
@@ -1649,45 +1648,27 @@
       }, { rootMargin: '0px 0px -12% 0px' });
       revealEls.forEach((el) => observer.observe(el));
 
-      const words = splitWords(statement);
-      let lit = -1;
+      services.classList.add('is-pinned');
+      measureServices();
+
       let ticking = false;
-
-      function updateScrollEffects() {
-        ticking = false;
-        const vh = window.innerHeight;
-
-        // Words light up from when the statement's top is 85% down the screen until its bottom reaches 45%
-        const rect = statement.getBoundingClientRect();
-        const start = vh * 0.85;
-        const range = start - vh * 0.45 + rect.height;
-        const progress = Math.min(Math.max((start - rect.top) / range, 0), 1);
-        const count = Math.round(progress * words.length);
-        if (count !== lit) {
-          words.forEach((w, i) => w.classList.toggle('is-lit', i < count));
-          lit = count;
-        }
-
-        // Photos drift at different speeds relative to the middle of the screen
-        parallaxEls.forEach((el) => {
-          const box = el.getBoundingClientRect();
-          if (box.bottom < -200 || box.top > vh + 200) return;
-          const offset = (box.top + box.height / 2 - vh / 2) * Number(el.dataset.parallax);
-          el.style.transform = `translateY(${offset.toFixed(1)}px)`;
-        });
-      }
-
       const requestUpdate = () => {
         if (ticking) return;
         ticking = true;
-        requestAnimationFrame(updateScrollEffects);
+        requestAnimationFrame(() => {
+          ticking = false;
+          updateServices();
+        });
       };
       window.addEventListener('scroll', requestUpdate, { passive: true });
-      window.addEventListener('resize', requestUpdate);
-      updateScrollEffects();
+      window.addEventListener('resize', () => {
+        measureServices();
+        requestUpdate();
+      });
+      updateServices();
     }
 
-    // ---------- Opening hours ----------
+    // ---------- Opening hours ----------    // ---------- Opening hours ----------
     function openingStatus(now = new Date()) {
       const mins = now.getHours() * 60 + now.getMinutes();
       const today = SALON.hours[now.getDay()];

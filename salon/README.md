@@ -41,5 +41,8 @@ Use the salon's real photos wherever possible. They sell far better than AI imag
 - Or list a download link in `assets/media.txt` and push. The "Fetch salon media"
   GitHub Action downloads it, shrinks it for the web and commits it for you.
   It skips files that already exist, so delete the old file first to replace one.
-- Hero videos: one tall (9:16) and one wide (16:9) version of each clip, named
-  `hero-1-tall.mp4`, `hero-1-wide.mp4` and so on. Keep each under about 1 MB.
+- Hero videos: add a tall (9:16) and a wide (16:9) link for each clip to `media.txt`
+  as `hero-1-tall`, `hero-1-wide` and so on. The Action makes three versions of each:
+  full-HD AV1 (Chrome, Firefox, Android), full-HD HEVC (Safari, iPhone) and a 720p
+  H.264 backup, plus a WebP still of the first frame. The page picks the smallest one
+  each browser can play.

@@ -1881,8 +1881,8 @@
       <div class="hero__media" aria-hidden="true">
         <!-- Tall files for phones, wide for everything else. The still shows while the video loads. -->
         <picture>
-          <source media="(max-aspect-ratio: 4/5)" srcset="assets/hero-1-tall.jpg" />
-          <img class="hero__poster" src="assets/hero-1-wide.jpg" alt="" fetchpriority="high" />
+          <source media="(max-aspect-ratio: 4/5)" srcset="assets/hero-1-tall.webp" />
+          <img class="hero__poster" src="assets/hero-1-wide.webp" alt="" fetchpriority="high" />
         </picture>
         <!-- Two players take turns so each clip can crossfade into the next -->
         <video class="hero__video" muted playsinline preload="auto"></video>
@@ -2362,9 +2362,17 @@
     // Clips play in order, crossfading, then loop. The files in assets/ are made by the
     // "Fetch salon media" GitHub Action from the list in assets/media.txt.
     const HERO_CLIPS = {
-      wide: ['assets/hero-1-wide.mp4', 'assets/hero-2-wide.mp4'],
-      tall: ['assets/hero-1-tall.mp4', 'assets/hero-2-tall.mp4'],
+      wide: ['assets/hero-1-wide', 'assets/hero-2-wide'],
+      tall: ['assets/hero-1-tall', 'assets/hero-2-tall'],
     };
+    // Each clip comes in three formats; use the smallest one this browser can play:
+    // AV1 (Chrome, Firefox, Android), then HEVC (Safari, iPhone), then 720p H.264 for anything older
+    const VIDEO_EXT = (() => {
+      const test = document.createElement('video');
+      if (test.canPlayType('video/mp4; codecs="av01.0.08M.08"')) return '.av1.mp4';
+      if (test.canPlayType('video/mp4; codecs="hvc1.1.6.L120.90"')) return '.hevc.mp4';
+      return '.mp4';
+    })();
     const CROSSFADE = 1.2; // seconds — matches the .hero__video opacity transition
 
     const players = [...document.querySelectorAll('.hero__video')];
@@ -2377,14 +2385,17 @@
     let active = 0;
 
     function startClips() {
-      clips = tallScreen.matches ? HERO_CLIPS.tall : HERO_CLIPS.wide;
+      clips = (tallScreen.matches ? HERO_CLIPS.tall : HERO_CLIPS.wide).map((clip) => clip + VIDEO_EXT);
       clipIndex = 0;
       active = 0;
       players.forEach((p, n) => {
         p.classList.remove('is-playing');
         p.style.zIndex = n === 0 ? 2 : 1;
-        p.src = clips[n % clips.length];
       });
+      players[0].src = clips[0];
+      // The second clip waits until the first is playing, so they don't fight over the connection
+      players[1].removeAttribute('src');
+      players[1].load();
       // Browsers can refuse autoplay (e.g. iPhone Low Power Mode) — the still just stays up
       players[0].play().catch(() => {});
     }
@@ -2420,6 +2431,8 @@
           p.classList.add('is-playing');
           videoToggle.hidden = false;
           setVideoIcon();
+          const other = players[1 - n];
+          if (clips.length > 1 && !other.getAttribute('src')) other.src = clips[(clipIndex + 1) % clips.length];
         });
         p.addEventListener('pause', () => n === active && setVideoIcon());
         p.addEventListener('timeupdate', () => {

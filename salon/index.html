@@ -251,6 +251,7 @@
       content: "";
       position: absolute;
       inset: 0;
+      z-index: 3;
       background:
         linear-gradient(180deg, rgba(15, 13, 11, 0.7) 0%, rgba(15, 13, 11, 0) 24%),
         linear-gradient(0deg, rgba(15, 13, 11, 0.95) 0%, rgba(15, 13, 11, 0.6) 42%, rgba(15, 13, 11, 0.1) 75%),
@@ -988,11 +989,12 @@
       <div class="hero__media" aria-hidden="true">
         <!-- Tall files for phones, wide for everything else. The still shows while the video loads. -->
         <picture>
-          <source media="(max-aspect-ratio: 4/5)" srcset="assets/hero-tall.jpg" />
-          <img class="hero__poster" src="assets/hero-wide.jpg" alt="" fetchpriority="high" />
+          <source media="(max-aspect-ratio: 4/5)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_101007_0e955ab5-5704-44ef-a8fb-f471d18209ea_min.webp" />
+          <img class="hero__poster" src="https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_101007_f79040e6-3eb5-4c7b-aae2-29b20b919f57_min.webp" alt="" fetchpriority="high" />
         </picture>
-        <video class="hero__video" id="hero-video" muted loop playsinline preload="auto"
-          data-tall="assets/hero-tall.mp4" data-wide="assets/hero-wide.mp4"></video>
+        <!-- Two players take turns so each clip can crossfade into the next -->
+        <video class="hero__video" muted playsinline preload="auto"></video>
+        <video class="hero__video" muted playsinline preload="auto"></video>
       </div>
 
       <div class="hero__content">
@@ -1223,23 +1225,61 @@
     onScroll();
 
     // ---------- Hero video ----------
-    const video = document.getElementById('hero-video');
+    // Clips play in order, crossfading, then loop. These are hosted by Higgsfield for now —
+    // swap them for your own copies (e.g. 'assets/hero-1-wide.mp4') before going live.
+    const HERO_CLIPS = {
+      wide: [
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_c52eb541-0ef0-45e8-ad16-42ee6fe6c5bb.mp4', // balayage
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_83c411e1-7097-4972-89db-30bec98ff22b.mp4', // curls
+      ],
+      tall: [
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_cf367a94-959a-4758-9d43-91a1e23e3158.mp4', // balayage
+        'https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_48e47724-b455-4256-a378-e54759ec021e.mp4', // curls
+      ],
+    };
+    const CROSSFADE = 1.2; // seconds — matches the .hero__video opacity transition
+
+    const players = [...document.querySelectorAll('.hero__video')];
     const videoToggle = document.getElementById('video-toggle');
     const tallScreen = window.matchMedia('(max-aspect-ratio: 4/5)');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const saveData = navigator.connection && navigator.connection.saveData;
+    let clips = [];
+    let clipIndex = 0;
+    let active = 0;
 
-    function loadVideo() {
-      const src = tallScreen.matches ? video.dataset.tall : video.dataset.wide;
-      if (video.getAttribute('src') === src) return;
-      video.classList.remove('is-playing');
-      video.src = src;
+    function startClips() {
+      clips = tallScreen.matches ? HERO_CLIPS.tall : HERO_CLIPS.wide;
+      clipIndex = 0;
+      active = 0;
+      players.forEach((p, n) => {
+        p.classList.remove('is-playing');
+        p.style.zIndex = n === 0 ? 2 : 1;
+        p.src = clips[n % clips.length];
+      });
       // Browsers can refuse autoplay (e.g. iPhone Low Power Mode) — the still just stays up
-      video.play().catch(() => {});
+      players[0].play().catch(() => {});
+    }
+
+    // Just before the active clip ends, fade the other player in on top of it
+    function crossfade(player) {
+      const next = players[1 - active];
+      clipIndex = (clipIndex + 1) % clips.length;
+      active = 1 - active;
+      next.style.zIndex = 2;
+      player.style.zIndex = 1;
+      next.currentTime = 0;
+      next.play().catch(() => {});
+      setTimeout(() => {
+        player.pause();
+        player.classList.remove('is-playing');
+        const upcoming = clips[(clipIndex + 1) % clips.length];
+        if (player.getAttribute('src') !== upcoming) player.src = upcoming;
+      }, CROSSFADE * 1000);
     }
 
     function setVideoIcon() {
-      const paused = video.paused;
+      const paused = players[active].paused;
       videoToggle.querySelector('[data-icon="pause"]').hidden = paused;
       videoToggle.querySelector('[data-icon="play"]').hidden = !paused;
       videoToggle.setAttribute('aria-label', paused ? 'Play background video' : 'Pause background video');
@@ -1247,15 +1287,23 @@
 
     // Skip the video for people who've asked for less motion or less data
     if (!reduceMotion && !saveData) {
-      video.addEventListener('playing', () => {
-        video.classList.add('is-playing');
-        videoToggle.hidden = false;
+      players.forEach((p, n) => {
+        p.addEventListener('playing', () => {
+          p.classList.add('is-playing');
+          videoToggle.hidden = false;
+          setVideoIcon();
+        });
+        p.addEventListener('pause', () => n === active && setVideoIcon());
+        p.addEventListener('timeupdate', () => {
+          if (n === active && p.duration - p.currentTime <= CROSSFADE) crossfade(p);
+        });
       });
-      video.addEventListener('play', setVideoIcon);
-      video.addEventListener('pause', setVideoIcon);
-      videoToggle.addEventListener('click', () => (video.paused ? video.play() : video.pause()));
-      tallScreen.addEventListener('change', loadVideo);
-      loadVideo();
+      videoToggle.addEventListener('click', () => {
+        const p = players[active];
+        p.paused ? p.play() : p.pause();
+      });
+      tallScreen.addEventListener('change', startClips);
+      startClips();
     }
 
     // ---------- Opening hours ----------

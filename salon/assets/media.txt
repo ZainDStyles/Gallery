@@ -15,3 +15,5 @@ before-colour https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRF
 team-sophie https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190900_286cdfb7-7b36-477b-b775-4a352306e7ed.png
 team-amara https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_190901_b880e4ce-18c6-4069-878e-e7bfd14c761e.png
 team-lily https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_191546_86be7dcb-4220-4275-9539-51b81e172be7.png
+hero-2-warm-tall https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_48e47724-b455-4256-a378-e54759ec021e.mp4 crop=iw-24:ih-24,scale=iw+24:ih+24,colorbalance=rs=0.06:bs=-0.06:rm=0.07:bm=-0.07:rh=0.04:bh=-0.05,eq=brightness=0.02
+hero-2-warm-wide https://d8j0ntlcm91z4.cloudfront.net/user_3L0KjgQ7XIxln2r4ckyx8PRFyqB/hf_20261030_105340_83c411e1-7097-4972-89db-30bec98ff22b.mp4 crop=iw-24:ih-24,scale=iw+24:ih+24,colorbalance=rs=0.06:bs=-0.06:rm=0.07:bm=-0.07:rh=0.04:bh=-0.05,eq=brightness=0.02

@@ -254,10 +254,17 @@
       height: 100%;
       object-fit: cover;
     }
-    /* The still shows instantly; the video fades in over it once it is actually playing */
+    /* The still shows instantly; the video fades in over it once it is actually playing.
+       Once the video is running the still is hidden, so between clips the picture dips to dark. */
+    .hero__poster {
+      transition: opacity 0.6s ease;
+    }
+    .hero__media.is-live .hero__poster {
+      opacity: 0;
+    }
     .hero__video {
       opacity: 0;
-      transition: opacity 1.2s ease;
+      transition: opacity 0.7s ease;
     }
     .hero__video.is-playing {
       opacity: 1;
@@ -413,7 +420,8 @@
       width: 14px;
       height: 14px;
     }
-    .video-toggle[hidden] {
+    .video-toggle[hidden],
+    .video-toggle svg[hidden] {
       display: none;
     }
 
@@ -2374,8 +2382,9 @@
       if (test.canPlayType('video/mp4; codecs="hvc1.1.6.L120.90"')) return '.hevc.mp4';
       return '.mp4';
     })();
-    const CROSSFADE = 1.2; // seconds — matches the .hero__video opacity transition
+    const FADE = 0.7; // seconds — matches the .hero__video opacity transition
 
+    const heroMedia = document.querySelector('.hero__media');
     const players = [...document.querySelectorAll('.hero__video')];
     const videoToggle = document.getElementById('video-toggle');
     const tallScreen = window.matchMedia('(max-aspect-ratio: 4/5)');
@@ -2384,45 +2393,45 @@
     let clips = [];
     let clipIndex = 0;
     let active = 0;
+    let userPaused = false;
 
     function startClips() {
       clips = (tallScreen.matches ? HERO_CLIPS.tall : HERO_CLIPS.wide).map((clip) => clip + VIDEO_EXT);
       clipIndex = 0;
       active = 0;
-      players.forEach((p, n) => {
-        p.classList.remove('is-playing');
-        p.style.zIndex = n === 0 ? 2 : 1;
-      });
+      heroMedia.classList.remove('is-live');
+      players.forEach((p) => p.classList.remove('is-playing'));
+      players[0].loop = clips.length === 1;
       players[0].src = clips[0];
       // The second clip waits until the first is playing, so they don't fight over the connection
       players[1].removeAttribute('src');
       players[1].load();
       // Browsers can refuse autoplay (e.g. iPhone Low Power Mode) — the still just stays up
-      players[0].play().catch(() => {});
+      if (!userPaused) players[0].play().catch(() => {});
     }
 
-    // Just before the active clip ends, fade the other player in on top of it
-    function crossfade(player) {
+    // Near the end of a clip, fade it to dark, then start the next clip from its first frame.
+    // Dipping through dark (rather than blending) stops two faces overlapping for a moment.
+    function switchClip(player) {
       const next = players[1 - active];
-      clipIndex = (clipIndex + 1) % clips.length;
       active = 1 - active;
-      next.style.zIndex = 2;
-      player.style.zIndex = 1;
-      next.currentTime = 0;
-      next.play().catch(() => {});
+      clipIndex = (clipIndex + 1) % clips.length;
+      player.classList.remove('is-playing');
       setTimeout(() => {
         player.pause();
-        player.classList.remove('is-playing');
+        // Rewind it while it's hidden, so its next turn starts cleanly
         const upcoming = clips[(clipIndex + 1) % clips.length];
         if (player.getAttribute('src') !== upcoming) player.src = upcoming;
-      }, CROSSFADE * 1000);
+        else player.currentTime = 0;
+        if (userPaused) next.classList.add('is-playing'); // show its first frame, paused
+        else next.play().catch(() => {});
+      }, FADE * 1000);
     }
 
     function setVideoIcon() {
-      const paused = players[active].paused;
-      videoToggle.querySelector('[data-icon="pause"]').hidden = paused;
-      videoToggle.querySelector('[data-icon="play"]').hidden = !paused;
-      videoToggle.setAttribute('aria-label', paused ? 'Play background video' : 'Pause background video');
+      videoToggle.querySelector('[data-icon="pause"]').toggleAttribute('hidden', userPaused);
+      videoToggle.querySelector('[data-icon="play"]').toggleAttribute('hidden', !userPaused);
+      videoToggle.setAttribute('aria-label', userPaused ? 'Play background video' : 'Pause background video');
     }
 
     // Skip the video for people who've asked for less motion or less data
@@ -2430,20 +2439,24 @@
       players.forEach((p, n) => {
         p.addEventListener('playing', () => {
           p.classList.add('is-playing');
+          // Hide the still once the first clip has fully faded in
+          if (!heroMedia.classList.contains('is-live')) setTimeout(() => heroMedia.classList.add('is-live'), FADE * 1000);
           videoToggle.hidden = false;
-          setVideoIcon();
           const other = players[1 - n];
           if (clips.length > 1 && !other.getAttribute('src')) other.src = clips[(clipIndex + 1) % clips.length];
         });
-        p.addEventListener('pause', () => n === active && setVideoIcon());
         p.addEventListener('timeupdate', () => {
-          if (n === active && p.duration - p.currentTime <= CROSSFADE) crossfade(p);
+          if (n === active && clips.length > 1 && !p.paused && p.duration - p.currentTime <= FADE) switchClip(p);
         });
       });
       videoToggle.addEventListener('click', () => {
+        userPaused = !userPaused;
         const p = players[active];
-        p.paused ? p.play() : p.pause();
+        if (userPaused) p.pause();
+        else p.play().catch(() => {});
+        setVideoIcon();
       });
+      setVideoIcon();
       tallScreen.addEventListener('change', startClips);
       startClips();
     }

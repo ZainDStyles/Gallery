@@ -1,0 +1,1179 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Aurum Motor Oil</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Full synthetic engine oils, explained. Scroll to pour.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a 600vh scroll track pins one full-bleed film stage that scrubs video frames with the scroll. Chapter cards swap over it like film title cards; a dipstick and a gauge row read the pour. */
+:root{
+  --ink:#0a0907;
+  --ink-rgb:10,9,7;
+  --ink-2:#15120d;
+  --ivory:#f5eee2;
+  --muted:#a89f8f;
+  --gold:#f4aa1f;
+  --gold-hi:#ffd56e;
+  --warn:#ff5a3d;
+  --plate:#f7c600;
+  --plate-ink:#111;
+  --plate-band:#1d43a5;
+  --line:rgba(245,238,226,.14);
+  --glass:rgba(22,19,14,.45);
+  --display:"Archivo","Arial Black",Impact,system-ui,sans-serif;
+  --body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--ink);scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--ivory);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px;border-radius:8px}
+
+/* Header */
+.top{position:fixed;inset:0 0 auto;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-top:calc(env(safe-area-inset-top,0px) + 12px);padding-bottom:12px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));pointer-events:none}
+.top>*{pointer-events:auto}
+.mark{font-family:var(--display);font-stretch:125%;font-weight:800;font-size:17px;letter-spacing:.46em;text-decoration:none;margin-right:-.46em}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:999px;
+  background:var(--gold);color:var(--ink);font-family:var(--body);font-weight:700;font-size:15px;font-stretch:108%;text-decoration:none;
+  box-shadow:0 8px 30px rgba(244,170,31,.28);transition:background .2s,transform .2s}
+.cta:hover{background:var(--gold-hi)}
+.cta:active{transform:scale(.97)}
+
+/* Scroll hero */
+.track{position:relative;height:600vh}
+.stage{position:sticky;top:0;height:100vh;height:100lvh;overflow:hidden;background:var(--ink) url(frames/0001.webp) center 55%/cover no-repeat}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scrim{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(var(--ink-rgb),.6) 0%,rgba(var(--ink-rgb),0) 16%,rgba(var(--ink-rgb),0) 48%,rgba(var(--ink-rgb),.7) 72%,rgba(var(--ink-rgb),.94) 100%)}
+.ui{position:absolute;inset:0 0 auto;height:100vh;height:100svh;display:flex;flex-direction:column;
+  padding-top:calc(env(safe-area-inset-top,0px) + 74px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 18px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.step{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:9px 16px 9px 13px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--line);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  font-family:var(--mono);font-size:13px;letter-spacing:.02em;white-space:nowrap}
+.step .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.step .n{color:var(--muted)}
+
+.copy{margin-top:auto;display:grid;align-items:end;max-width:1100px;width:100%;min-width:0}
+.chap{grid-area:1/1;min-width:0;opacity:0;transform:translateY(22px);pointer-events:none;
+  transition:opacity .45s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.chap.on{opacity:1;transform:none;pointer-events:auto}
+.eyebrow{margin:0 0 10px;font-family:var(--mono);font-size:13px;letter-spacing:.06em;color:var(--gold)}
+.title{margin:0;font-family:var(--display);font-stretch:125%;font-weight:900;text-transform:uppercase;
+  font-size:var(--tsize,44px);line-height:.92;letter-spacing:-.005em}
+.title span{display:block;width:max-content}
+.title .ol{color:transparent;-webkit-text-stroke:1.5px var(--gold);
+  background-image:linear-gradient(to top,var(--gold) var(--fill,0%),transparent var(--fill,0%));
+  -webkit-background-clip:text;background-clip:text}
+.sub{margin:14px 0 0;max-width:36ch;color:var(--muted);font-size:16.5px;line-height:1.45;text-wrap:pretty}
+.chap .cta{margin-top:18px}
+
+.hud{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:18px;padding-top:13px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums}
+.hud b{color:var(--ivory);font-weight:500}
+.hud .grade{color:var(--gold)}
+.lamp{display:inline-flex;align-items:center;gap:6px;margin-left:auto;color:var(--warn);transition:color .4s,opacity .4s}
+.lamp svg{width:20px;height:20px;filter:drop-shadow(0 0 6px currentColor)}
+.lamp.off{color:var(--muted);opacity:.5}
+.lamp.off svg{filter:none}
+
+.dip{position:absolute;top:26%;right:max(16px,env(safe-area-inset-right,0px));height:28%;display:flex;gap:7px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted)}
+.dip-rod{position:relative;width:6px;border-radius:3px;background:rgba(245,238,226,.12);overflow:hidden}
+.dip-hatch{position:absolute;left:0;right:0;top:8%;height:28%;
+  background:repeating-linear-gradient(45deg,rgba(245,238,226,.4) 0 1px,transparent 1px 4px)}
+.dip-oil{position:absolute;left:0;right:0;bottom:0;height:var(--lvl,0%);background:linear-gradient(to top,var(--gold),var(--gold-hi));box-shadow:0 0 12px var(--gold)}
+.dip-lbl{position:relative;width:3.2em}
+.dip-lbl span{position:absolute;left:0;transform:translateY(-50%)}
+
+/* Header: basket */
+.top{transition:background .3s,border-color .3s}
+.top.solid{background:rgba(var(--ink-rgb),.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top-actions{display:flex;align-items:center;gap:10px}
+.cart-btn{position:relative;display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid var(--line);
+  background:var(--glass);color:var(--ivory);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);cursor:pointer}
+.cart-btn svg{width:21px;height:21px}
+.cart-count{position:absolute;top:-5px;right:-5px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--gold);color:var(--ink);
+  font:600 11px/20px var(--mono);text-align:center;font-variant-numeric:tabular-nums}
+.bump{animation:bump .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{40%{transform:scale(1.25)}}
+
+/* Shop */
+.wrap{max-width:1180px;margin:0 auto}
+.shop{position:relative;background:var(--ink);border-top:1px solid var(--line);padding-block:88px 72px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.h2{margin:0;font-family:var(--display);font-stretch:125%;font-weight:900;text-transform:uppercase;font-size:clamp(32px,9vw,68px);line-height:.95;text-wrap:balance}
+.h2 .ol{color:transparent;-webkit-text-stroke:1.5px var(--gold)}
+.lede{margin:14px 0 0;max-width:46ch;color:var(--muted);font-size:17px}
+.filters{display:grid;gap:10px;margin:30px 0 22px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-inline:-4px;padding:2px 4px}
+.chips::-webkit-scrollbar{display:none}
+.chips-lbl{flex:none;align-self:center;width:3.6em;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chip{flex:none;min-height:40px;padding:0 15px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ivory);
+  font:500 13px var(--mono);letter-spacing:.02em;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s,border-color .2s}
+.chip[aria-pressed="true"]{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
+.grid{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+.card{--d:0ms;position:relative;display:grid;grid-template-columns:118px minmax(0,1fr);gap:16px;padding:14px;border-radius:22px;overflow:hidden;
+  background:linear-gradient(165deg,var(--ink-2),var(--ink) 75%);border:1px solid var(--line);transition:border-color .3s,transform .3s}
+.card::after{content:"";position:absolute;left:-30%;bottom:-55%;width:90%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,var(--glow),transparent);pointer-events:none;opacity:.5}
+.card:hover{border-color:rgba(244,170,31,.45)}
+.card-link{position:absolute;inset:0;z-index:1;border-radius:inherit}
+.card-art{position:relative;display:grid;place-items:center;align-self:start;aspect-ratio:3/4;border-radius:16px;
+  background:radial-gradient(70% 55% at 50% 62%,var(--glow),transparent 72%),rgba(245,238,226,.025)}
+.card-art svg{width:82%;height:auto}
+.card-body{position:relative;display:flex;flex-direction:column;gap:6px;min-width:0}
+.brand{margin:0;font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.name{margin:0;font-family:var(--display);font-stretch:110%;font-weight:800;font-size:19px;line-height:1.12;text-wrap:balance}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 0;padding:0;list-style:none}
+.tag{padding:3px 8px;border-radius:6px;border:1px solid var(--line);font:500 11.5px var(--mono);color:var(--muted);white-space:nowrap}
+.tag.g{border-color:rgba(244,170,31,.55);color:var(--gold)}
+.desc{margin:2px 0 0;color:var(--muted);font-size:14.5px;line-height:1.45}
+.buy{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding-top:10px}
+.price{font:650 18px/1.1 var(--body);font-variant-numeric:tabular-nums}
+.price small{display:block;margin-bottom:3px;font:500 11px var(--mono);letter-spacing:.04em;color:var(--muted)}
+.add{position:relative;z-index:2;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:999px;border:0;
+  background:var(--gold);color:var(--ink);font:700 14px var(--body);font-stretch:106%;cursor:pointer;transition:background .2s,transform .15s}
+.add:hover{background:var(--gold-hi)}
+.add:active{transform:scale(.96)}
+.add svg{width:16px;height:16px}
+.none{padding:40px 0;color:var(--muted)}
+.none button{background:none;border:0;color:var(--gold);font:inherit;text-decoration:underline;cursor:pointer;padding:0}
+
+/* Bottle art: liquid fills in a staggered sequence when the card comes into view */
+.bottle{display:block;overflow:visible}
+.bottle .liquid{transform:translateY(70px);transition:transform 1.5s cubic-bezier(.25,.75,.2,1) var(--d)}
+.js-fill .card:not(.in) .bottle .liquid{transform:translateY(152px);transition:none}
+.bottle .wave{animation:wave 2.6s linear infinite}
+@keyframes wave{to{transform:translateX(60px)}}
+.b-grade{font-family:var(--display);font-stretch:112%;font-weight:800;font-size:15px}
+
+/* Product page */
+.pview{position:relative;padding-top:calc(env(safe-area-inset-top,0px) + 68px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 110px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.pview .wrap{max-width:760px}
+.back{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:var(--muted);text-decoration:none;font:500 13px var(--mono);letter-spacing:.04em}
+.back:hover{color:var(--ivory)}
+.flow{position:relative;padding-left:46px}
+.pour{position:relative;height:230px;margin-left:-46px}
+.pour svg{position:absolute;left:0;top:0;width:360px;height:230px;max-width:none}
+.rail{position:absolute;left:11px;top:206px;width:6px;bottom:0;border-radius:3px;background:rgba(245,238,226,.07)}
+.rail i{position:absolute;left:0;right:0;top:0;height:var(--h,40px);border-radius:3px;
+  background:repeating-linear-gradient(to bottom,var(--gold) 0 18px,var(--gold-hi) 18px 24px,var(--gold) 24px 40px);background-size:100% 40px;
+  box-shadow:0 0 14px rgba(244,170,31,.55);animation:flow .7s linear infinite}
+@keyframes flow{to{background-position:0 40px}}
+.rail b{position:absolute;left:50%;bottom:-10px;width:30px;height:10px;margin-left:-15px;border-radius:50%;background:var(--gold);opacity:.2;transition:opacity .4s,box-shadow .4s}
+.rail.full b{opacity:1;box-shadow:0 0 18px var(--gold)}
+.p-head .eyebrow{margin-top:6px}
+.p-title{margin:0;font-family:var(--display);font-stretch:125%;font-weight:900;text-transform:uppercase;font-size:clamp(30px,8.6vw,64px);line-height:.95;overflow-wrap:anywhere}
+.p-title span{display:block}
+.p-title .ol{color:transparent;-webkit-text-stroke:1.5px var(--gold)}
+.p-blurb{margin:14px 0 0;max-width:40ch;color:var(--muted);font-size:17px;line-height:1.5}
+.p-head .tags{margin-top:16px}
+.inside{padding-block:56px 8px}
+.inside h2,.p-sec h2{margin:0;font-family:var(--display);font-stretch:118%;font-weight:900;text-transform:uppercase;font-size:clamp(26px,7vw,40px);line-height:1}
+.inside .note{margin:10px 0 0;max-width:44ch;color:var(--muted);font-size:15px}
+.ing{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:26px}
+.ing li{position:relative}
+.ing .node{position:absolute;left:-42px;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid rgba(245,238,226,.25);background:var(--ink);transition:background .35s,border-color .35s,box-shadow .35s}
+.ing li.lit .node{background:var(--gold);border-color:var(--gold-hi);box-shadow:0 0 14px var(--gold)}
+.ing h3{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font-size:19px;font-weight:700;font-stretch:108%;line-height:1.25}
+.ing .role{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.ing p{margin:5px 0 0;max-width:46ch;color:var(--muted);font-size:15.5px;line-height:1.5}
+.p-sec{padding-top:56px}
+.spec{margin:18px 0 0;border-top:1px solid var(--line)}
+.spec div{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.spec dt{font:500 12px/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.spec dd{margin:0;font-size:15.5px;line-height:1.5}
+.spec dd span{display:block}
+.sizes{display:grid;gap:10px;min-width:0;margin:18px 0 0;padding:0;border:0}
+.size{position:relative;display:flex;align-items:center;gap:14px;min-height:64px;padding:12px 16px;border-radius:16px;border:1px solid var(--line);background:var(--ink-2);cursor:pointer;transition:border-color .2s,background .2s}
+.size input{position:absolute;opacity:0;pointer-events:none}
+.size .dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid rgba(245,238,226,.3);transition:border .2s}
+.size:has(input:checked){border-color:var(--gold);background:rgba(244,170,31,.07)}
+.size:has(input:checked) .dot{border:6px solid var(--gold)}
+.size:has(input:focus-visible){outline:2px solid var(--gold-hi);outline-offset:3px}
+.size .l{font-weight:700;font-size:17px}
+.size .u{display:block;color:var(--muted);font-size:13.5px;font-weight:400}
+.size .pr{margin-left:auto;font:650 17px var(--body);font-variant-numeric:tabular-nums}
+.rows{list-style:none;margin:18px 0 0;padding:0;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.row a{color:inherit;text-decoration:none}
+.row .t{font-weight:650;font-size:16px;line-height:1.3}
+.row .t small{display:block;font:500 12px var(--mono);color:var(--muted);letter-spacing:.03em;margin-top:2px}
+.row>a svg{width:44px;height:auto}
+.add.sm{min-height:40px;padding:0 14px;font-size:13.5px}
+.buybar{position:fixed;left:0;right:0;bottom:0;z-index:15;display:flex;align-items:center;gap:12px;
+  padding-top:12px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 12px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:rgba(var(--ink-rgb),.88);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+.buybar .bb-p{flex:1;min-width:0;font:650 17px/1.2 var(--body);font-variant-numeric:tabular-nums}
+.buybar .bb-p small{display:block;font:500 11.5px var(--mono);color:var(--muted);letter-spacing:.03em}
+.qty{display:inline-flex;flex:none;align-items:center;border:1px solid var(--line);border-radius:999px}
+.qty button{width:36px;height:44px;border:0;background:none;color:var(--ivory);font:500 20px var(--body);cursor:pointer}
+.qty output{min-width:1.6em;text-align:center;font:600 15px var(--mono)}
+.buybar .add{flex:none;min-height:46px;padding:0 18px;white-space:nowrap}
+
+/* Basket sheet + toast */
+.sheet{position:fixed;inset:0;z-index:40}
+.sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.6);animation:fade .25s}
+.sheet-panel{position:absolute;left:0;right:0;bottom:0;max-height:86%;display:flex;flex-direction:column;border-radius:24px 24px 0 0;background:var(--ink-2);border-top:1px solid var(--line);
+  padding-top:8px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 16px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  animation:up .35s cubic-bezier(.2,.8,.2,1)}
+@media (min-width:760px){.sheet-panel{left:auto;top:0;max-height:none;width:420px;border-radius:0;border-top:0;border-left:1px solid var(--line);padding-top:calc(env(safe-area-inset-top,0px) + 12px);animation-name:side}}
+@keyframes up{from{transform:translateY(100%)}}
+@keyframes side{from{transform:translateX(100%)}}
+@keyframes fade{from{opacity:0}}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;padding:8px 0 10px}
+.sheet-head h2{margin:0;font-family:var(--display);font-stretch:118%;font-weight:900;text-transform:uppercase;font-size:24px}
+.x{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;color:var(--ivory);font-size:22px;cursor:pointer}
+.lines{list-style:none;margin:0;padding:0;overflow-y:auto;border-top:1px solid var(--line)}
+.line{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.line svg{width:40px;height:auto}
+.line .t{font-weight:650;font-size:15px;line-height:1.3}
+.line .t small{display:block;font:500 12px var(--mono);color:var(--muted)}
+.line .r{display:grid;justify-items:end;gap:4px;font:600 15px var(--body);font-variant-numeric:tabular-nums}
+.line .qty button{width:34px;height:36px;font-size:18px}
+.empty{padding:28px 0;color:var(--muted)}
+.empty a{color:var(--gold)}
+.sheet-foot{padding-top:14px}
+.sum{display:flex;justify-content:space-between;align-items:baseline;font-size:17px}
+.sum b{font:700 20px var(--body);font-variant-numeric:tabular-nums}
+.sheet-foot .fine{margin:6px 0 14px;color:var(--muted);font-size:13.5px}
+.cta.wide{width:100%;border:0;font-size:16px;cursor:pointer}
+.msg{margin:12px 0 0;padding:12px 14px;border-radius:12px;background:rgba(244,170,31,.1);border:1px solid rgba(244,170,31,.35);font-size:14.5px;line-height:1.45}
+.toast{position:fixed;left:16px;right:16px;margin-inline:auto;width:fit-content;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);z-index:50;display:flex;align-items:center;gap:14px;
+  max-width:calc(100% - 32px);padding:10px 10px 10px 16px;border-radius:16px;background:var(--ivory);color:var(--ink);font-size:14.5px;font-weight:600;
+  box-shadow:0 12px 40px rgba(0,0,0,.45);transform:translateY(20px);opacity:0;pointer-events:none;transition:opacity .25s,transform .35s cubic-bezier(.2,.8,.2,1)}
+.toast.on{opacity:1;transform:none;pointer-events:auto}
+.toast button{flex:none;min-height:40px;padding:0 14px;border-radius:999px;border:0;background:var(--ink);color:var(--ivory);font:600 13.5px var(--body);cursor:pointer}
+.drip{position:fixed;z-index:60;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:var(--gold);box-shadow:0 0 12px var(--gold);pointer-events:none}
+.ask-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--gold);font-weight:600;text-decoration:none}
+.ask-link:hover{text-decoration:underline}
+.enq{display:grid;gap:40px}
+.enq-intro .lede{margin-top:16px}
+.tips{margin:26px 0 0;padding:18px;border-radius:18px;border:1px solid var(--line);background:var(--ink-2)}
+.tips h2{margin:0 0 10px;font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.tips ol{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--muted);font-size:15px;line-height:1.5}
+.tips b{color:var(--ivory);font-weight:600}
+.form{display:grid;gap:18px}
+.field{display:grid;gap:7px;min-width:0}
+.field>span:not(.plate),.field legend{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.field>span:not(.plate) i{font-style:normal;text-transform:none;letter-spacing:0;opacity:.8}
+.in{width:100%;min-height:52px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--ink-2);color:var(--ivory);font:16px/1.4 var(--body);
+  transition:border-color .2s,box-shadow .2s}
+.in:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(244,170,31,.18)}
+textarea.in{min-height:130px;resize:vertical}
+select.in{appearance:none;-webkit-appearance:none;padding-right:40px;
+  background:var(--ink-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a89f8f' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 14px center/18px no-repeat}
+.in[aria-invalid="true"]{border-color:var(--warn)}
+.err{margin:0;color:var(--warn);font-size:13.5px}
+.two{display:grid;gap:18px}
+.plate{display:flex;align-items:stretch;width:100%;max-width:330px;height:62px;border-radius:9px;overflow:hidden;background:var(--plate);border:2px solid var(--plate-ink);
+  box-shadow:0 8px 28px rgba(0,0,0,.4),inset 0 0 0 2px rgba(255,255,255,.35)}
+.plate:focus-within{box-shadow:0 0 0 3px rgba(244,170,31,.45),0 8px 28px rgba(0,0,0,.4)}
+.plate b{flex:none;width:34px;display:grid;place-items:end center;padding-bottom:8px;background:var(--plate-band);color:#fff;font:700 12px var(--body)}
+.plate input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--plate-ink);text-align:center;text-transform:uppercase;
+  font-family:var(--display);font-stretch:96%;font-weight:800;font-size:30px;letter-spacing:.05em}
+.plate input::placeholder{color:rgba(17,17,17,.35)}
+.topics{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;border:0;min-width:0}
+.topics legend{margin-bottom:8px;padding:0}
+.topic{position:relative}
+.topic input{position:absolute;opacity:0}
+.topic span{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:999px;border:1px solid var(--line);font-size:14.5px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.topic input:checked+span{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
+.topic input:focus-visible+span{outline:2px solid var(--gold-hi);outline-offset:3px}
+.fine{margin:0;color:var(--muted);font-size:13.5px}
+.form .cta{justify-self:start;border:0;cursor:pointer;min-height:52px;padding:0 26px;font-size:16px}
+.sent{padding:20px;border-radius:18px;border:1px solid rgba(244,170,31,.4);background:rgba(244,170,31,.08)}
+.sent h2{margin:0;font-family:var(--display);font-stretch:118%;font-weight:900;text-transform:uppercase;font-size:24px}
+.sent p{margin:10px 0 0;color:var(--muted)}
+.sent dl{margin:14px 0 0;display:grid;gap:6px;font-size:15px}
+.sent dl div{display:grid;grid-template-columns:6.5em minmax(0,1fr);gap:10px}
+.sent dt{font:500 12px/1.7 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.sent dd{margin:0;overflow-wrap:anywhere}
+.sent button{margin-top:16px;background:none;border:1px solid var(--line);color:var(--ivory);min-height:44px;padding:0 16px;border-radius:999px;font:600 14px var(--body);cursor:pointer}
+@media (min-width:620px){.two{grid-template-columns:1fr 1fr}}
+@media (min-width:900px){.enq{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:56px;align-items:start}.enq-intro{position:sticky;top:110px}}
+#enquire .wrap{max-width:1080px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.foot{margin-top:48px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--muted)}
+
+@media (min-width:620px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card{grid-template-columns:minmax(0,1fr)}
+  .card-art{aspect-ratio:5/4}
+  .card-art svg{width:auto;height:84%}
+}
+@media (min-width:1000px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+@media (min-width:760px){
+  .mark{font-size:19px}
+  .sub{font-size:18px}
+  .hud{font-size:13px}
+  .dip{top:22%;height:34%}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .chap{transition:opacity .2s linear;transform:none}
+  .bottle .wave,.rail i{animation:none}
+  .bottle .liquid{transition:none}
+}
+</style>
+
+<header class="top">
+  <a class="mark" href="#top" aria-label="Aurum, back to top">AURUM</a>
+  <div class="top-actions">
+    <a class="cta" href="#shop">Shop oils</a>
+    <a class="cart-btn" href="#enquire" aria-label="Enquire" title="Enquire">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>
+    </a>
+    <button class="cart-btn" id="cartBtn" type="button" aria-label="Basket, 0 items">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14l-1.4 10.2a2 2 0 0 1-2 1.8H8.4a2 2 0 0 1-2-1.8z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg>
+      <span class="cart-count" id="cartCount" hidden>0</span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+ <div id="home">
+  <section class="track" id="track" aria-label="Oil change, in four steps">
+    <div class="stage" id="stage">
+      <canvas id="film" aria-hidden="true"></canvas>
+      <div class="scrim"></div>
+
+      <div class="dip" aria-hidden="true">
+        <div class="dip-rod"><div class="dip-hatch"></div><div class="dip-oil" id="dipOil"></div></div>
+        <div class="dip-lbl"><span style="top:8%">MAX</span><span style="top:36%">MIN</span></div>
+      </div>
+
+      <div class="ui">
+        <div class="step" aria-live="polite"><span class="dot"></span><span class="n" id="stepN">Step 1</span><span id="stepL">Open</span></div>
+
+        <div class="copy">
+          <article class="chap on">
+            <p class="eyebrow">01 · Open</p>
+            <h1 class="title"><span>Scroll to</span><span class="ol">pour it.</span></h1>
+            <p class="sub">Bonnet up. Fresh full synthetic is going in.</p>
+          </article>
+          <article class="chap">
+            <p class="eyebrow">02 · Pour</p>
+            <h2 class="title"><span>Poured in.</span><span class="ol">To the max.</span></h2>
+            <p class="sub">4.6 litres, poured clean into the filler neck. The dipstick reads full.</p>
+          </article>
+          <article class="chap">
+            <p class="eyebrow">03 · Flow</p>
+            <h2 class="title"><span>Cold start.</span><span class="ol">Full flow.</span></h2>
+            <p class="sub">The 5W rating keeps it thin on a frosty morning, so it reaches the top of the engine in seconds.</p>
+          </article>
+          <article class="chap">
+            <p class="eyebrow">04 · Protect</p>
+            <h2 class="title"><span>Heat on.</span><span class="ol">Film holds.</span></h2>
+            <p class="sub">The 30 means it stays thick enough at 100 °C to keep metal off metal.</p>
+            <a class="cta" href="#shop">Shop the oils</a>
+          </article>
+        </div>
+
+        <div class="hud" aria-hidden="true">
+          <span class="grade">SAE 5W-30</span>
+          <span>Fill <b id="hudFill">0.0</b> / 4.6 L</span>
+          <span>Oil <b id="hudTemp">12</b> °C</span>
+          <span class="lamp" id="lamp" title="Oil level light">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h11.5l2.5 2.5V17H3z"/><path d="M17 13.5l5-3"/><path d="M8 11V8.5h3V11"/><path d="M3 12.5H1.5V15H3"/><circle cx="21.4" cy="15" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="shop" id="shop" aria-labelledby="shopTitle">
+    <div class="wrap">
+      <p class="eyebrow">The range</p>
+      <h2 class="h2" id="shopTitle">Pick your <span class="ol">oil.</span></h2>
+      <p class="lede">Synthetic oils from brands UK garages use every day. Tap one to see what's inside.</p>
+      <div class="filters">
+        <div class="chips" role="group" aria-label="Filter by grade"><span class="chips-lbl">Grade</span><span id="gradeChips" style="display:contents"></span></div>
+        <div class="chips" role="group" aria-label="Filter by car make"><span class="chips-lbl">Fits</span><span id="makeChips" style="display:contents"></span></div>
+      </div>
+      <div class="grid" id="grid"></div>
+      <p><a class="ask-link" href="#enquire">Can't see your car? Ask us which oil fits →</a></p>
+      <p class="none" id="none" hidden>No oil matches both filters. <button type="button" id="clearFilters">Show all oils</button></p>
+      <p class="foot">AURUM · Demo shop · Example prices, checkout not live yet</p>
+    </div>
+  </section>
+ </div>
+
+ <div class="pview" id="product" hidden></div>
+
+ <div class="pview" id="enquire" hidden>
+  <div class="wrap enq">
+    <div class="enq-intro">
+      <a class="back" href="#shop">← All oils</a>
+      <p class="eyebrow">Enquiries</p>
+      <h1 class="p-title"><span>Ask about</span><span class="ol">your oil.</span></h1>
+      <p class="lede">Not sure which oil fits? Send your reg and we'll check the grade and approval your car needs before you buy.</p>
+      <div class="tips">
+        <h2>Find it yourself in a minute</h2>
+        <ol>
+          <li>Open your handbook at <b>Engine oil</b> or <b>Capacities</b>.</li>
+          <li>Note the <b>grade</b>, like 5W-30, and the <b>approval</b>, like VW 504 00 or Ford 913-D.</li>
+          <li>Match both on the label of any oil in our range.</li>
+        </ol>
+      </div>
+    </div>
+    <form class="form" id="enqForm" novalidate>
+      <label class="field"><span>Your reg <i>(optional)</i></span>
+        <span class="plate"><b>UK</b><input id="enqReg" name="reg" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="AB12 CDE"></span>
+      </label>
+      <label class="field"><span>Make and model</span><input class="in" id="enqCar" name="car" placeholder="e.g. VW Golf 2.0 TDI, 2019" autocomplete="off"></label>
+      <fieldset class="field topics" id="enqTopic"><legend>What do you need?</legend>
+        <label class="topic"><input type="radio" name="topic" value="Which oil fits my car" checked><span>Which oil fits</span></label>
+        <label class="topic"><input type="radio" name="topic" value="Help with an order"><span>Order help</span></label>
+        <label class="topic"><input type="radio" name="topic" value="Trade or bulk order"><span>Trade or bulk</span></label>
+        <label class="topic"><input type="radio" name="topic" value="Something else"><span>Something else</span></label>
+      </fieldset>
+      <label class="field"><span>Oil you're asking about</span><select class="in" id="enqOil" name="oil"><option value="">Not sure yet</option></select></label>
+      <div class="two">
+        <label class="field"><span>Name</span><input class="in" id="enqName" name="name" autocomplete="name" required></label>
+        <label class="field"><span>Email</span><input class="in" id="enqEmail" name="email" type="email" autocomplete="email" inputmode="email" required></label>
+      </div>
+      <label class="field"><span>Phone <i>(optional)</i></span><input class="in" id="enqPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel"></label>
+      <label class="field"><span>Message</span><textarea class="in" id="enqMsg" name="message" required placeholder="Mileage, engine code, anything the garage told you…"></textarea></label>
+      <p class="err" id="enqErr" role="alert" hidden></p>
+      <p class="fine">We only use your details to reply to this enquiry.</p>
+      <button class="cta" type="submit">Send enquiry</button>
+    </form>
+    <div class="sent" id="enqSent" hidden tabindex="-1">
+      <h2>Not sent yet</h2>
+      <p>This preview isn't connected to email, so nothing was sent. On the live site this goes straight to the shop's inbox. Here's what would be sent:</p>
+      <dl id="enqSummary"></dl>
+      <button type="button" id="enqAgain">Edit enquiry</button>
+    </div>
+  </div>
+ </div>
+</main>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-bg" data-close></div>
+  <section class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-head"><h2 id="sheetTitle">Basket</h2><button class="x" type="button" data-close aria-label="Close basket">×</button></div>
+    <ul class="lines" id="lines"></ul>
+    <p class="empty" id="empty">Your basket is empty. <a href="#shop" data-close>Pick an oil</a></p>
+    <div class="sheet-foot" id="sheetFoot">
+      <div class="sum"><span>Subtotal</span><b id="subtotal">£0.00</b></div>
+      <p class="fine">Example prices. Delivery is worked out at checkout.</p>
+      <button class="cta wide" type="button" id="checkout">Checkout</button>
+      <p class="msg" id="checkoutMsg" hidden>Payments aren't connected yet. Card checkout is the next build, so nothing has been ordered or charged.</p>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastText"></span><button type="button" id="toastView">View basket</button></div>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const track = $('#track'), stage = $('#stage'), canvas = $('#film');
+  const ctx = canvas.getContext('2d', { alpha: false });
+  const chaps = [...document.querySelectorAll('.chap')];
+  const stepN = $('#stepN'), stepL = $('#stepL');
+  const hudFill = $('#hudFill'), hudTemp = $('#hudTemp'), lamp = $('#lamp'), dipOil = $('#dipOil');
+  const STEPS = [['Step 1', 'Open'], ['Step 2', 'Pour'], ['Step 3', 'Flow'], ['Step 4', 'Protect']];
+  const CAPACITY = 4.6; // litres, a typical 2.0 four-cylinder
+  // The film: N frames, four shots. SHOTS[i] is the first frame of shot i; the last entry is N.
+  const N = 241, SHOTS = [0, 57, 119, 180, 241];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const clamp01 = x => Math.min(1, Math.max(0, x));
+  const ss = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+
+  // Size the chapter titles so the widest line across all four fills the column
+  function fitTitles() {
+    const copy = $('.copy');
+    const root = document.documentElement.style;
+    root.setProperty('--tsize', '100px');
+    let widest = 0;
+    document.querySelectorAll('.title span').forEach(s => { widest = Math.max(widest, s.getBoundingClientRect().width); });
+    if (!widest) return;
+    const room = Math.min(copy.clientWidth, 760);
+    root.setProperty('--tsize', Math.max(28, Math.min(104, Math.floor(100 * room / widest * 0.98))) + 'px');
+  }
+  fitTitles();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTitles);
+
+  function targetProgress() {
+    const run = track.offsetHeight - stage.offsetHeight;
+    return run > 0 ? clamp01(-track.getBoundingClientRect().top / run) : 0;
+  }
+
+  // Copy, step pill, gauges and dipstick follow the same progress as the film
+  let lastChap = -1, lastFill = '', lastTemp = '';
+  function updateUI(p) {
+    const ci = Math.min(3, Math.floor(p * 4));
+    if (ci !== lastChap) {
+      chaps.forEach((c, i) => c.classList.toggle('on', i === ci));
+      stepN.textContent = STEPS[ci][0];
+      stepL.textContent = STEPS[ci][1];
+      lastChap = ci;
+    }
+    const fill = CAPACITY * ss(.27, .47, p);
+    const temp = p < .5 ? 12 : p < .75 ? 12 + 28 * ss(.52, .72, p) : 40 + 62 * ss(.77, .97, p);
+    const f = fill.toFixed(1), t = String(Math.round(temp));
+    if (f !== lastFill) { hudFill.textContent = f; lastFill = f; }
+    if (t !== lastTemp) { hudTemp.textContent = t; lastTemp = t; }
+    lamp.classList.toggle('off', fill >= 3.2);
+    dipOil.style.setProperty('--lvl', (fill / CAPACITY * 92).toFixed(1) + '%');
+    const local = ci === 1 ? fill / CAPACITY : ss(ci * .25 + .02, ci * .25 + .2, p);
+    chaps[ci].style.setProperty('--fill', (local * 100).toFixed(1) + '%');
+  }
+
+  // Load frames coarse-to-fine (every 16th, then every 8th, ...) so scrubbing works before everything arrives
+  const frames = new Array(N);
+  const order = [], queued = new Uint8Array(N);
+  for (let step = 16; step >= 1; step >>= 1) for (let i = 0; i < N; i += step) if (!queued[i]) { queued[i] = 1; order.push(i); }
+  let next = 0, inflight = 0, dirty = true, src = null;
+  function pump() {
+    while (inflight < 6 && next < order.length) {
+      const i = order[next++], img = new Image();
+      inflight++;
+      img.decoding = 'async';
+      img.onload = () => { frames[i] = img; inflight--; dirty = true; pump(); };
+      img.onerror = () => { inflight--; pump(); };
+      img.src = src(String(i + 1).padStart(4, '0'));
+    }
+  }
+  // Sharper, lighter AVIF frames where the browser supports them (iOS 16+); WebP otherwise
+  const probe = new Image();
+  probe.onload = () => { src = probe.width ? n => 'hd/' + n + '.avif' : n => 'frames/' + n + '.webp'; pump(); };
+  probe.onerror = () => { src = n => 'frames/' + n + '.webp'; pump(); };
+  probe.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAAD5bWV0YQAAAAAAAAAvaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAFBpY3R1cmVIYW5kbGVyAAAAAA5waXRtAAAAAAABAAAAHmlsb2MAAAAARAAAAQABAAAAAQAAASEAAAAUAAAAKGlpbmYAAAAAAAEAAAAaaW5mZQIAAAAAAQAAYXYwMUNvbG9yAAAAAGppcHJwAAAAS2lwY28AAAAUaXNwZQAAAAAAAAACAAAAAgAAABBwaXhpAAAAAAMICAgAAAAMYXYxQ4EADAAAAAATY29scm5jbHgAAgACAAIAAAAAF2lwbWEAAAAAAAAAAQABBAECgwQAAAAcbWRhdAoFGAA2wCAyCx/wAABYAAAAAK8w';
+
+  // Each quarter of the scroll plays one shot, so the cuts land exactly where the headline changes
+  function frameAt(p) {
+    const seg = Math.min(3, Math.floor(p * 4));
+    const a = SHOTS[seg], b = SHOTS[seg + 1] - 1;
+    return { seg, f: a + (b - a) * (p * 4 - seg) };
+  }
+  function nearest(i, seg) {
+    const lo = SHOTS[seg], hi = SHOTS[seg + 1] - 1;
+    for (let d = 0; d <= hi - lo; d++) {
+      if (i - d >= lo && frames[i - d]) return i - d;
+      if (i + d <= hi && frames[i + d]) return i + d;
+    }
+    return -1;
+  }
+
+  // Draw at the screen's full pixel density (3x on iPhone) so frames stay crisp
+  const DPR = Math.min(window.devicePixelRatio || 1, 3);
+  function resize() {
+    const w = Math.round(stage.clientWidth * DPR), h = Math.round(stage.clientHeight * DPR);
+    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; dirty = true; }
+    ctx.imageSmoothingQuality = 'high';
+  }
+  resize();
+  addEventListener('resize', () => { resize(); fitTitles(); });
+
+  // Fill the whole screen. On wide screens the portrait film is cropped to a band
+  // centred on each shot's subject: car, filler neck, swirl, drop.
+  const FOCUS = [.55, .5, .52, .56];
+  function paint(img, seg) {
+    const cw = canvas.width, ch = canvas.height, iw = img.naturalWidth, ih = img.naturalHeight;
+    const s = Math.max(cw / iw, ch / ih), w = iw * s, h = ih * s;
+    const y = Math.min(0, Math.max(ch - h, ch / 2 - h * FOCUS[seg]));
+    ctx.drawImage(img, (cw - w) / 2, y, w, h);
+  }
+  // One whole frame at a time: no blending, so a paused scroll never shows a double image
+  let shown = -1;
+  function render(p) {
+    const { seg, f } = frameAt(p);
+    const i = nearest(Math.round(f), seg);
+    if (i < 0 || (!dirty && i === shown)) return;
+    paint(frames[i], seg);
+    shown = i; dirty = false;
+  }
+
+  let p = targetProgress(), last = 0, running = false, visible = true;
+  function frame(ts) {
+    if (!running) return;
+    const dt = last ? Math.min(100, ts - last) : 16;
+    last = ts;
+    const target = targetProgress();
+    p = reduce.matches ? target : p + (target - p) * (1 - Math.exp(-dt / 1000 * 8));
+    if (Math.abs(target - p) < 1e-4) p = target;
+    updateUI(p);
+    render(p);
+    requestAnimationFrame(frame);
+  }
+  function setRunning(on) {
+    if (on === running) return;
+    running = on;
+    if (on) { resize(); fitTitles(); dirty = true; last = 0; requestAnimationFrame(frame); }
+  }
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; setRunning(visible && !document.hidden); }).observe(stage);
+  document.addEventListener('visibilitychange', () => setRunning(visible && !document.hidden));
+  updateUI(p);
+  setRunning(true);
+})();
+</script>
+
+<script>
+(() => {
+  // Shop data. Prices are examples for the demo; specs come from maker and retailer pages.
+  const PRODUCTS = /*DATA*/[
+ {
+  "id": "castrol-edge-ll",
+  "brand": "Castrol",
+  "name": "EDGE 5W-30 LL",
+  "grade": "5W-30",
+  "base": "Full synthetic",
+  "acea": "C3",
+  "api": null,
+  "approvals": [
+   "Approved: VW 504 00 / 507 00",
+   "Approved: BMW Longlife-04",
+   "Approved: MB 229.31 / 229.51",
+   "Approved: Porsche C30"
+  ],
+  "forCars": "VW group cars on long-life service, plus BMW, Mercedes and Porsche models that need these approvals. Petrol, diesel and hybrid.",
+  "blurb": "Castrol's top full synthetic for long-life servicing. Castrol says its Fluid Titanium technology helps keep metal parts apart under pressure.",
+  "sizes": [
+   {
+    "l": 1,
+    "price": 15.99
+   },
+   {
+    "l": 4,
+    "price": 39.99
+   }
+  ],
+  "body": "#c9a24a",
+  "label": "#1f5a3a",
+  "ink": "#f5eee2",
+  "cap": "#d0252b"
+ },
+ {
+  "id": "total-ineo-ll",
+  "brand": "TotalEnergies",
+  "name": "Quartz INEO Long Life 5W-30",
+  "grade": "5W-30",
+  "base": "Fully synthetic",
+  "acea": "C3",
+  "api": "SP",
+  "approvals": [
+   "Approved: VW 504 00 / 507 00",
+   "Approved: BMW Longlife-04",
+   "Approved: MB 229.31 / 229.51 / 229.52",
+   "Approved: Porsche C30",
+   "Meets: VW 505 00 / 505 01"
+  ],
+  "forCars": "VW group cars on long-life service, petrol and diesel, plus BMW and Mercedes models that need LL-04 or 229.51.",
+  "blurb": "TotalEnergies built this low-ash oil for Volkswagen group engines, to look after the exhaust clean-up kit, particulate filters most of all.",
+  "sizes": [
+   {
+    "l": 1,
+    "price": 15.99
+   },
+   {
+    "l": 5,
+    "price": 44.99
+   }
+  ],
+  "body": "#cbb98d",
+  "label": "#f2efe6",
+  "ink": "#3a3220",
+  "cap": "#e3b416"
+ },
+ {
+  "id": "carlube-vw",
+  "brand": "Carlube",
+  "name": "Triple R 5W-30 for VW",
+  "grade": "5W-30",
+  "base": "Fully synthetic",
+  "acea": "C3",
+  "api": "SN",
+  "approvals": [
+   "Meets: VW 504 00 / 507 00",
+   "Meets: BMW Longlife-04",
+   "Meets: MB 229.31 / 229.51",
+   "Meets: Porsche C30"
+  ],
+  "forCars": "Recent VW, Audi, SEAT and Skoda petrol and diesel cars, including long-life service, plus BMW and Mercedes models that need LL-04 or 229.51.",
+  "blurb": "Carlube's highest VW-spec 5W-30. A low-ash full synthetic that Carlube says is made for maximum protection and better fuel economy.",
+  "sizes": [
+   {
+    "l": 1,
+    "price": 14.99
+   },
+   {
+    "l": 5,
+    "price": 34.99
+   }
+  ],
+  "body": "#b9bcc2",
+  "label": "#2f7fc0",
+  "ink": "#ffffff",
+  "cap": "#c8202f"
+ },
+ {
+  "id": "redex-c3",
+  "brand": "Redex",
+  "name": "Fully Synthetic 5W-30 for BMW",
+  "grade": "5W-30",
+  "base": "Fully synthetic",
+  "acea": "C3",
+  "api": "SN/CF",
+  "approvals": [
+   "Meets: BMW Longlife-04",
+   "Meets: GM dexos2",
+   "Meets: MB 229.31 / 229.51 / 229.52",
+   "Meets: VW 505 00 / 505 01"
+  ],
+  "forCars": "Modern BMW, Vauxhall, VW and Mercedes petrol and diesel cars that need a C3 5W-30. Not for VW long-life service, which needs 504 00 / 507 00.",
+  "blurb": "A low-ash full synthetic from Redex in one 2-litre bottle that covers BMW, Vauxhall, VW and Mercedes specs.",
+  "sizes": [
+   {
+    "l": 2,
+    "price": 19.49
+   }
+  ],
+  "body": "#c9a24a",
+  "label": "#5b5fae",
+  "ink": "#ffffff",
+  "cap": "#b8913f"
+ },
+ {
+  "id": "castrol-magnatec-a5",
+  "brand": "Castrol",
+  "name": "MAGNATEC 5W-30 A5",
+  "grade": "5W-30",
+  "base": "Full synthetic",
+  "acea": "A5/B5",
+  "api": "SP",
+  "approvals": [
+   "Meets: Ford WSS-M2C913-D"
+  ],
+  "forCars": "Ford petrol and diesel cars that call for Ford WSS-M2C913-D. Not for cars with a diesel particulate filter.",
+  "blurb": "Castrol says its molecules cling to engine parts even after the oil drains down, cutting wear during warm-up and stop-start driving.",
+  "sizes": [
+   {
+    "l": 1,
+    "price": 14.99
+   },
+   {
+    "l": 5,
+    "price": 45.99
+   }
+  ],
+  "body": "#2e8b74",
+  "label": "#e9efe9",
+  "ink": "#14523f",
+  "cap": "#d0252b"
+ },
+ {
+  "id": "carlube-ford",
+  "brand": "Carlube",
+  "name": "Triple R 5W-30 for Ford",
+  "grade": "5W-30",
+  "base": "Fully synthetic",
+  "acea": "A5/B5",
+  "api": "SP",
+  "approvals": [
+   "Meets: Ford WSS-M2C913-D",
+   "Meets: Ford WSS-M2C913-A / -B / -C",
+   "Meets: Jaguar Land Rover STJLR.03.5003",
+   "Meets: Renault RN0700"
+  ],
+  "forCars": "Ford petrol and diesel engines (Duratec, Duratorq, Zetec) that need Ford WSS-M2C913-D, and older Fords that need -A, -B or -C.",
+  "blurb": "Carlube says it meets and beats Ford's 913-D spec, with over 3% better fuel economy in the CEC M111 test.",
+  "sizes": [
+   {
+    "l": 1,
+    "price": 11.99
+   },
+   {
+    "l": 4,
+    "price": 32.99
+   }
+  ],
+  "body": "#b9bcc2",
+  "label": "#6b8f3a",
+  "ink": "#ffffff",
+  "cap": "#c8202f"
+ },
+ {
+  "id": "comma-syner-g",
+  "brand": "Comma",
+  "name": "Syner-G 5W-40",
+  "grade": "5W-40",
+  "base": "Synthetic",
+  "acea": "A3/B4",
+  "api": "SN/CF",
+  "approvals": [
+   "Approved: VW 502 00",
+   "Approved: VW 505 00",
+   "Approved: MB 229.3",
+   "Meets: MB 229.1",
+   "Meets: MB 226.5",
+   "Meets: Renault RN0700 / RN0710"
+  ],
+  "forCars": "Petrol and diesel cars that call for an A3/B4 5W-40, such as VW 502 00 / 505 00 and Mercedes 229.3. Not a low-ash oil.",
+  "blurb": "Comma's high-performance 5W-40 for petrol and diesel engines, with official VW and Mercedes approvals.",
+  "sizes": [
+   {
+    "l": 1,
+    "price": 15.99
+   },
+   {
+    "l": 5,
+    "price": 45.99
+   }
+  ],
+  "body": "#d8d6d0",
+  "label": "#c8202f",
+  "ink": "#ffffff",
+  "cap": "#c8202f"
+ },
+ {
+  "id": "total-quartz-9000",
+  "brand": "TotalEnergies",
+  "name": "Quartz 9000 5W-40",
+  "grade": "5W-40",
+  "base": "Synthetic",
+  "acea": "A3/B4",
+  "api": "SP/CF",
+  "approvals": [
+   "Approved: MB 229.5",
+   "Approved: VW 502 00 / 505 00",
+   "Approved: BMW Longlife-01",
+   "Approved: Porsche A40",
+   "Approved: Renault RN0700 / RN0710",
+   "Approved: Stellantis FPW9.55535/10"
+  ],
+  "forCars": "Turbo and direct-injection petrol and diesel cars that call for an A3/B4 5W-40, such as VW 502 / 505, Mercedes 229.5 and BMW LL-01. Not a low-ash oil.",
+  "blurb": "TotalEnergies says it resists breaking down well enough for long service intervals and copes with hard driving all year round.",
+  "sizes": [
+   {
+    "l": 1,
+    "price": 14.99
+   },
+   {
+    "l": 5,
+    "price": 39.99
+   }
+  ],
+  "body": "#b39a6b",
+  "label": "#f0ede4",
+  "ink": "#3a3220",
+  "cap": "#2a2a2a"
+ }
+]/*END*/;
+  const $ = s => document.querySelector(s);
+  const money = n => '£' + n.toFixed(2);
+  const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hexA = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${n >> 8 & 255},${n & 255},${a})`; };
+  const MAKES = [
+    ['vw', 'VW group', /\bVW\b|Volkswagen|Audi|Skoda|Škoda|SEAT|Porsche/],
+    ['bmw', 'BMW · Mini', /BMW|\bMINI\b|\bMini\b/],
+    ['ford', 'Ford', /Ford/],
+    ['mb', 'Mercedes', /\bMB\b|Mercedes/],
+    ['vx', 'Vauxhall', /dexos|Vauxhall/],
+  ];
+  PRODUCTS.forEach(p => {
+    p.title = p.name.replace(p.grade, `<span style="white-space:nowrap">${p.grade}</span>`);
+    const t = p.approvals.join(' ');
+    p.makes = MAKES.filter(m => m[2].test(t)).map(m => m[0]);
+    p.main = p.sizes[p.sizes.length - 1];
+    const at = p.name.indexOf(p.grade);
+    p.lineA = at > 0 ? p.name.slice(0, at).trim() : p.brand;
+    p.lineB = at >= 0 ? p.name.slice(at).trim() : p.grade;
+  });
+
+  // Bottle drawing, shared by cards, rows, the basket and the pour
+  const BODY = 'M22 152Q14 152 14 144V64Q14 56 21 51L42 36V28H62V36L68 40H98Q106 40 106 48V144Q106 152 98 152Z';
+  const HANDLE = 'M76 48H95Q98 48 98 51V60Q98 63 95 63H76Q73 63 73 60V51Q73 48 76 48Z';
+  const WAVE = x => `M${x} 0q15-4 30 0` + 't30 0'.repeat(15) + `V200H${x}Z`;
+  const OIL = id => `<linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd76a"/><stop offset=".55" stop-color="#f0a21c"/><stop offset="1" stop-color="#b85e05"/></linearGradient>`;
+  function bottle(p, uid) {
+    return `<svg class="bottle" viewBox="0 0 120 160" aria-hidden="true">
+      <defs><clipPath id="k${uid}"><path d="${BODY}${HANDLE}" clip-rule="evenodd"/></clipPath>${OIL('o' + uid)}</defs>
+      <path d="${BODY}${HANDLE}" fill-rule="evenodd" fill="${p.body}" fill-opacity=".16" stroke="${p.body}" stroke-opacity=".8" stroke-width="1.5"/>
+      <g clip-path="url(#k${uid})"><g class="liquid"><path class="wave" d="${WAVE(-120)}" fill="url(#o${uid})" opacity=".92"/></g>
+        <rect x="74" y="30" width="40" height="130" fill="#000" opacity=".22"/></g>
+      <rect x="24" y="84" width="72" height="50" rx="5" fill="${p.label}"/>
+      <text class="b-grade" x="60" y="114" text-anchor="middle" fill="${p.ink}">${p.grade}</text>
+      <rect x="40" y="18" width="24" height="12" rx="2.5" fill="${p.cap}"/>
+      <path d="M21 68V140" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-linecap="round"/>
+    </svg>`;
+  }
+  function pourArt(p) {
+    // Bottle tipped over, open neck at (14, 206); the oil level stays level as it tilts
+    const T = 'translate(14 206) rotate(-128) scale(1.3) translate(-52 -30)';
+    return `<svg class="bottle" viewBox="0 0 360 230" aria-hidden="true">
+      <defs><clipPath id="pk" clipPathUnits="userSpaceOnUse"><path transform="${T}" d="${BODY}${HANDLE}" clip-rule="evenodd"/></clipPath>${OIL('po')}
+        <radialGradient id="pg"><stop offset="0" stop-color="${hexA(p.body, .42)}"/><stop offset="1" stop-color="${hexA(p.body, 0)}"/></radialGradient></defs>
+      <circle cx="96" cy="104" r="120" fill="url(#pg)"/>
+      <path transform="${T}" d="${BODY}${HANDLE}" fill-rule="evenodd" fill="${p.body}" fill-opacity=".16" stroke="${p.body}" stroke-opacity=".85" stroke-width="1.3"/>
+      <g clip-path="url(#pk)"><g transform="translate(0 150)"><path class="wave" d="${WAVE(-60)}" fill="url(#po)" opacity=".92"/></g></g>
+      <g transform="${T}"><rect x="24" y="84" width="72" height="50" rx="5" fill="${p.label}"/>
+        <text class="b-grade" x="60" y="114" text-anchor="middle" fill="${p.ink}">${p.grade}</text>
+        <path d="M21 68V140" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-linecap="round"/></g>
+      <path d="M14 204V232" stroke="url(#po)" stroke-width="6" stroke-linecap="round"/>
+    </svg>`;
+  }
+  const PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+
+  // ---------- Shop grid ----------
+  const grid = $('#grid'), none = $('#none');
+  let fGrade = 'all', fMake = 'all';
+  const io = 'IntersectionObserver' in window && !reduce
+    ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .3 })
+    : null;
+  if (io) grid.classList.add('js-fill');
+  function card(p, i) {
+    return `<article class="card" style="--glow:${hexA(p.body, .3)};--d:${(i % 4) * 120}ms">
+      <a class="card-link" href="#oil-${p.id}" aria-label="${p.brand} ${p.name}: see what's inside"></a>
+      <div class="card-art">${bottle(p, 'c' + p.id)}</div>
+      <div class="card-body">
+        <p class="brand">${p.brand}</p>
+        <h3 class="name">${p.title}</h3>
+        <ul class="tags"><li class="tag g">${p.grade}</li>${p.acea ? `<li class="tag">ACEA ${p.acea}</li>` : ''}</ul>
+        <p class="desc">${p.forCars}</p>
+        <div class="buy"><span class="price"><small>${p.main.l} L</small>${money(p.main.price)}</span>
+          <button class="add" type="button" data-add="${p.id}" data-l="${p.main.l}" aria-label="Add ${p.brand} ${p.name}, ${p.main.l} litres, to basket">${PLUS}Add</button></div>
+      </div>
+    </article>`;
+  }
+  function chipRow(el, items, get, set) {
+    el.innerHTML = items.map(([v, t]) => `<button class="chip" type="button" data-v="${v}" aria-pressed="${v === get()}">${t}</button>`).join('');
+    el.addEventListener('click', e => {
+      const b = e.target.closest('.chip'); if (!b) return;
+      set(b.dataset.v);
+      el.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.v === get())));
+      renderGrid();
+    });
+  }
+  const grades = [...new Set(PRODUCTS.map(p => p.grade))].sort();
+  chipRow($('#gradeChips'), [['all', 'All'], ...grades.map(g => [g, g])], () => fGrade, v => { fGrade = v; });
+  chipRow($('#makeChips'), [['all', 'Any car'], ...MAKES.filter(m => PRODUCTS.some(p => p.makes.includes(m[0]))).map(m => [m[0], m[1]])], () => fMake, v => { fMake = v; });
+  function renderGrid() {
+    const list = PRODUCTS.filter(p => (fGrade === 'all' || p.grade === fGrade) && (fMake === 'all' || p.makes.includes(fMake)));
+    grid.innerHTML = list.map(card).join('');
+    none.hidden = list.length > 0;
+    if (io) grid.querySelectorAll('.card').forEach(c => io.observe(c));
+  }
+  $('#clearFilters').addEventListener('click', () => {
+    fGrade = fMake = 'all';
+    document.querySelectorAll('.chips .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.v === 'all')));
+    renderGrid();
+  });
+  renderGrid();
+
+  // ---------- Product page ----------
+  const home = $('#home'), view = $('#product'), enq = $('#enquire'), top = $('.top'), track = $('#track');
+  function ingredients(p) {
+    const lowAsh = /C\d/.test(p.acea), economy = /A5|B5|C2|C5/.test(p.acea);
+    return [
+      ['Base oil', 'Flows', `Most of what's in the bottle. A ${p.base.toLowerCase()} base stays stable when hot and still pours freely when cold.`],
+      ['Viscosity modifiers', 'Grade', `Keep it thin on a cold start and thick enough at 100 °C. That's what ${p.grade} on the label means.`],
+      ['Detergents', 'Cleans', 'Stop deposits baking onto pistons and rings, so the engine stays clean inside.'],
+      ['Dispersants', 'Cleans', 'Hold soot and sludge in the oil, so it drains out at the next change instead of settling in the sump.'],
+      lowAsh
+        ? ['Low-ash anti-wear', 'Protects', 'Protects cams and bearings while leaving less ash behind, so it won\'t clog a diesel particulate filter or the catalyst.']
+        : ['Anti-wear additives', 'Protects', 'Leave a thin protective layer on the hardest-working metal: cams, lifters and bearings.'],
+      ['Antioxidants', 'Lasts', 'Slow the oil breaking down from heat, so it holds up until your next service.'],
+      ['Friction modifiers', 'Saves', economy
+        ? 'Cut internal friction. This is a fuel-economy grade, made for engines designed to run thinner oil when hot.'
+        : 'Cut friction between moving parts for a smoother engine and a little less fuel used.'],
+      ['Anti-foam agents', 'Flows', 'Stop bubbles forming at high revs, so the pump moves oil, not air.'],
+    ];
+  }
+  function renderProduct(p) {
+    const same = PRODUCTS.filter(o => o !== p && o.grade === p.grade);
+    const more = (same.length ? same : PRODUCTS.filter(o => o !== p)).slice(0, 4);
+    view.innerHTML = `<div class="wrap">
+      <a class="back" href="#shop">← All oils</a>
+      <div class="flow">
+        <div class="pour">${pourArt(p)}</div>
+        <div class="rail" id="rail"><i></i><b></b></div>
+        <header class="p-head">
+          <p class="eyebrow">${p.brand} · ${p.base}</p>
+          <h1 class="p-title"><span>${p.lineA}</span><span class="ol">${p.lineB}</span></h1>
+          <p class="p-blurb">${p.blurb}</p>
+          <ul class="tags"><li class="tag g">${p.grade}</li>${p.acea ? `<li class="tag">ACEA ${p.acea}</li>` : ''}${p.api ? `<li class="tag">API ${p.api}</li>` : ''}</ul>
+        </header>
+        <section class="inside" aria-labelledby="insideT">
+          <h2 id="insideT">What's inside</h2>
+          <p class="note">Every brand keeps its exact recipe secret. These are the ingredient types in a modern synthetic oil, and what each one does for your engine.</p>
+          <ol class="ing">${ingredients(p).map(([n, r, d]) => `<li><span class="node" aria-hidden="true"></span><h3>${n}<span class="role">${r}</span></h3><p>${d}</p></li>`).join('')}</ol>
+        </section>
+      </div>
+      <section class="p-sec" aria-labelledby="labelT">
+        <h2 id="labelT">The label</h2>
+        <dl class="spec">
+          <div><dt>Grade</dt><dd>SAE ${p.grade}</dd></div>
+          <div><dt>Base</dt><dd>${p.base}</dd></div>
+          ${p.acea ? `<div><dt>ACEA</dt><dd>${p.acea}</dd></div>` : ''}
+          ${p.api ? `<div><dt>API</dt><dd>${p.api}</dd></div>` : ''}
+          ${p.approvals.length ? `<div><dt>Approvals</dt><dd>${p.approvals.map(a => `<span>${a}</span>`).join('')}</dd></div>` : ''}
+          <div><dt>Good for</dt><dd>${p.forCars}</dd></div>
+        </dl>
+      </section>
+      <section class="p-sec" aria-labelledby="sizeT">
+        <h2 id="sizeT">Pick a size</h2>
+        <fieldset class="sizes"><legend class="sr">Pack size</legend>
+          ${p.sizes.map(z => `<label class="size"><input type="radio" name="size" value="${z.l}" ${z === p.main ? 'checked' : ''}><span class="dot" aria-hidden="true"></span>
+            <span class="l">${z.l} L<span class="u">${z.l < 4 ? 'Top-up between services' : 'Enough for a full change on most cars'}</span></span><span class="pr">${money(z.price)}</span></label>`).join('')}
+        </fieldset>
+      </section>
+      <section class="p-sec" aria-labelledby="moreT">
+        <h2 id="moreT">${same.length ? `More ${p.grade} oils` : 'Other oils'}</h2>
+        <ul class="rows">${more.map(o => `<li class="row"><a href="#oil-${o.id}" tabindex="-1" aria-hidden="true">${bottle(o, 'r' + o.id)}</a>
+          <a class="t" href="#oil-${o.id}">${o.brand} ${o.title}<small>${o.main.l} L · ${money(o.main.price)}</small></a>
+          <button class="add sm" type="button" data-add="${o.id}" data-l="${o.main.l}" aria-label="Add ${o.brand} ${o.name}, ${o.main.l} litres, to basket">${PLUS}Add</button></li>`).join('')}</ul>
+      </section>
+      <p><a class="ask-link" href="#enquire" data-about="${p.id}">Not sure it fits your car? Ask us →</a></p>
+      <p class="foot">Example prices. Always check your handbook for the grade and approval your car needs.</p>
+    </div>
+    <div class="buybar">
+      <span class="bb-p" id="bbP"></span>
+      <div class="qty"><button type="button" data-q="-1" aria-label="One fewer">−</button><output id="qtyOut" aria-live="polite">1</output><button type="button" data-q="1" aria-label="One more">+</button></div>
+      <button class="add" type="button" id="bbAdd">Add to basket</button>
+    </div>`;
+    let qty = 1;
+    const sel = () => p.sizes.find(z => String(z.l) === view.querySelector('input[name=size]:checked').value);
+    const sync = () => { const z = sel(); $('#bbP').innerHTML = `<small>${z.l} L${qty > 1 ? ' × ' + qty : ''}</small>${money(z.price * qty)}`; $('#qtyOut').textContent = qty; };
+    view.querySelector('.sizes').addEventListener('change', sync);
+    view.querySelector('.qty').addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (!b) return; qty = Math.max(1, Math.min(20, qty + +b.dataset.q)); sync(); });
+    $('#bbAdd').addEventListener('click', e => { add(p.id, sel().l, qty, e.currentTarget); qty = 1; sync(); });
+    sync();
+  }
+  // The pour runs down the page with your scroll and lights each ingredient as it reaches it
+  function railTick() {
+    const rail = $('#rail'); if (!rail || view.hidden) return;
+    const r = rail.getBoundingClientRect();
+    const h = Math.max(26, Math.min(r.height, innerHeight * .62 - r.top));
+    rail.style.setProperty('--h', h + 'px');
+    rail.classList.toggle('full', h >= r.height - 1);
+    view.querySelectorAll('.ing li').forEach(li => li.classList.toggle('lit', li.querySelector('.node').getBoundingClientRect().top + 7 <= r.top + h));
+  }
+  function headerTick() { top.classList.toggle('solid', !view.hidden || !enq.hidden || track.getBoundingClientRect().bottom < 90); }
+  let ticking = false;
+  addEventListener('scroll', () => { if (ticking) return; ticking = true; requestAnimationFrame(() => { ticking = false; railTick(); headerTick(); }); }, { passive: true });
+  addEventListener('resize', railTick);
+
+  function jump(y) { const r = document.documentElement; r.style.scrollBehavior = 'auto'; window.scrollTo(0, y); r.style.scrollBehavior = ''; }
+  function route() {
+    const h = location.hash.slice(1);
+    const p = h.startsWith('oil-') ? byId[h.slice(4)] : null;
+    const wasProduct = !view.hidden || !enq.hidden;
+    enq.hidden = h !== 'enquire';
+    home.hidden = !!p || !enq.hidden; view.hidden = !p;
+    if (p) { renderProduct(p); jump(0); railTick(); }
+    else if (!enq.hidden) { view.innerHTML = ''; openEnquiry(); jump(0); }
+    else {
+      view.innerHTML = '';
+      if (h === 'shop' && wasProduct) jump($('#shop').offsetTop);
+      if (h === 'top') jump(0);
+    }
+    headerTick();
+  }
+  addEventListener('hashchange', route);
+
+  // ---------- Enquiry ----------
+  // The form works as a form, but this preview has nowhere to send it, so it says so plainly
+  const form = $('#enqForm'), sent = $('#enqSent'), oilSel = $('#enqOil');
+  oilSel.insertAdjacentHTML('beforeend', PRODUCTS.map(p => `<option value="${p.id}">${p.brand} ${p.name}</option>`).join(''));
+  let about = '';
+  document.addEventListener('click', e => { const a = e.target.closest('[data-about]'); if (a) about = a.dataset.about; });
+  function openEnquiry() {
+    if (about) { oilSel.value = about; about = ''; }
+    form.hidden = false; sent.hidden = true;
+  }
+  // Reg plates: capitals only, and current-style plates get their space (AB12CDE becomes AB12 CDE)
+  $('#enqReg').addEventListener('input', e => {
+    const i = e.target, v = i.value.toUpperCase().replace(/[^A-Z0-9 ]/g, '');
+    i.value = /^[A-Z]{2}[0-9]{2}[A-Z]{3}$/.test(v) ? v.slice(0, 4) + ' ' + v.slice(4) : v;
+  });
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const need = [['enqName', 'your name'], ['enqEmail', 'your email'], ['enqMsg', 'a message']];
+    const bad = need.filter(([id]) => { const el = $('#' + id); const ok = el.value.trim() && (id !== 'enqEmail' || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value.trim())); el.setAttribute('aria-invalid', String(!ok)); return !ok; });
+    const err = $('#enqErr');
+    if (bad.length) { err.textContent = 'Please add ' + bad.map(b => b[1]).join(', ').replace(/, ([^,]*)$/, ' and $1') + '.'; err.hidden = false; $('#' + bad[0][0]).focus(); return; }
+    err.hidden = true;
+    const d = new FormData(form), oil = byId[d.get('oil')];
+    const rows = [['Reg', d.get('reg')], ['Car', d.get('car')], ['About', d.get('topic')], ['Oil', oil ? oil.brand + ' ' + oil.name : ''], ['Name', d.get('name')], ['Email', d.get('email')], ['Phone', d.get('phone')], ['Message', d.get('message')]];
+    const esc = v => String(v).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    $('#enqSummary').innerHTML = rows.filter(r => r[1] && String(r[1]).trim()).map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('');
+    form.hidden = true; sent.hidden = false; sent.focus();
+  });
+  form.addEventListener('input', e => { if (e.target.getAttribute('aria-invalid') === 'true' && e.target.value.trim()) e.target.setAttribute('aria-invalid', 'false'); });
+  $('#enqAgain').addEventListener('click', () => { sent.hidden = true; form.hidden = false; $('#enqName').focus(); });
+
+  // ---------- Basket ----------
+  const KEY = 'aurum-basket';
+  let basket = [];
+  try { basket = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { basket = []; }
+  const sizeOf = (id, l) => byId[id] && byId[id].sizes.find(z => z.l === l);
+  basket = basket.filter(x => sizeOf(x.id, x.l));
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(basket)); } catch (e) {} };
+  const cartBtn = $('#cartBtn'), cartCount = $('#cartCount'), sheet = $('#sheet'), lines = $('#lines');
+  function renderBasket() {
+    const n = basket.reduce((a, x) => a + x.qty, 0);
+    cartCount.textContent = n; cartCount.hidden = n === 0;
+    cartBtn.setAttribute('aria-label', `Basket, ${n} item${n === 1 ? '' : 's'}`);
+    lines.innerHTML = basket.map((x, i) => { const p = byId[x.id], z = sizeOf(x.id, x.l); return `<li class="line">${bottle(p, 'b' + i)}
+      <span class="t">${p.brand} ${p.title}<small>${x.l} L · ${money(z.price)} each</small></span>
+      <span class="r">${money(z.price * x.qty)}<span class="qty"><button type="button" data-i="${i}" data-q="-1" aria-label="One fewer ${p.name}">−</button><output>${x.qty}</output><button type="button" data-i="${i}" data-q="1" aria-label="One more ${p.name}">+</button></span></span></li>`; }).join('');
+    $('#empty').hidden = n > 0; $('#sheetFoot').hidden = n === 0;
+    $('#subtotal').textContent = money(basket.reduce((a, x) => a + sizeOf(x.id, x.l).price * x.qty, 0));
+  }
+  lines.addEventListener('click', e => {
+    const b = e.target.closest('[data-q]'); if (!b) return;
+    const x = basket[+b.dataset.i]; x.qty += +b.dataset.q;
+    if (x.qty <= 0) basket.splice(+b.dataset.i, 1);
+    save(); renderBasket();
+  });
+  let toastTimer;
+  function toast(text) {
+    const t = $('#toast'); $('#toastText').textContent = text; t.classList.add('on');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('on'), 2800);
+  }
+  function drip(from) {
+    const bump = () => { cartBtn.classList.remove('bump'); void cartBtn.offsetWidth; cartBtn.classList.add('bump'); };
+    if (!from || reduce || !from.animate) return bump();
+    const a = from.getBoundingClientRect(), b = cartBtn.getBoundingClientRect();
+    const x = a.left + a.width / 2, y = a.top + a.height / 2, dx = b.left + b.width / 2 - x, dy = b.top + b.height / 2 - y;
+    const d = document.createElement('i'); d.className = 'drip'; d.style.left = x + 'px'; d.style.top = y + 'px'; document.body.appendChild(d);
+    d.animate([{ transform: 'translate(0,0)' }, { transform: `translate(${dx * .45}px,${Math.min(dy, 0) * .6 - 70}px)`, offset: .45 }, { transform: `translate(${dx}px,${dy}px) scale(.5)`, opacity: .7 }],
+      { duration: 650, easing: 'cubic-bezier(.45,0,.55,1)' }).onfinish = () => { d.remove(); bump(); };
+  }
+  function add(id, l, qty, el) {
+    const p = byId[id], line = basket.find(x => x.id === id && x.l === l);
+    if (line) line.qty = Math.min(20, line.qty + qty); else basket.push({ id, l, qty });
+    save(); renderBasket(); drip(el);
+    toast(`Added ${p.brand} ${p.name}, ${l} L${qty > 1 ? ' × ' + qty : ''}`);
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-add]'); if (!b) return;
+    add(b.dataset.add, +b.dataset.l, 1, b);
+  });
+  let lastFocus = null;
+  function openSheet() { lastFocus = document.activeElement; sheet.hidden = false; document.documentElement.style.overflow = 'hidden'; sheet.querySelector('.x').focus(); $('#toast').classList.remove('on'); }
+  function closeSheet() { sheet.hidden = true; document.documentElement.style.overflow = ''; $('#checkoutMsg').hidden = true; if (lastFocus) lastFocus.focus(); }
+  cartBtn.addEventListener('click', openSheet);
+  $('#toastView').addEventListener('click', openSheet);
+  sheet.addEventListener('click', e => { if (e.target.closest('[data-close]')) closeSheet(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !sheet.hidden) closeSheet(); });
+  $('#checkout').addEventListener('click', () => { $('#checkoutMsg').hidden = false; });
+
+  renderBasket();
+  route();
+})();
+</script>
+
+</body></html>

@@ -4,7 +4,7 @@ A one-page website for a hair salon: video hero, services, before & after slider
 team, reviews, opening hours and WhatsApp booking. Everything lives in `index.html`;
 photos and videos live in `assets/`.
 
-Live demo: https://zaindstyles.github.io/Gallery/salon/
+Live demo: https://zainmhene.github.io/Gallery/salon/
 
 ## Re-branding it for a new salon
 
@@ -30,7 +30,7 @@ Work through this list in `index.html` (use Find to jump to each one).
    real business is illegal in the UK.
 10. **Link preview.** Update `og:url` and `og:image` to the new web address, and
     replace `assets/og.jpg` (1200 × 630).
-11. **Footer credit.** `Website by ZainDStyles`, so leave it in and link it to your site.
+11. **Footer credit.** `Website by TSUGI`, linked to tsugidigital.com, so leave it in.
 
 ## Swapping photos and videos
 

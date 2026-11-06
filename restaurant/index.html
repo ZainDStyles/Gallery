@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Brasa — Burgers over live fire</title>
+  <meta name="description" content="Dry-aged beef, stacked by hand and cooked over live charcoal. Book a table or walk in." />
+  <meta name="theme-color" content="#040201" />
+
+  <!-- Preview card when the link is shared (WhatsApp, iMessage, email, socials) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Brasa — Burgers over live fire" />
+  <meta property="og:description" content="Dry-aged beef, stacked by hand and cooked over live charcoal." />
+  <meta property="og:image" content="https://zainmhene.github.io/Gallery/restaurant/assets/og.jpg" />
+  <meta property="og:url" content="https://zainmhene.github.io/Gallery/restaurant/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23040201'/%3E%3Cpath d='M32 10c3 9 14 15 14 28a14 14 0 0 1-28 0c0-7 4-11 7-14 0 5 2 8 5 9-2-8 0-16 2-23z' fill='%23ff6a1f'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+
+  <!-- First frame of the animation, so it can show while the rest load -->
+  <link rel="preload" as="image" href="assets/frames/sm/001.webp" media="(max-width: 899px)" />
+  <link rel="preload" as="image" href="assets/frames/lg/001.webp" media="(min-width: 900px)" />
+
+  <style>
+    :root {
+      --ink: #040201;          /* page background: matches the black of the clips */
+      --char: #120a06;         /* slightly lifted sections */
+      --cream: #f6ecdf;
+      --dim: rgba(246, 236, 223, 0.7);
+      --faint: rgba(246, 236, 223, 0.42);
+      --line: rgba(246, 236, 223, 0.16);
+      --ember: #ff6a1f;
+      --gold: #ffb54a;
+      --ember-grad: linear-gradient(96deg, #ffd27a 0%, #ff9a3c 40%, #ff5a1a 100%);
+      --display: 'Big Shoulders Display', 'Anton', Impact, 'Arial Narrow', sans-serif;
+      --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+      --sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --header-h: 72px;
+      --pad: clamp(20px, 4.4vw, 72px);
+      /* Where the burger is drawn; JS keeps these in sync with the screen size */
+      --art-x: 0px;
+      --art-y: 0px;
+      --art-w: 100vw;
+      --art-h: 100vh;
+      --fs: 96px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+    }
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* Film grain over everything: keeps big dark areas from looking flat */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 48px;
+      padding: 0 24px;
+      border-radius: 999px;
+      font: 600 14px/1 var(--sans);
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+    }
+    .btn--fire {
+      color: #1a0802;
+      background: var(--ember-grad);
+      box-shadow: 0 10px 30px -8px rgba(255, 106, 31, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+    .btn--fire:hover { transform: translateY(-2px); box-shadow: 0 16px 40px -8px rgba(255, 106, 31, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+    .btn--ghost {
+      color: var(--cream);
+      border: 1px solid rgba(246, 236, 223, 0.32);
+      background: rgba(4, 2, 1, 0.35);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+    .btn--ghost:hover { border-color: var(--cream); background: rgba(246, 236, 223, 0.08); }
+    .btn svg { width: 16px; height: 16px; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--pad);
+      transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    .site-header.is-solid {
+      background: rgba(4, 2, 1, 0.72);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(14px) saturate(140%);
+    }
+    .wordmark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font: 800 26px/1 var(--display);
+      letter-spacing: 0.16em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .wordmark svg { width: 18px; height: 22px; }
+    .nav { display: flex; align-items: center; gap: 30px; }
+    .nav a:not(.btn) {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--dim);
+      transition: color 0.2s ease;
+    }
+    .nav a:not(.btn):hover { color: var(--cream); }
+    .nav .btn { height: 42px; padding: 0 20px; font-size: 13px; }
+    @media (max-width: 899px) {
+      :root { --header-h: 60px; }
+      .wordmark { font-size: 22px; }
+      .nav a:not(.btn) { display: none; }
+      .nav .btn { height: 38px; padding: 0 16px; }
+    }
+
+    /* ---------- Hero: a tall section whose stage stays pinned while you scroll ---------- */
+    .hero { position: relative; height: 560svh; }
+    .stage {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    /* Warm light that spills past the edges of the clip as the fire grows */
+    .spill {
+      position: absolute;
+      inset: -10%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(42% 46% at 50% 62%, rgba(255, 96, 20, 0.42), transparent 70%),
+        radial-gradient(70% 40% at 50% 100%, rgba(255, 140, 40, 0.3), transparent 70%);
+      opacity: var(--fire, 0);
+      will-change: opacity;
+    }
+    .art {
+      position: absolute;
+      z-index: 1;
+      left: var(--art-x);
+      top: var(--art-y);
+      width: var(--art-w);
+      height: var(--art-h);
+      /* Fade the clip's left and right edges into the page so it never looks boxed in */
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+      background: center / 100% 100% no-repeat;
+      transform-origin: 0 0;
+      will-change: transform;
+    }
+    .art canvas { display: block; width: 100%; height: 100%; }
+    /* Flames reach the bottom of the clip: melt them into the page instead of a hard edge */
+    .art::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 22%;
+      background: linear-gradient(180deg, transparent, var(--ink) 92%);
+      opacity: var(--fire, 0);
+    }
+    #embers {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* Anything that fades in and out with the scroll */
+    [data-show] { will-change: opacity, transform; }
+
+    /* ---------- Big headlines (left on desktop, top on phones) ---------- */
+    .copy {
+      position: absolute;
+      z-index: 4;
+      left: var(--pad);
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      width: max(300px, calc(var(--art-x) + var(--art-w) * 0.17 - var(--pad)));
+      pointer-events: none;
+    }
+    .act { grid-area: 1 / 1; align-self: center; }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 22px;
+      font: 500 12px/1.2 var(--sans);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: var(--ember-grad);
+    }
+    .headline {
+      margin: 0;
+      font: 900 var(--fs)/0.84 var(--display);
+      letter-spacing: -0.005em;
+      text-transform: uppercase;
+      text-wrap: balance;
+      text-shadow: 0 4px 40px rgba(4, 2, 1, 0.55);
+    }
+    .headline .line { display: block; white-space: nowrap; }
+    .headline .accent {
+      display: block;
+      margin-top: 0.12em;
+      font: italic 400 calc(var(--fs) * 0.74)/0.95 var(--serif);
+      letter-spacing: -0.01em;
+      text-transform: none;
+      background: var(--ember-grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding-bottom: 0.08em;
+    }
+    .lede {
+      max-width: 34ch;
+      margin: 26px 0 0;
+      font-size: 17px;
+      color: var(--dim);
+    }
+
+    /* ---------- Right-hand details: product card and booking ---------- */
+    .side {
+      position: absolute;
+      z-index: 4;
+      left: calc(var(--art-x) + var(--art-w) * 0.95);
+      right: var(--pad);
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 400px;
+      text-shadow: 0 2px 18px rgba(4, 2, 1, 0.8);
+    }
+    .side > * { grid-area: 1 / 1; align-self: center; }
+    .dish-kicker {
+      margin: 0 0 10px;
+      font: 500 12px/1 var(--sans);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .dish-name {
+      margin: 0;
+      font: 800 56px/0.9 var(--display);
+      text-transform: uppercase;
+    }
+    .dish-desc { margin: 14px 0 22px; color: var(--dim); }
+    .dish-buy { display: flex; align-items: center; gap: 22px; }
+    .price {
+      font: italic 400 44px/1 var(--serif);
+      color: var(--cream);
+    }
+    .book-lede { margin: 0 0 22px; color: var(--dim); font-size: 17px; }
+    .book-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .open-now {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 22px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+    }
+    .open-now i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #7ddc6a;
+      box-shadow: 0 0 0 0 rgba(125, 220, 106, 0.6);
+      animation: pulse 2.2s infinite;
+    }
+    @keyframes pulse {
+      70% { box-shadow: 0 0 0 9px rgba(125, 220, 106, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(125, 220, 106, 0); }
+    }
+
+    /* ---------- Ingredient labels on the exploded burger ---------- */
+    .labels {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      pointer-events: none;
+    }
+    .label {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      display: flex;
+      align-items: center;
+      transform: translateY(-50%);
+    }
+    .label .tick {
+      position: relative;
+      width: var(--len, 80px);
+      height: 1px;
+      margin-right: 16px;
+      background: linear-gradient(90deg, var(--gold), rgba(255, 181, 74, 0.25));
+    }
+    .label .tick::before {
+      content: "";
+      position: absolute;
+      left: -4px;
+      top: -4px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 12px 2px rgba(255, 150, 50, 0.85);
+    }
+    .label .num {
+      margin-right: 12px;
+      font: 700 13px/1 var(--display);
+      letter-spacing: 0.08em;
+      color: var(--gold);
+    }
+    .label .name {
+      display: block;
+      font: 600 13px/1.2 var(--sans);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .label .note {
+      display: block;
+      font: italic 400 17px/1.25 var(--serif);
+      color: var(--dim);
+      white-space: nowrap;
+    }
+
+    /* ---------- Chapter rail and scroll hint ---------- */
+    .chapters {
+      position: absolute;
+      z-index: 4;
+      left: var(--pad);
+      bottom: 34px;
+      display: flex;
+      gap: 26px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font: 500 11px/1 var(--sans);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .chapters li { position: relative; padding-top: 14px; transition: color 0.4s ease; }
+    .chapters li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 64px;
+      height: 2px;
+      background: rgba(246, 236, 223, 0.16);
+    }
+    .chapters li::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 64px;
+      height: 2px;
+      background: var(--ember-grad);
+      transform-origin: left;
+      transform: scaleX(var(--done, 0));
+    }
+    .chapters li.is-on { color: var(--cream); }
+    .chapters b { font-weight: 700; color: var(--gold); margin-right: 6px; }
+    .scroll-hint {
+      position: absolute;
+      z-index: 4;
+      right: var(--pad);
+      bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font: 500 11px/1 var(--sans);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+    .scroll-hint span {
+      position: relative;
+      width: 1px;
+      height: 46px;
+      overflow: hidden;
+      background: rgba(246, 236, 223, 0.18);
+    }
+    .scroll-hint span::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: -50%;
+      width: 1px;
+      height: 50%;
+      background: var(--gold);
+      animation: drip 1.8s cubic-bezier(0.6, 0, 0.3, 1) infinite;
+    }
+    @keyframes drip { to { top: 100%; } }
+
+    /* ---------- Phones and narrow tablets: stack headline / burger / details ---------- */
+    @media (max-width: 899px) {
+      .hero { height: 520svh; }
+      .copy {
+        left: var(--pad);
+        right: var(--pad);
+        top: calc(var(--header-h) + 14px);
+        width: auto;
+        transform: none;
+      }
+      .act { align-self: start; }
+      .eyebrow { margin-bottom: 12px; font-size: 10.5px; }
+      .eyebrow::before { width: 22px; }
+      .headline { text-align: left; }
+      .headline .line { display: inline; }
+      .headline .line + .line::before { content: " "; }
+      .lede { display: none; }
+      .side {
+        left: var(--pad);
+        right: var(--pad);
+        top: auto;
+        bottom: 22px;
+        transform: none;
+        max-width: none;
+        text-shadow: none;
+      }
+      .side > * {
+        align-self: end;
+        padding: 16px 16px 18px;
+        border: 1px solid rgba(246, 236, 223, 0.12);
+        border-radius: 22px;
+        background: rgba(10, 5, 3, 0.62);
+        -webkit-backdrop-filter: blur(16px) saturate(140%);
+        backdrop-filter: blur(16px) saturate(140%);
+      }
+      .dish { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 0 12px; }
+      .dish-kicker { grid-column: 1 / -1; margin-bottom: 6px; font-size: 10.5px; }
+      .dish-name { font-size: 38px; white-space: nowrap; }
+      .dish-desc, .dish-buy .btn { display: none; }
+      .price { font-size: 34px; }
+      .book-actions { flex-wrap: nowrap; }
+      .book-actions .btn { height: 44px; padding: 0 14px; min-width: 0; }
+      .book-lede { margin-bottom: 14px; font-size: 14px; }
+      .book-actions .btn { flex: 1; }
+      .open-now { margin-top: 14px; font-size: 12px; }
+      /* Labels become small tags sitting on the edge of each ingredient */
+      .label .tick { --len: 12px; margin-right: 6px; }
+      .label .num { display: none; }
+      .label .name {
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        background: rgba(10, 5, 3, 0.66);
+        border: 1px solid rgba(255, 181, 74, 0.32);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+      }
+      .label .note { display: none; }
+      .label.is-left { flex-direction: row-reverse; transform: translate(-100%, -50%); }
+      .label.is-left .tick { margin: 0 0 0 8px; background: linear-gradient(270deg, var(--gold), rgba(255, 181, 74, 0.25)); }
+      .label.is-left .tick::before { left: auto; right: -4px; }
+      .chapters { display: none; }
+      .scroll-hint { right: 50%; bottom: 22px; transform: translateX(50%); }
+      .scroll-hint em { display: none; }
+    }
+    .progress {
+      position: absolute;
+      z-index: 5;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--ember-grad);
+      transform-origin: left;
+      transform: scaleX(var(--p, 0));
+    }
+    @media (min-width: 900px) { .progress { display: none; } }
+
+    /* ---------- Loader ---------- */
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    .loader.is-done { opacity: 0; visibility: hidden; }
+    .loader-inner { width: min(240px, 60vw); text-align: center; }
+    .loader .wordmark { font-size: 30px; }
+    .loader-bar {
+      height: 1px;
+      margin: 22px 0 12px;
+      background: rgba(246, 236, 223, 0.14);
+      overflow: hidden;
+    }
+    .loader-bar i {
+      display: block;
+      height: 100%;
+      background: var(--ember-grad);
+      transform-origin: left;
+      transform: scaleX(var(--load, 0));
+      transition: transform 0.25s ease;
+    }
+    .loader-text {
+      font: 500 11px/1 var(--sans);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    /* ---------- After the hero ---------- */
+    .marquee {
+      overflow: hidden;
+      border-block: 1px solid var(--line);
+      background: var(--char);
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: slide 38s linear infinite;
+    }
+    .marquee span {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      padding: 22px 17px;
+      font: 800 clamp(26px, 3.4vw, 44px)/1 var(--display);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .marquee span::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      transform: rotate(45deg);
+      background: var(--ember);
+    }
+    .marquee span:nth-child(even) { color: transparent; -webkit-text-stroke: 1px rgba(246, 236, 223, 0.55); }
+    @keyframes slide { to { transform: translateX(-50%); } }
+
+    .section { padding: clamp(80px, 11vw, 150px) var(--pad); }
+    .section-head { max-width: 1180px; margin: 0 auto clamp(40px, 6vw, 70px); }
+    .section-head h2 {
+      margin: 0;
+      font: 900 clamp(52px, 8vw, 112px)/0.86 var(--display);
+      text-transform: uppercase;
+    }
+    .section-head h2 em {
+      font: italic 400 0.78em/1 var(--serif);
+      text-transform: none;
+      background: var(--ember-grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .menu {
+      display: grid;
+      gap: 0 clamp(40px, 6vw, 96px);
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0;
+      list-style: none;
+    }
+    @media (min-width: 900px) { .menu { grid-template-columns: 1fr 1fr; } }
+    .menu li {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 6px 24px;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .menu h3 {
+      margin: 0;
+      font: 800 30px/1 var(--display);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .menu .cost { font: italic 400 30px/1 var(--serif); color: var(--gold); }
+    .menu p { grid-column: 1 / -1; margin: 0; color: var(--dim); }
+    .tag {
+      display: inline-block;
+      margin-left: 10px;
+      padding: 4px 8px;
+      border: 1px solid rgba(125, 220, 106, 0.5);
+      border-radius: 999px;
+      font: 600 10px/1 var(--sans);
+      letter-spacing: 0.14em;
+      vertical-align: middle;
+      color: #9be38c;
+    }
+
+    .visit {
+      background:
+        radial-gradient(60% 80% at 85% 100%, rgba(255, 106, 31, 0.16), transparent 70%),
+        var(--char);
+    }
+    .visit-grid {
+      display: grid;
+      gap: 40px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    @media (min-width: 900px) { .visit-grid { grid-template-columns: 1.3fr 1fr 1fr; align-items: end; } }
+    .visit h4 {
+      margin: 0 0 12px;
+      font: 500 12px/1 var(--sans);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .visit p { margin: 0; color: var(--dim); font-size: 17px; }
+    .visit p strong { color: var(--cream); font-weight: 500; }
+    .visit .btn { margin-top: 26px; }
+
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 30px;
+      justify-content: space-between;
+      padding: 28px var(--pad) calc(28px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--faint);
+    }
+    .footer a { color: var(--dim); text-decoration: none; }
+    .footer a:hover { color: var(--cream); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .marquee-track, .scroll-hint span::after, .open-now i { animation: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <span class="wordmark">Brasa</span>
+      <div class="loader-bar"><i id="loadBar"></i></div>
+      <div class="loader-text" id="loadText">Lighting the coals</div>
+    </div>
+  </div>
+
+  <header class="site-header" id="header">
+    <a class="wordmark" href="#top" aria-label="Brasa, back to top">
+      <svg viewBox="0 0 18 22" aria-hidden="true"><path d="M9 0c1.4 4.3 7 7 7 13.3A7 7 0 0 1 2 13.3c0-3.3 2-5.4 3.4-6.8 0 2.4 1 3.9 2.5 4.4C7 7 8.1 3.4 9 0z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff5a1a"/></linearGradient></defs></svg>
+      Brasa
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#menu">Menu</a>
+      <a href="#visit">Visit</a>
+      <a class="btn btn--fire" href="#visit">Book a table</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="top" aria-label="The Brasa burger">
+      <div class="stage" id="stage">
+        <div class="spill" aria-hidden="true"></div>
+        <div class="art" id="art" style="background-image: url('assets/frames/sm/001.webp')">
+          <canvas id="frames" role="img" aria-label="A burger's layers floating apart, stacking together, then flames rising behind it"></canvas>
+        </div>
+        <canvas id="embers" aria-hidden="true"></canvas>
+
+        <!-- Act 1: the exploded burger, with every layer named -->
+        <ol class="labels" id="labels" aria-label="What goes into the Brasa burger">
+          <li class="label" data-show="-1,-1,.07,.13"><i class="tick"></i><span class="num">01</span><span><span class="name">Sesame brioche</span><span class="note">Baked here every morning</span></span></li>
+          <li class="label" data-show="-1,-1,.075,.135"><i class="tick"></i><span class="num">02</span><span><span class="name">Aged cheddar</span><span class="note">Eighteen months, melted to order</span></span></li>
+          <li class="label" data-show="-1,-1,.08,.14"><i class="tick"></i><span class="num">03</span><span><span class="name">Dry-aged beef</span><span class="note">Forty days, seared over coal</span></span></li>
+          <li class="label" data-show="-1,-1,.085,.145"><i class="tick"></i><span class="num">04</span><span><span class="name">Red onion</span><span class="note">Sliced thin for crunch</span></span></li>
+          <li class="label" data-show="-1,-1,.09,.15"><i class="tick"></i><span class="num">05</span><span><span class="name">Heirloom tomato</span><span class="note">Ripe, sweet, in season</span></span></li>
+          <li class="label" data-show="-1,-1,.095,.155"><i class="tick"></i><span class="num">06</span><span><span class="name">Butter lettuce</span><span class="note">Crisp and ice-cold</span></span></li>
+          <li class="label" data-show="-1,-1,.1,.16"><i class="tick"></i><span class="num">07</span><span><span class="name">Brioche heel</span><span class="note">Toasted in beef fat</span></span></li>
+        </ol>
+
+        <div class="copy">
+          <div class="act">
+            <p class="eyebrow" data-show="-1,-1,.06,.12">Brasa · Burgers over live fire</p>
+            <h1 class="headline">
+              <span class="line" data-show="-1,-1,.07,.13">Seven</span>
+              <span class="line" data-show="-1,-1,.08,.14">layers.</span>
+              <span class="accent" data-show="-1,-1,.09,.15">no shortcuts.</span>
+            </h1>
+            <p class="lede" data-show="-1,-1,.1,.16">Every burger is built by hand and finished over live charcoal. Scroll to build yours.</p>
+          </div>
+          <div class="act">
+            <h2 class="headline">
+              <span class="line" data-show=".22,.29,.55,.6">Stacked</span>
+              <span class="line" data-show=".23,.3,.555,.605">by hand.</span>
+              <span class="accent" data-show=".24,.31,.56,.61">to order.</span>
+            </h2>
+          </div>
+          <div class="act">
+            <h2 class="headline">
+              <span class="line" data-show=".66,.73,2,2">Cooked</span>
+              <span class="line" data-show=".67,.74,2,2">over</span>
+              <span class="accent" data-show=".68,.75,2,2">live fire.</span>
+            </h2>
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="dish" data-show=".36,.43,.56,.61">
+            <p class="dish-kicker">The signature</p>
+            <h2 class="dish-name">The Brasa</h2>
+            <p class="dish-desc">Dry-aged beef, aged cheddar, heirloom tomato, red onion and butter lettuce in a sesame brioche.</p>
+            <div class="dish-buy">
+              <span class="price">£14</span>
+              <a class="btn btn--ghost" href="#menu">See the menu</a>
+            </div>
+          </div>
+          <div class="book" data-show=".84,.9,2,2">
+            <p class="book-lede">Charcoal grill, open kitchen, walk-ins welcome. Tables fill fast after seven.</p>
+            <div class="book-actions">
+              <a class="btn btn--fire" href="#visit">Book a table</a>
+              <a class="btn btn--ghost" href="#menu">Menu</a>
+            </div>
+            <p class="open-now"><i></i><span id="openNow">Open today · 12:00 – 23:00</span></p>
+          </div>
+        </div>
+
+        <ol class="chapters" aria-hidden="true">
+          <li><b>01</b>Layers</li>
+          <li><b>02</b>Stack</li>
+          <li><b>03</b>Fire</li>
+        </ol>
+        <div class="scroll-hint" data-show="-1,-1,.015,.04" aria-hidden="true"><em>Scroll to build it</em><span></span></div>
+        <div class="progress" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Dry-aged beef</span><span>Live charcoal</span><span>Stacked by hand</span><span>Baked every morning</span>
+        <span>Dry-aged beef</span><span>Live charcoal</span><span>Stacked by hand</span><span>Baked every morning</span>
+      </div>
+    </div>
+
+    <section class="section" id="menu" aria-labelledby="menu-title">
+      <div class="section-head">
+        <h2 id="menu-title">The <em>menu</em></h2>
+      </div>
+      <ul class="menu">
+        <li><h3>The Brasa</h3><span class="cost">£14</span><p>Dry-aged beef, aged cheddar, heirloom tomato, red onion, butter lettuce, sesame brioche.</p></li>
+        <li><h3>Double Coal</h3><span class="cost">£17</span><p>Two smashed patties, double cheddar, charred onions, pickles, smoked burger sauce.</p></li>
+        <li><h3>Ember Chicken</h3><span class="cost">£13</span><p>Charcoal-grilled thigh, hot honey, slaw, garlic mayo, toasted brioche.</p></li>
+        <li><h3>Garden Fire <span class="tag">VEG</span></h3><span class="cost">£12</span><p>Flame-roasted portobello, halloumi, roasted pepper, rocket, basil mayo.</p></li>
+        <li><h3>Beef-fat fries</h3><span class="cost">£5</span><p>Triple-cooked, rosemary salt. Add truffle and parmesan for £2.</p></li>
+        <li><h3>Burnt cheesecake</h3><span class="cost">£7</span><p>Basque-style, scorched on top, salted caramel.</p></li>
+      </ul>
+    </section>
+
+    <section class="section visit" id="visit" aria-labelledby="visit-title">
+      <div class="section-head">
+        <h2 id="visit-title">Pull up <em>a seat</em></h2>
+      </div>
+      <div class="visit-grid">
+        <div>
+          <h4>Find us</h4>
+          <p><strong>48 Hearth Lane</strong><br />London E1 6AA</p>
+          <a class="btn btn--fire" href="tel:+442079460123">Book a table · 020 7946 0123</a>
+        </div>
+        <div>
+          <h4>Hours</h4>
+          <p>Mon – Thu · 12:00 – 22:00<br />Fri – Sat · 12:00 – 23:00<br />Sun · 12:00 – 21:00</p>
+        </div>
+        <div>
+          <h4>Walk-ins</h4>
+          <p>Half the room is kept for walk-ins every night. Bar seats by the grill.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Brasa</span>
+    <span>Website by <a href="https://tsugidigital.com" target="_blank" rel="noopener">TSUGI</a></span>
+  </footer>
+
+  <script>
+  (() => {
+    /* ======================================================================
+       Settings: change these if you swap the clips (see README.md)
+       ====================================================================== */
+
+    // Frame counts of each clip, in the order they play (printed by make-frames.sh)
+    const CLIPS = [100, 62];
+
+    // How the scroll maps onto the clips. Each step runs from one point in the
+    // hero's scroll (0 = top, 1 = bottom) to the next. Holds keep a frame still
+    // so the text has time to be read.
+    const TIMELINE = [
+      // [scroll from, scroll to, frame from, frame to]
+      [0.00, 0.10, 'start', 'start'],   // exploded burger, labels showing
+      [0.10, 0.44, 'start', 'clip1End'], // layers stack together
+      [0.44, 0.58, 'clip1End', 'clip1End'], // hold on the finished burger
+      [0.58, 0.88, 'clip2Start', 'end'],  // flames rise
+      [0.88, 1.00, 'end', 'end'],
+    ];
+
+    // Where each layer of the exploded burger sits in the first frame, as fractions
+    // of the frame: y = vertical centre, l / r = left and right edges
+    const LAYERS = [
+      { y: 0.126, l: 0.200, r: 0.790 }, // sesame brioche
+      { y: 0.292, l: 0.196, r: 0.797 }, // aged cheddar
+      { y: 0.428, l: 0.193, r: 0.799 }, // dry-aged beef
+      { y: 0.545, l: 0.211, r: 0.776 }, // red onion
+      { y: 0.647, l: 0.214, r: 0.761 }, // heirloom tomato
+      { y: 0.767, l: 0.164, r: 0.817 }, // butter lettuce
+      { y: 0.904, l: 0.211, r: 0.768 }, // brioche heel
+    ];
+
+    const FRAME_W = 3, FRAME_H = 4;     // clip shape (3:4)
+
+    /* ====================================================================== */
+
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const root = document.documentElement;
+    const hero = document.querySelector('.hero');
+    const stage = document.getElementById('stage');
+    const art = document.getElementById('art');
+    const canvas = document.getElementById('frames');
+    const ctx = canvas.getContext('2d', { alpha: false });
+    const labels = [...document.querySelectorAll('.label')];
+    const shows = [...document.querySelectorAll('[data-show]')].map(el => ({
+      el, r: el.dataset.show.split(',').map(Number), last: -1,
+    }));
+    const chapters = [...document.querySelectorAll('.chapters li')];
+    const header = document.getElementById('header');
+
+    const TOTAL = CLIPS.reduce((a, b) => a + b, 0);
+    const FRAMES = { start: 0, clip1End: CLIPS[0] - 1, clip2Start: CLIPS[0], end: TOTAL - 1 };
+    const pad = i => String(i + 1).padStart(3, '0');
+
+    let size = 'lg';
+    let mobile = false;
+    let W = 0, H = 0;
+    const box = { x: 0, y: 0, w: 0, h: 0 };
+
+    /* ---------- Layout: where the burger sits on this screen ---------- */
+    const acts = [...document.querySelectorAll('.act')];
+    const cards = [...document.querySelectorAll('.side > *')];
+    const morph = { dx: 0, dy: 0, s: 1 }; // phones: how the burger moves once it is stacked
+
+    function layout() {
+      W = stage.clientWidth;
+      H = stage.clientHeight;
+      mobile = W < 900 && W / H < 1.25;
+      const copyLeft = parseFloat(getComputedStyle(document.querySelector('.copy')).left) || 20;
+
+      if (mobile) {
+        // Headline on top, burger below it, cards at the bottom
+        root.style.setProperty('--fs', Math.max(38, Math.min(W / 7.4, 64)) + 'px');
+        const headerH = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 60;
+        const headTop = headerH + 14;
+
+        // Act 1: the exploded burger fills the space under the headline
+        // (its layers run from 3% to 96% of the frame height)
+        const topA = headTop + acts[0].offsetHeight + 8;
+        box.h = Math.min((H - 10 - topA) / 0.94, W * FRAME_H / FRAME_W);
+        box.w = box.h * FRAME_W / FRAME_H;
+        box.x = (W - box.w) / 2;
+        box.y = topA - 0.03 * box.h;
+
+        // Acts 2 and 3: the stacked burger (21% to 77% of the frame) sits between
+        // the headline and the card at the bottom
+        const headB = headTop + Math.max(acts[1].offsetHeight, acts[2].offsetHeight) + 10;
+        const cardTop = H - 22 - Math.max(...cards.map(c => c.offsetHeight)) - 8;
+        const hB = Math.max(H * 0.42, Math.min((cardTop - headB) / 0.56, W * FRAME_H / FRAME_W));
+        const wB = hB * FRAME_W / FRAME_H;
+        morph.dx = (W - wB) / 2 - box.x;
+        morph.dy = headB - 0.21 * hB - box.y;
+        morph.s = wB / box.w;
+      } else {
+        box.h = H;
+        box.w = H * FRAME_W / FRAME_H;
+        box.x = (W - box.w) / 2;
+        box.y = 0;
+        morph.dx = morph.dy = 0;
+        morph.s = 1;
+        // Big headline size: as large as fits beside the burger
+        const col = box.x + box.w * 0.17 - copyLeft;
+        root.style.setProperty('--fs', Math.max(48, Math.min(col / 4.4, H * 0.135, 132)) + 'px');
+      }
+      root.style.setProperty('--art-x', box.x + 'px');
+      root.style.setProperty('--art-y', box.y + 'px');
+      root.style.setProperty('--art-w', box.w + 'px');
+      root.style.setProperty('--art-h', box.h + 'px');
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(box.w * dpr);
+      canvas.height = Math.round(box.h * dpr);
+      ctx.imageSmoothingQuality = 'high';
+
+      // Ingredient labels: on desktop a line runs from each layer out to a neat
+      // column of text; on phones they become small tags on alternating sides
+      const column = box.x + box.w * 0.9;
+      labels.forEach((el, i) => {
+        const L = LAYERS[i];
+        el.style.setProperty('--y', box.y + L.y * box.h + 'px');
+        if (mobile) {
+          const left = i % 2 === 1;
+          el.classList.toggle('is-left', left);
+          const w = el.offsetWidth;
+          const x = left
+            ? Math.max(box.x + (L.l + 0.01) * box.w, 8 + w)
+            : Math.min(box.x + (L.r - 0.01) * box.w, W - 8 - w);
+          el.style.setProperty('--x', x + 'px');
+        } else {
+          el.classList.remove('is-left');
+          const x = box.x + (L.r - 0.012) * box.w;
+          el.style.setProperty('--x', x + 'px');
+          el.style.setProperty('--len', Math.max(16, column - x) + 'px');
+        }
+      });
+
+      embers.resize();
+      drawn = -1;
+      lastP = -1; // re-apply scroll styles for the new layout
+    }
+
+    /* ---------- Frame loading: rough pass first, then fill in the gaps ---------- */
+    const imgs = new Array(TOTAL).fill(null);
+    let loadStarted = false;
+    function load(onFirstPass) {
+      if (loadStarted) return;
+      loadStarted = true;
+      const order = [];
+      const seen = new Set();
+      const add = i => { if (i >= 0 && i < TOTAL && !seen.has(i)) { seen.add(i); order.push(i); } };
+      [FRAMES.start, FRAMES.clip1End, FRAMES.clip2Start, FRAMES.end].forEach(add);
+      for (const step of [8, 4, 2, 1]) for (let i = 0; i < TOTAL; i += step) add(i);
+      const firstPass = Math.ceil(TOTAL / 8) + 3;
+      let next = 0, active = 0, done = 0, reported = false;
+      const pump = () => {
+        while (active < 6 && next < order.length) {
+          const i = order[next++];
+          const im = new Image();
+          active++;
+          im.onload = () => { imgs[i] = im; finish(); };
+          im.onerror = finish;
+          im.src = `assets/frames/${size}/${pad(i)}.webp`;
+          function finish() {
+            active--; done++;
+            if (!reported) {
+              setLoad(done / firstPass);
+              if (done >= firstPass) { reported = true; onFirstPass(); }
+            }
+            if (Math.abs(i - current) < 8) drawn = -1;
+            pump();
+          }
+        }
+      };
+      pump();
+    }
+
+    /* ---------- Drawing: blend the loaded frames either side for silky scrubbing ---------- */
+    let current = 0, drawn = -1, lastP = -1;
+    function draw(f) {
+      let lo = -1, hi = -1;
+      for (let i = Math.floor(f); i >= 0; i--) if (imgs[i]) { lo = i; break; }
+      for (let i = Math.ceil(f); i < TOTAL; i++) if (imgs[i]) { hi = i; break; }
+      if (lo < 0 && hi < 0) return;
+      if (lo < 0) lo = hi;
+      if (hi < 0) hi = lo;
+      // While frames are still loading, gaps can be wide: show the closest one instead of blending
+      if (hi - lo > 4) { if (f - lo > hi - f) lo = hi; else hi = lo; }
+      ctx.globalAlpha = 1;
+      ctx.drawImage(imgs[lo], 0, 0, canvas.width, canvas.height);
+      // Crossfade only around the midpoint, so most of the time you see one crisp frame
+      const t = hi > lo ? Math.max(0, Math.min(1, ((f - lo) / (hi - lo) - 0.25) * 2)) : 0;
+      if (t > 0.02) {
+        ctx.globalAlpha = t * t * (3 - 2 * t);
+        ctx.drawImage(imgs[hi], 0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 1;
+      }
+      if (art.style.backgroundImage) art.style.backgroundImage = '';
+      drawn = f;
+    }
+
+    /* ---------- Scroll → frame and text ---------- */
+    function progress() {
+      const r = hero.getBoundingClientRect();
+      const span = r.height - H;
+      return span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+    }
+    function frameAt(p) {
+      for (const [p0, p1, f0, f1] of TIMELINE) {
+        if (p <= p1) {
+          const t = p1 > p0 ? Math.max(0, (p - p0) / (p1 - p0)) : 1;
+          return FRAMES[f0] + (FRAMES[f1] - FRAMES[f0]) * t;
+        }
+      }
+      return FRAMES.end;
+    }
+    function visibility(p, [a, b, c, d]) {
+      if (p >= d || (p <= a && a >= 0)) return 0;
+      if (p < b) return (p - a) / (b - a);
+      if (p <= c) return 1;
+      return (d - p) / (d - c);
+    }
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    function updateText(p) {
+      for (const s of shows) {
+        const v = Math.round(ease(Math.max(0, Math.min(1, visibility(p, s.r)))) * 1000) / 1000;
+        if (v === s.last) continue;
+        s.last = v;
+        const leaving = p > s.r[2];
+        const shift = (1 - v) * (leaving ? -28 : 36);
+        s.el.style.opacity = v;
+        s.el.style.translate = `0 ${shift}px`;
+        s.el.style.visibility = v === 0 ? 'hidden' : 'visible';
+        s.el.style.pointerEvents = v > 0.6 ? 'auto' : 'none';
+      }
+      const fire = Math.max(0, Math.min(1, (p - 0.6) / 0.26));
+      root.style.setProperty('--fire', fire.toFixed(3));
+      if (mobile) {
+        const m = Math.max(0, Math.min(1, (p - 0.12) / 0.24));
+        const t = m * m * (3 - 2 * m);
+        art.style.transform = `translate(${morph.dx * t}px, ${morph.dy * t}px) scale(${1 + (morph.s - 1) * t})`;
+      } else if (art.style.transform) {
+        art.style.transform = '';
+      }
+      root.style.setProperty('--p', p.toFixed(4));
+      const marks = [0, 0.3, 0.62, 1];
+      chapters.forEach((li, i) => {
+        const done = Math.max(0, Math.min(1, (p - marks[i]) / (marks[i + 1] - marks[i])));
+        li.style.setProperty('--done', done.toFixed(3));
+        li.classList.toggle('is-on', p >= marks[i] && (p < marks[i + 1] || i === chapters.length - 1));
+      });
+      return fire;
+    }
+
+    /* ---------- Embers drifting up through the scene ---------- */
+    const embers = (() => {
+      const c = document.getElementById('embers');
+      const g = c.getContext('2d');
+      const parts = [];
+      let w = 0, h = 0, dpr = 1;
+      // A soft glowing dot, drawn once and reused for every ember
+      const sprite = document.createElement('canvas');
+      sprite.width = sprite.height = 64;
+      const sg = sprite.getContext('2d');
+      const grad = sg.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, 'rgba(255,240,200,1)');
+      grad.addColorStop(0.18, 'rgba(255,170,60,0.95)');
+      grad.addColorStop(0.45, 'rgba(255,90,20,0.35)');
+      grad.addColorStop(1, 'rgba(255,60,0,0)');
+      sg.fillStyle = grad;
+      sg.fillRect(0, 0, 64, 64);
+
+      function spawn(heat) {
+        const spread = 0.18 + heat * 0.22;
+        const u = (Math.random() + Math.random() + Math.random()) / 3 - 0.5; // bell curve
+        parts.push({
+          x: w / 2 + u * 2 * spread * Math.max(w, box.w * 1.4),
+          y: h + 20,
+          vx: (Math.random() - 0.5) * 20,
+          vy: -(40 + Math.random() * 90) * (0.7 + heat * 0.8),
+          life: 0,
+          max: 2.5 + Math.random() * 4,
+          size: (2 + Math.random() * 5) * (Math.random() < 0.08 ? 2.2 : 1),
+          wob: Math.random() * Math.PI * 2,
+          spin: 0.6 + Math.random() * 1.6,
+        });
+      }
+      let acc = 0;
+      return {
+        resize() {
+          dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+          w = stage.clientWidth;
+          h = stage.clientHeight;
+          c.width = Math.round(w * dpr);
+          c.height = Math.round(h * dpr);
+        },
+        step(dt, heat) {
+          if (reduceMotion) return;
+          const rate = 6 + heat * 70; // embers per second
+          acc += rate * dt;
+          while (acc > 1 && parts.length < 260) { spawn(heat); acc--; }
+          g.setTransform(dpr, 0, 0, dpr, 0, 0);
+          g.clearRect(0, 0, w, h);
+          g.globalCompositeOperation = 'lighter';
+          for (let i = parts.length - 1; i >= 0; i--) {
+            const q = parts[i];
+            q.life += dt;
+            if (q.life > q.max || q.y < -20) { parts.splice(i, 1); continue; }
+            q.wob += dt * q.spin;
+            q.x += (q.vx + Math.sin(q.wob) * 18) * dt;
+            q.y += q.vy * dt;
+            const k = q.life / q.max;
+            const fade = Math.min(1, q.life * 3) * (1 - k) * (1 - k);
+            const s = q.size * (1 - k * 0.5) * 4;
+            g.globalAlpha = fade * (0.55 + heat * 0.45);
+            g.drawImage(sprite, q.x - s / 2, q.y - s / 2, s, s);
+          }
+          g.globalAlpha = 1;
+        },
+      };
+    })();
+
+    /* ---------- Loader ---------- */
+    const loader = document.getElementById('loader');
+    const loadBar = document.getElementById('loadBar');
+    const loadText = document.getElementById('loadText');
+    function setLoad(x) {
+      const v = Math.min(1, x);
+      loadBar.style.setProperty('--load', v);
+      loadText.textContent = v < 1 ? `Lighting the coals · ${Math.round(v * 100)}%` : 'Ready';
+    }
+    function reveal() {
+      if (loader.classList.contains('is-done')) return;
+      loader.classList.add('is-done');
+    }
+
+    /* ---------- Main loop ---------- */
+    let running = true, last = performance.now();
+    function tick(now) {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      const p = progress();
+      const target = frameAt(p);
+      current = reduceMotion ? target : current + (target - current) * (1 - Math.exp(-dt * 11));
+      if (Math.abs(target - current) < 0.004) current = target;
+      if (current !== drawn) draw(current);
+      let heat = Math.max(0, Math.min(1, (p - 0.6) / 0.26));
+      if (p !== lastP) { heat = updateText(p); lastP = p; }
+      embers.step(dt, heat);
+      header.classList.toggle('is-solid', p >= 1);
+      if (running) requestAnimationFrame(tick);
+    }
+
+    new IntersectionObserver(([e]) => {
+      const was = running;
+      running = e.isIntersecting;
+      if (running && !was) { last = performance.now(); requestAnimationFrame(tick); }
+      if (!running) header.classList.add('is-solid');
+    }).observe(hero);
+
+    // "Open now" line uses today's real hours
+    const HOURS = { 0: ['12:00', '21:00'], 1: ['12:00', '22:00'], 2: ['12:00', '22:00'], 3: ['12:00', '22:00'], 4: ['12:00', '22:00'], 5: ['12:00', '23:00'], 6: ['12:00', '23:00'] };
+    const today = HOURS[new Date().getDay()];
+    document.getElementById('openNow').textContent = `Open today · ${today[0]} – ${today[1]}`;
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function start() {
+      size = innerWidth < 900 ? 'sm' : 'lg';
+      layout();
+      const fail = setTimeout(reveal, 6000); // never keep people waiting on a slow line
+      load(() => { clearTimeout(fail); setTimeout(reveal, 250); });
+      requestAnimationFrame(tick);
+    }
+
+    let resizeTimer;
+    let lastW = innerWidth;
+    addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        // Phones fire resize when the toolbar slides away; only re-layout on real changes
+        if (innerWidth === lastW && Math.abs(stage.clientHeight - H) < 120) return;
+        lastW = innerWidth;
+        layout();
+        updateText(progress());
+      }, 120);
+    });
+
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+      if (!loadStarted) return;
+      layout();
+      updateText(progress());
+    });
+    start();
+  })();
+  </script>
+</body>
+</html>

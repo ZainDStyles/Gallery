@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Press — Smash burgers</title>
   <meta name="description" content="Smash burgers pressed to order on a scorching flat-top. Crispy edges, double American cheese, toasted potato buns." />
-  <meta name="theme-color" content="#010101" />
+  <meta name="theme-color" content="#0d0806" />
 
   <!-- Preview card when the link is shared (WhatsApp, iMessage, email, socials) -->
   <meta property="og:type" content="website" />
@@ -26,8 +26,8 @@
 
   <style>
     :root {
-      --ink: #010101;          /* page background: matches the black of the clips */
-      --char: #111010;         /* slightly lifted sections */
+      --ink: #0d0806;          /* page background: the darkest warm brown of the scene */
+      --char: #170f0b;         /* slightly lifted sections */
       --cream: #f6ecdf;
       --dim: rgba(246, 236, 223, 0.7);
       --faint: rgba(246, 236, 223, 0.42);
@@ -162,6 +162,29 @@
       isolation: isolate;
     }
 
+    /* The page behind the clip is the clip itself, blurred and dimmed, so the warm
+       restaurant light carries on past the edges instead of stopping at a box */
+    #ambient {
+      position: absolute;
+      left: -10%;
+      top: -10%;
+      z-index: 0;
+      width: 120%;
+      height: 120%;
+      pointer-events: none;
+      filter: blur(36px) saturate(1.1) brightness(0.5);
+    }
+    /* Soft shade behind the text so it stays readable over the scene */
+    .stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(13, 8, 6, 0.82) 0%, rgba(13, 8, 6, 0.35) 30%, rgba(13, 8, 6, 0) 42%, rgba(13, 8, 6, 0) 60%, rgba(13, 8, 6, 0.4) 72%, rgba(13, 8, 6, 0.8) 100%),
+        linear-gradient(180deg, rgba(13, 8, 6, 0.55) 0%, rgba(13, 8, 6, 0) 16%, rgba(13, 8, 6, 0) 84%, rgba(13, 8, 6, 0.6) 100%);
+    }
     .art {
       position: absolute;
       z-index: 1;
@@ -170,9 +193,9 @@
       width: var(--art-w);
       height: var(--art-h);
       /* Fade the clip's edges into the page so it never looks boxed in */
-      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 9%, #000 91%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 8%, #000 94%, transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 7%, #000 90%, transparent 100%);
       -webkit-mask-composite: source-in;
-      mask-image: linear-gradient(90deg, transparent 0%, #000 9%, #000 91%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 8%, #000 94%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 7%, #000 90%, transparent 100%);
       mask-composite: intersect;
       background: center / 100% 100% no-repeat;
       transform-origin: 0 0;
@@ -190,7 +213,7 @@
       top: 50%;
       transform: translateY(-50%);
       display: grid;
-      width: max(300px, calc(var(--art-x) + var(--art-w) * 0.08 - var(--pad)));
+      width: max(300px, calc(var(--art-x) + var(--art-w) * 0.15 - var(--pad)));
       pointer-events: none;
     }
     .act { grid-area: 1 / 1; align-self: center; }
@@ -484,6 +507,10 @@
       .label.is-left .tick { margin: 0 0 0 8px; background: linear-gradient(270deg, var(--gold), rgba(255, 201, 60, 0.2)); }
       .label.is-left .tick::before { left: auto; right: -4px; }
       .chapters { display: none; }
+      /* Phones: shade the top behind the headline and the bottom behind the cards */
+      .stage::before {
+        background: linear-gradient(180deg, rgba(13, 8, 6, 0.9) 0%, rgba(13, 8, 6, 0.6) 20%, rgba(13, 8, 6, 0) 36%, rgba(13, 8, 6, 0) 66%, rgba(13, 8, 6, 0.75) 100%);
+      }
       .scroll-hint { right: 50%; bottom: 22px; transform: translateX(50%); }
       .scroll-hint em { display: none; }
     }
@@ -683,6 +710,7 @@
   <main>
     <section class="hero" id="top" aria-label="The Press Double smash burger">
       <div class="stage" id="stage">
+        <canvas id="ambient" width="48" height="64" aria-hidden="true"></canvas>
         <div class="art" id="art" style="background-image: url('assets/frames/sm/001.webp')">
           <canvas id="frames" role="img" aria-label="A smash burger's parts floating apart, stacking together, then steam rising as the cheese melts"></canvas>
         </div>
@@ -690,10 +718,9 @@
         <!-- Act 1: the burger pulled apart, with every layer named -->
         <ol class="labels" id="labels" aria-label="What goes into the Press Double">
           <li class="label" data-show="-1,-1,.07,.13"><i class="tick"></i><span class="num">01</span><span><span class="name">Potato bun</span><span class="note">Soft, squishy, toasted in butter</span></span></li>
-          <li class="label" data-show="-1,-1,.077,.137"><i class="tick"></i><span class="num">02</span><span><span class="name">Smashed patty</span><span class="note">Pressed thin till the edges go lacy</span></span></li>
-          <li class="label" data-show="-1,-1,.084,.144"><i class="tick"></i><span class="num">03</span><span><span class="name">And another</span><span class="note">American cheese melted on both</span></span></li>
-          <li class="label" data-show="-1,-1,.091,.151"><i class="tick"></i><span class="num">04</span><span><span class="name">Pickles</span><span class="note">Crinkle-cut, cold and sharp</span></span></li>
-          <li class="label" data-show="-1,-1,.1,.16"><i class="tick"></i><span class="num">05</span><span><span class="name">House sauce</span><span class="note">On a toasted bottom bun</span></span></li>
+          <li class="label" data-show="-1,-1,.08,.14"><i class="tick"></i><span class="num">02</span><span><span class="name">Pickles &amp; sauce</span><span class="note">On a patty smashed till it goes lacy</span></span></li>
+          <li class="label" data-show="-1,-1,.09,.15"><i class="tick"></i><span class="num">03</span><span><span class="name">Second patty</span><span class="note">American cheese melted on both</span></span></li>
+          <li class="label" data-show="-1,-1,.1,.16"><i class="tick"></i><span class="num">04</span><span><span class="name">Toasted heel</span><span class="note">Butter-toasted on the flat-top</span></span></li>
         </ol>
 
         <div class="copy">
@@ -807,7 +834,7 @@
        ====================================================================== */
 
     // Frame counts of each clip, in the order they play (printed by make-frames.sh)
-    const CLIPS = [100, 62];
+    const CLIPS = [43, 27];
 
     // How the scroll maps onto the clips. Each step runs from one point in the
     // hero's scroll (0 = top, 1 = bottom) to the next. Holds keep a frame still
@@ -824,11 +851,10 @@
     // Where each layer of the exploded burger sits in the first frame, as fractions
     // of the frame: y = vertical centre, l / r = left and right edges
     const LAYERS = [
-      { y: 0.186, l: 0.231, r: 0.756 }, // potato bun
-      { y: 0.372, l: 0.174, r: 0.832 }, // first patty and cheese
-      { y: 0.552, l: 0.193, r: 0.806 }, // second patty and cheese
-      { y: 0.685, l: 0.282, r: 0.726 }, // pickles
-      { y: 0.827, l: 0.248, r: 0.765 }, // bottom bun and sauce
+      { y: 0.075, l: 0.300, r: 0.720 }, // potato bun
+      { y: 0.285, l: 0.250, r: 0.745 }, // patty with pickles and sauce
+      { y: 0.460, l: 0.260, r: 0.750 }, // second patty
+      { y: 0.665, l: 0.300, r: 0.720 }, // bottom bun on the plate
     ];
 
     const FRAME_W = 3, FRAME_H = 4;     // clip shape (3:4)
@@ -876,32 +902,34 @@
         const headerH = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 60;
         const headTop = headerH + 14;
 
-        // Act 1: the pulled-apart burger fills the space under the headline
-        // (its layers run from 10% to 90% of the frame height)
-        const topA = headTop + acts[0].offsetHeight + 8;
-        box.h = Math.min((H - 10 - topA) / 0.82, W * FRAME_H / FRAME_W);
+        // Act 1: the floating layers and the plate (top of the frame down to 86%)
+        // fill the space under the headline
+        const topA = headTop + acts[0].offsetHeight + 6;
+        box.h = Math.min((H - 6 - topA) / 0.86, W * 1.08 * FRAME_H / FRAME_W);
         box.w = box.h * FRAME_W / FRAME_H;
         box.x = (W - box.w) / 2;
-        box.y = topA - 0.09 * box.h;
+        box.y = topA;
 
-        // Acts 2 and 3: the stacked burger (26% to 70% of the frame) sits between
-        // the headline and the card at the bottom
-        const headB = headTop + Math.max(acts[1].offsetHeight, acts[2].offsetHeight) + 12;
-        const cardTop = H - 22 - Math.max(...cards.map(c => c.offsetHeight)) - 10;
-        const hB = Math.max(H * 0.42, Math.min((cardTop - headB) / 0.45, W * FRAME_H / FRAME_W));
+        // Acts 2 and 3: the stacked burger and its plate (42% to 86% of the frame)
+        // sit between the headline and the card at the bottom
+        const headB = headTop + Math.max(acts[1].offsetHeight, acts[2].offsetHeight) + 8;
+        const cardTop = H - 22 - Math.max(...cards.map(c => c.offsetHeight)) - 6;
+        const hB = Math.max(H * 0.45, Math.min((cardTop - headB) / 0.44, W * 1.08 * FRAME_H / FRAME_W));
         const wB = hB * FRAME_W / FRAME_H;
         morph.dx = (W - wB) / 2 - box.x;
-        morph.dy = headB - 0.26 * hB - box.y;
+        morph.dy = headB - 0.42 * hB - box.y;
         morph.s = wB / box.w;
       } else {
-        box.h = H;
-        box.w = H * FRAME_W / FRAME_H;
+        // A little larger than the screen and nudged down, so the floating top bun
+        // clears the menu bar; the bottom of the table runs off the screen
+        box.h = H * 1.1;
+        box.w = box.h * FRAME_W / FRAME_H;
         box.x = (W - box.w) / 2;
-        box.y = 0;
+        box.y = H * 0.055;
         morph.dx = morph.dy = 0;
         morph.s = 1;
         // Big headline size: as large as fits beside the burger
-        const col = box.x + box.w * 0.08 - copyLeft;
+        const col = box.x + box.w * 0.15 - copyLeft;
         const fs = Math.max(48, Math.min(col / 4.4, H * 0.135, 132));
         root.style.setProperty('--fs', fs + 'px');
         // Then shrink it if the longest line would run into the burger
@@ -981,7 +1009,9 @@
     }
 
     /* ---------- Drawing: blend the loaded frames either side for silky scrubbing ---------- */
-    let current = 0, drawn = -1, lastP = -1;
+    let current = 0, drawn = -1, lastP = -1, ambientFrame = -1;
+    const ambient = document.getElementById('ambient');
+    const actx = ambient.getContext('2d', { alpha: false });
     function draw(f) {
       let lo = -1, hi = -1;
       for (let i = Math.floor(f); i >= 0; i--) if (imgs[i]) { lo = i; break; }
@@ -1001,6 +1031,10 @@
         ctx.globalAlpha = 1;
       }
       if (art.style.backgroundImage) art.style.backgroundImage = '';
+      if (lo !== ambientFrame) {
+        actx.drawImage(imgs[lo], 0, 0, ambient.width, ambient.height);
+        ambientFrame = lo;
+      }
       drawn = f;
     }
 

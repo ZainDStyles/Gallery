@@ -11,6 +11,10 @@
 # Writes restaurant/assets/frames/lg (desktop, 1080x1440) and sm (phones, 720x960),
 # and prints the frame count of each clip for CLIPS in index.html.
 set -euo pipefail
+# Optional colour grade applied to every frame (ffmpeg filters), e.g. to deepen a
+# grey studio backdrop to black so it blends into the page:
+#   LOOK="colorlevels=rimin=0.05:gimin=0.05:bimin=0.06" bash restaurant/make-frames.sh ...
+LOOK=${LOOK:-null}
 FPS=${FPS:-12}   # frames kept per second of clip: more = smoother but heavier (the page blends between frames)
 out="$(cd "$(dirname "$0")" && pwd)/assets/frames"
 rm -rf "$out" && mkdir -p "$out/lg" "$out/sm"
@@ -21,7 +25,7 @@ for arg in "$@"; do
   trim="trim=start_frame=${first:-0}${last:+:end_frame=$((last + 1))},setpts=PTS-STARTPTS"
   # Clips are tagged as standard HD colour so the frames keep the same colours in every browser
   ffmpeg -nostdin -loglevel error -y -i "$clip" -an \
-    -vf "$trim,fps=${fps:-$FPS},setparams=colorspace=bt709:color_primaries=bt709:color_trc=bt709:range=tv,format=rgb24" \
+    -vf "$trim,fps=${fps:-$FPS},setparams=colorspace=bt709:color_primaries=bt709:color_trc=bt709:range=tv,$LOOK,format=rgb24" \
     -start_number $((n + 1)) "$tmp/%03d.png"
   count=$(( $(ls "$tmp" | wc -l) - n ))
   echo "$(basename "$clip"): $count frames ($((n + 1))-$((n + count)))"

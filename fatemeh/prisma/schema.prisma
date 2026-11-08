@@ -1,0 +1,310 @@
+// Fatemeh — data model
+//
+// Privacy rules baked into this schema:
+// - Patient photos are never stored here, only random storage keys pointing at
+//   encrypted files in private storage.
+// - IP addresses are never stored raw, only as keyed hashes (for rate limiting).
+// - Audit logs never hold patient details, only IDs and references.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Admin access ────────────────────────────────────────────────────────────
+
+enum AdminRole {
+  OWNER // Fatemeh: everything, including permanent deletion and exports
+  STAFF // can view and update enquiries
+}
+
+model AdminUser {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  name             String
+  role             AdminRole @default(STAFF)
+  passwordHash     String
+  totpSecretEnc    String? // encrypted TOTP secret
+  totpEnabledAt    DateTime?
+  totpLastStep     Int? // last accepted 30-second step, blocks code replay
+  failedLogins     Int       @default(0)
+  lockedUntil      DateTime?
+  lastLoginAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  sessions         AdminSession[]
+  notes            EnquiryNote[]
+  auditLogs        AuditLog[]
+}
+
+model AdminSession {
+  id          String    @id // SHA-256 of the cookie token, never the token itself
+  userId      String
+  user        AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mfaVerified Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  lastSeenAt  DateTime  @default(now())
+  expiresAt   DateTime
+  userAgent   String?
+  ipHash      String?
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// ─── Enquiries ───────────────────────────────────────────────────────────────
+
+enum EnquiryStatus {
+  NEW
+  IN_REVIEW
+  AWAITING_INFO
+  QUOTED
+  DEPOSIT_PENDING
+  BOOKED
+  COMPLETED
+  NOT_SUITABLE
+  CLOSED
+}
+
+enum ContactPreference {
+  EMAIL
+  WHATSAPP
+  PHONE
+}
+
+model Enquiry {
+  id                 String            @id @default(cuid())
+  reference          String            @unique // shown to the patient, e.g. FA-7K3M-9Q2D
+  status             EnquiryStatus     @default(NEW)
+
+  // About you
+  fullName           String
+  age                Int
+  email              String
+  phone              String
+  phoneIsWhatsApp    Boolean           @default(true)
+  country            String
+  contactPreference  ContactPreference @default(EMAIL)
+
+  // Hair loss history
+  hairLossOnset      String // e.g. "1-3 years"
+  hairLossProgress   String // stable / slow / fast / unsure
+  affectedAreas      String[] // hairline, temples, top, crown, diffuse
+  familyHistory      String? // yes / no / unsure
+  historyNotes       String?
+
+  // Previous transplants
+  previousTransplant Boolean           @default(false)
+  previousDetails    String?
+
+  // Timing
+  preferredDate      String? // "2027-03" (month) or free text
+  dateFlexibility    String?
+
+  // Consent (UK GDPR Art. 9(2)(a) explicit consent for health data)
+  healthConsentAt    DateTime
+  consentVersion     String
+  marketingConsent   Boolean           @default(false)
+
+  // Retention
+  retentionHold      Boolean           @default(false) // tick to stop automatic deletion
+  lastActivityAt     DateTime          @default(now())
+
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  photos             Photo[]
+  notes              EnquiryNote[]
+  quotes             Quote[]
+  appointments       Appointment[]
+  deposits           Deposit[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([lastActivityAt])
+}
+
+enum PhotoSlot {
+  FRONT
+  TOP
+  CROWN
+  DONOR
+}
+
+model UploadSession {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  ipHash    String?
+  consentAt DateTime
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  photos    Photo[]
+
+  @@index([expiresAt])
+}
+
+model Photo {
+  id          String         @id @default(cuid())
+  slot        PhotoSlot
+  sessionId   String?
+  session     UploadSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  enquiryId   String?
+  enquiry     Enquiry?       @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  storageKey  String         @unique // encrypted full-size image (random, no personal data)
+  thumbKey    String         @unique // encrypted preview
+  keyVersion  Int            @default(1)
+  width       Int
+  height      Int
+  bytes       Int
+  createdAt   DateTime       @default(now())
+
+  @@index([sessionId])
+  @@index([enquiryId])
+  @@index([createdAt])
+}
+
+model EnquiryNote {
+  id        String     @id @default(cuid())
+  enquiryId String
+  enquiry   Enquiry    @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  authorId  String?
+  author    AdminUser? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  body      String
+  createdAt DateTime   @default(now())
+
+  @@index([enquiryId])
+}
+
+enum QuoteStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}
+
+model Quote {
+  id          String      @id @default(cuid())
+  enquiryId   String
+  enquiry     Enquiry     @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  technique   String // FUE / DHI / Hairline / Crown / combined
+  graftsMin   Int?
+  graftsMax   Int?
+  amount      Int // minor units (pence / cents)
+  currency    String      @default("GBP")
+  includes    String?
+  validUntil  DateTime?
+  status      QuoteStatus @default(DRAFT)
+  sentAt      DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([enquiryId])
+}
+
+enum AppointmentStatus {
+  PROPOSED // offered to the patient, awaiting their agreement / deposit
+  CONFIRMED // approved by Fatemeh
+  COMPLETED
+  CANCELLED
+}
+
+model Appointment {
+  id          String            @id @default(cuid())
+  enquiryId   String
+  enquiry     Enquiry           @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  date        DateTime
+  status      AppointmentStatus @default(PROPOSED)
+  notes       String?
+  confirmedAt DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([enquiryId])
+  @@index([date])
+}
+
+enum DepositStatus {
+  REQUESTED
+  PAID
+  REFUNDED
+  WAIVED
+}
+
+enum PaymentProvider {
+  MANUAL // bank transfer, card terminal, cash — recorded by hand
+  STRIPE // reserved for later; not active
+}
+
+model Deposit {
+  id          String          @id @default(cuid())
+  enquiryId   String
+  enquiry     Enquiry         @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  amount      Int // minor units
+  currency    String          @default("GBP")
+  status      DepositStatus   @default(REQUESTED)
+  provider    PaymentProvider @default(MANUAL)
+  method      String? // "Bank transfer", "Card", ...
+  providerRef String? // payment reference / future Stripe id
+  requestedAt DateTime        @default(now())
+  paidAt      DateTime?
+  notes       String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([enquiryId])
+}
+
+// ─── Contact messages ────────────────────────────────────────────────────────
+
+enum MessageStatus {
+  NEW
+  READ
+  ARCHIVED
+}
+
+model ContactMessage {
+  id        String        @id @default(cuid())
+  reference String        @unique
+  name      String
+  email     String
+  phone     String?
+  topic     String
+  message   String
+  status    MessageStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ─── Infrastructure ──────────────────────────────────────────────────────────
+
+model AuditLog {
+  id         String     @id @default(cuid())
+  actorId    String?
+  actor      AdminUser? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action     String // e.g. ENQUIRY_VIEWED, PHOTO_VIEWED, STATUS_CHANGED, ENQUIRY_DELETED
+  targetType String?
+  targetId   String?
+  reference  String? // enquiry reference, kept after deletion for accountability
+  detail     String? // short, never contains patient details
+  ipHash     String?
+  createdAt  DateTime   @default(now())
+
+  @@index([createdAt])
+  @@index([actorId])
+  @@index([targetId])
+}
+
+model RateLimit {
+  key         String   @id
+  count       Int
+  windowStart DateTime
+
+  @@index([windowStart])
+}

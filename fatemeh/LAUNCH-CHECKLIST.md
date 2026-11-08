@@ -19,7 +19,8 @@ Everything below shows on the site as a dashed **"To be supplied"** or **"Placeh
 - [ ] Clinician to review all treatment and FAQ wording (`src/content/treatments.ts`, `faq.ts`)
 - [ ] Remove any treatment not actually offered
 - [ ] Real patient reviews with written permission, ideally linked to Google/Trustpilot (`src/content/testimonials.ts`)
-- [ ] Before & after cases with written consent, original unretouched photos (`npm run results:prepare`)
+- [ ] Before & after cases with written consent, original unretouched photos (`npm run results:prepare`). These replace the illustrated diagrams automatically
+- [ ] Ideally, progress photos (3, 6, 12 months) for at least the featured case, for the timeline
 - [ ] Real photographs of the clinic interior
 - [ ] Hero video (optional)
 

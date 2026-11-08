@@ -13,7 +13,8 @@
     "admin:create": "tsx --conditions=react-server scripts/create-admin.ts",
     "results:prepare": "tsx scripts/prepare-results.ts",
     "retention:run": "tsx --conditions=react-server scripts/run-retention.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "placeholders:make": "tsx scripts/make-placeholders.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1164.0",

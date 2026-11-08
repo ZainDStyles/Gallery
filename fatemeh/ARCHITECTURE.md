@@ -30,6 +30,16 @@ What we deliberately did better:
 - **Motion (GSAP + ScrollTrigger):** a curtain reveal on the hero photo with masked line-by-line headline, soft rise-in on scroll, image unmasking, gentle desktop-only parallax, and a scroll-drawn progress line on the journey. Only `transform`, `opacity` and `clip-path` are animated (smooth on iPhone). Everything is off under "reduce motion", and the page is fully readable without JavaScript.
 - **Framer Motion** is used only where it earns its weight: the assessment form's step transitions. Elsewhere, CSS transitions keep the homepage bundle small.
 
+## 2b. Signature scenes
+
+Built with guidance from the ui-ux-pro-max skill (max two scroll scenes per page, a static alternative under reduced motion, a non-drag alternative for every drag, lazy-load heavy parts).
+
+1. **The procedure, follicle by follicle** (`src/components/site/procedure/`). A top-down scalp map of ~950 follicles drawn on `<canvas>`. Scrolling plays assessment (a scan line reveals the hair and highlights thinning) → hairline design (bronze line drawn on, crown plan) → extraction (camera moves to the donor area; grafts lift, leaving small sites) → implantation (channels appear, then each graft flies to its site, singles to the hairline first) → growth (shedding, then regrowth, with a month timeline). Every frame is a pure function of scroll progress, so scrolling backwards just works. The geometry (`src/lib/scalp.ts`) is shared with Node to render the illustrated placeholders.
+2. **Featured transformation** (`FeaturedCase.tsx`). Scrolling wipes through every stage of one case: Before → 3 → 6 → 12 months.
+3. **Case studio** (`studio/`). Opens from any result card with a FLIP-style expansion. Three views: *Compare* (slider), *Side by side* with a **synced magnifier** that inspects the same spot in both photos, and *Timeline* (scrub or play through the months). Keyboard (←/→, 1/2/3, Esc), swipe, focus trap, and linkable URLs (`/results#case=…`). Its code only loads when opened.
+
+**Performance choices:** the scenes use a tall wrapper with a CSS `position: sticky` stage instead of GSAP pinning. That means no layout reflow, no iPhone pin jitter and no layout shift. They only initialise when the visitor scrolls near them, and they're split into separate chunks. The header turns dark and the phone CTA bar steps aside while a scene fills the screen. Lighthouse mobile: performance ~89–92, accessibility, best practices and SEO 100, CLS 0.
+
 ## 3. Stack
 
 Next.js 15 (App Router, React 19, TypeScript) · Tailwind CSS 4 · GSAP 3 · Framer Motion (`motion`) · PostgreSQL + Prisma 7 · sharp · Argon2id · TOTP 2FA · S3-compatible private storage.

@@ -43,9 +43,14 @@ npm run dev                   # open http://localhost:3000
 
 1. For each patient, create `content/results-source/<case-name>/` with `before.jpg`, `after.jpg` and a `case.json` (example at the top of `scripts/prepare-results.ts`).
 2. Set `"consentConfirmed": true` **only** if you hold the patient's written consent for website use.
-3. Run `npm run results:prepare`.
+3. Optional: add progress photos (e.g. `3-months.jpg`, `6-months.jpg`) and list them under `"stages"` in `case.json`. They power the month-by-month timeline in the case studio and the featured scroll scene.
+4. Run `npm run results:prepare`.
 
-The script crops both photos to the same 4:5 frame, makes them exactly the same size, removes hidden data (GPS location, phone model, dates) and updates the gallery. Placeholders disappear automatically once real cases exist.
+The first case is used as the *featured transformation* on the homepage. Use `"order"` in `case.json` to choose it.
+
+Until real cases exist, the gallery shows **illustrated scalp diagrams** (labelled "Illustration") made by `npm run placeholders:make`. They are never presented as patient results.
+
+The script crops all photos to the same 4:5 frame, makes them exactly the same size, removes hidden data (GPS location, phone model, dates) and updates the gallery. Placeholders disappear automatically once real cases exist.
 
 **Use original photos. Don't AI-upscale them.** AI "upscalers" (including ChatGPT) redraw the image, which can add or sharpen hair. That makes a result misleading, which is a real risk under UK advertising rules for cosmetic procedures. Uploading patients' photos to a third-party AI tool is also a data-protection problem unless the patient agreed to it. The script never enlarges photos. If a photo is too small, it tells you to ask for the original.
 

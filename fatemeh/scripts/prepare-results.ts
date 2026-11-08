@@ -19,16 +19,21 @@
  *     "note": "optional one-line note",
  *     "consentConfirmed": true,                 // REQUIRED: written consent for website use
  *     "consentRecord": "Signed form 2026-11-02", // where the consent is filed
- *     "crop": {                                 // optional, in source pixels, to line both up
+ *     "stages": [                               // optional progress photos, in order,
+ *       { "file": "3-months.jpg", "label": "3 months" },   // for the case studio's timeline
+ *       { "file": "6-months.jpg", "label": "6 months" }
+ *     ],
+ *     "crop": {                                 // optional, in source pixels, to line photos up
  *       "before": { "left": 0, "top": 120, "width": 1600, "height": 2000 },
- *       "after":  { "left": 40, "top": 100, "width": 1600, "height": 2000 }
+ *       "after":  { "left": 40, "top": 100, "width": 1600, "height": 2000 },
+ *       "3-months.jpg": { "left": 20, "top": 90, "width": 1600, "height": 2000 }
  *     }
  *   }
  *
  * What it does, identically for before and after:
  *   - applies camera rotation and converts to sRGB,
- *   - crops both to the same 4:5 frame (centre, or your manual crop),
- *   - resizes both to exactly the same pixel size,
+ *   - crops every photo to the same 4:5 frame (centre, or your manual crop),
+ *   - resizes them all to exactly the same pixel size,
  *   - strips ALL metadata (location, device, dates),
  *   - writes public/results/<case-id>/{before,after}.jpg and the gallery manifest.
  *
@@ -61,7 +66,8 @@ type CaseFile = {
   consentConfirmed: boolean;
   consentRecord?: string;
   order?: number;
-  crop?: { before?: Box; after?: Box };
+  stages?: { file: string; label: string }[];
+  crop?: Record<string, Box | undefined>;
 };
 
 const findImage = async (dir: string, base: string) => {
@@ -109,9 +115,19 @@ async function main() {
       const afterFile = await findImage(dir, "after");
       if (!beforeFile || !afterFile) throw new Error("needs both a before.* and an after.* image");
 
-      const [b, a] = await Promise.all([frame(beforeFile, meta.crop?.before), frame(afterFile, meta.crop?.after)]);
-      // Same output size for both, never larger than the smaller of the two crops.
-      const width = Math.min(MAX_W, b.box.width, a.box.width, Math.floor(Math.min(b.box.height, a.box.height) * RATIO));
+      const stageFiles = (meta.stages ?? []).map((st) => {
+        const file = path.join(dir, st.file);
+        if (!existsSync(file)) throw new Error(`stage photo ${st.file} not found`);
+        return { ...st, path: file };
+      });
+      const [b, a, ...st] = await Promise.all([
+        frame(beforeFile, meta.crop?.before),
+        frame(afterFile, meta.crop?.after),
+        ...stageFiles.map((f) => frame(f.path, meta.crop?.[f.file])),
+      ]);
+      const all = [b, a, ...st];
+      // Same output size for every photo, never larger than the smallest crop.
+      const width = Math.min(MAX_W, ...all.map((f) => f.box.width), ...all.map((f) => Math.floor(f.box.height * RATIO)));
       const height = Math.round(width / RATIO);
       if (width < MIN_W) problems.push(`${id}: low resolution (${width}×${height}). Ask for the original, uncompressed photos.`);
 
@@ -123,7 +139,8 @@ async function main() {
           .toColourspace("srgb")
           .jpeg({ quality: 90, mozjpeg: true, chromaSubsampling: "4:4:4" }) // no metadata is written
           .toFile(path.join(OUT, slug, `${name}.jpg`));
-      await Promise.all([render(b, "before"), render(a, "after")]);
+      const stageName = (i: number) => `stage-${i + 1}`;
+      await Promise.all([render(b, "before"), render(a, "after"), ...st.map((f, i) => render(f, stageName(i)))]);
 
       cases.push({
         id: slug,
@@ -136,6 +153,9 @@ async function main() {
         note: meta.note,
         before: { src: `/results/${slug}/before.jpg`, width, height },
         after: { src: `/results/${slug}/after.jpg`, width, height },
+        stages: stageFiles.length
+          ? stageFiles.map((f, i) => ({ label: f.label, image: { src: `/results/${slug}/${stageName(i)}.jpg`, width, height } }))
+          : undefined,
       });
       console.log(`✓ ${id}  →  ${width}×${height}`);
     } catch (err) {

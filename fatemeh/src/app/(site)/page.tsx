@@ -1,9 +1,12 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Hero } from "@/components/site/Hero";
 import { Trust } from "@/components/site/sections/Trust";
 import { ResultsPreview } from "@/components/site/sections/ResultsPreview";
 import { TreatmentList } from "@/components/site/sections/Treatments";
 import { Journey } from "@/components/site/sections/Journey";
+// Split into its own chunk so it hydrates separately from the rest of the page.
+const ProcedureScene = dynamic(() => import("@/components/site/procedure/ProcedureScene").then((m) => m.ProcedureScene));
 import { AssessmentBand } from "@/components/site/sections/AssessmentBand";
 import { Testimonials } from "@/components/site/sections/Testimonials";
 import { Contact } from "@/components/site/sections/Contact";
@@ -42,6 +45,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <ProcedureScene />
       <Journey />
       <AssessmentBand />
       <Testimonials />

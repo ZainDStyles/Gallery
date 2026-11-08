@@ -252,9 +252,9 @@ function Scene({ scalp }: { scalp: Scalp }) {
 
             {/* Scene */}
             <div className="relative order-1 -mx-5 min-h-0 flex-1 lg:order-2 lg:col-span-7 lg:mx-0 lg:h-full">
-              <p className="eyebrow eyebrow-on-dark absolute left-5 top-0 z-10 lg:hidden">The procedure · follicle by follicle</p>
+              <p className="eyebrow eyebrow-on-dark absolute left-3 top-0 z-10 rounded-full bg-[#141311]/80 px-2 py-1 backdrop-blur lg:hidden">The procedure · follicle by follicle</p>
               <canvas ref={canvas} aria-hidden className="absolute inset-0 size-full" />
-              <div className="absolute bottom-0 left-5 lg:hidden">
+              <div className="absolute bottom-0 left-3 z-10 rounded-full bg-[#141311]/80 px-2 py-1 backdrop-blur lg:hidden">
                 <Legend />
               </div>
             </div>
